@@ -392,7 +392,7 @@ var Home = React.createClass({
     var registry = state.registry || '';
     var disabled = data.disabledAllPlugins;
     var ndp = data.ndp;
-    var showCopyBtn = !epm && !install && hasInstaller;
+    var showCopyBtn = !epm &&  hasInstaller;
     var selectStyle = showCopyBtn ? {width: 225} : undefined;
     self.hasNewPlugin = false;
     self.installUrls = installUrls;
@@ -412,7 +412,7 @@ var Home = React.createClass({
           return line;
         }).filter(util.noop).join('\n');
       } else {
-        cmdMsg = regCmd ?  regCmd + ' ' : '';
+        cmdMsg = regCmd ?  'w2 install ' + regCmd + '  ' : '';
       }
 
       state.cmdMsg = cmdMsg;
