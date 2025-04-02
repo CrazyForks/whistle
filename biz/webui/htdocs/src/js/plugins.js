@@ -387,7 +387,7 @@ var Home = React.createClass({
     var install = state.install;
     var epm = dataCenter.enablePluginMgr;
     var hasInstaller = epm || installUrls.length;
-    var cmdMsg = install ? state.installMsg : state.cmdMsg;
+    var cmdMsg = (install ? state.installMsg : state.cmdMsg) || '';
     var registryList = state.registryList || [];
     var registry = state.registry || '';
     var disabled = data.disabledAllPlugins;
@@ -397,19 +397,24 @@ var Home = React.createClass({
     self.hasNewPlugin = false;
     self.installUrls = installUrls;
 
-    if (!epm && !install && state.registryChanged && cmdMsg) {
+    if (state.registryChanged) {
       state.registryChanged = false;
       var regCmd = registry ? ' --registry=' + registry : '';
-      cmdMsg = cmdMsg.split('\n').map(function(line) {
-        line = line.trim();
-        line = line.split(/\s+/).filter(function(cmd) {
-          return cmd.indexOf('--registry') !== 0;
-        }).join(' ');
-        if (line && regCmd) {
-          line += regCmd;
-        }
-        return line;
-      }).filter(util.noop).join('\n');
+      if (cmdMsg) {
+        cmdMsg = cmdMsg.split('\n').map(function(line) {
+          line = line.trim();
+          line = line.split(/\s+/).filter(function(cmd) {
+            return cmd.indexOf('--registry') !== 0;
+          }).join(' ');
+          if (line && regCmd) {
+            line += regCmd;
+          }
+          return line;
+        }).filter(util.noop).join('\n');
+      } else {
+        cmdMsg = regCmd ?  regCmd + ' ' : '';
+      }
+
       state.cmdMsg = cmdMsg;
     }
 
