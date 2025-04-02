@@ -106,31 +106,6 @@ function getHomePage(plugin) {
   return plugin.pluginHomepage || 'plugin.' + util.getSimplePluginName(plugin) + '/';
 }
 
-function getRegistryList(cb) {
-  dataCenter.plugins.getRegistryList(function(data, xhr) {
-    var registry = storage.get('pluginsRegistry');
-    if (!data) {
-      util.showSystemError(xhr);
-    } else if (data.ec !== 0) {
-      win.alert(data.em);
-    } else {
-      registryCache = dataCenter.getPluginRegistry();
-      data.list.forEach(function(url) {
-        if (registryCache.indexOf(url) === -1) {
-          registryCache.push(url);
-        }
-      });
-    }
-    if (!registryCache) {
-      return;
-    }
-    if (registryCache.indexOf(registry) === -1) {
-      registry = '';
-    }
-    cb(registryCache, registry);
-  });
-}
-
 var Home = React.createClass({
   componentDidMount: function () {
     var self = this;
@@ -183,7 +158,7 @@ var Home = React.createClass({
           return getCmd() + list + registry;
         })
         .join('\n\n');
-      cmdMsg && getRegistryList(function(result, r) {
+      cmdMsg && self.getRegistryList(function(result, r) {
         self.setState({
           cmdMsg: cmdMsg,
           uninstall: false,
@@ -193,6 +168,49 @@ var Home = React.createClass({
           registryList: result
         }, self.showMsgDialog);
       });
+    });
+  },
+  getRegistryList: function(cb) {
+    var list = [];
+    if (this.installUrls) {
+      this.installUrls.forEach(function(plugin) {
+        var reg = plugin.installUrl && plugin.installRegistry;
+        Array.isArray(reg) && reg.forEach(function(r) {
+          if (r && list.indexOf(r) === -1) {
+            list.push(r);
+          }
+        });
+      });
+    }
+    dataCenter.plugins.getRegistryList(function(data, xhr) {
+      var registry = storage.get('pluginsRegistry');
+      if (!data) {
+        util.showSystemError(xhr);
+      } else if (data.ec !== 0) {
+        win.alert(data.em);
+      } else {
+        registryCache = dataCenter.getPluginRegistry();
+        data.list.forEach(function(url) {
+          if (registryCache.indexOf(url) === -1) {
+            registryCache.push(url);
+          }
+        });
+      }
+      if (list.length) {
+        registryCache = registryCache || [];
+        list.forEach(function(url) {
+          if (registryCache.indexOf(url) === -1) {
+            registryCache.push(url);
+          }
+        });
+      }
+      if (!registryCache) {
+        return;
+      }
+      if (registryCache.indexOf(registry) === -1) {
+        registry = '';
+      }
+      cb(registryCache, registry);
     });
   },
   componentDidUpdate: function () {
@@ -295,7 +313,7 @@ var Home = React.createClass({
   },
   showUpdate: function (plugin) {
     var self = this;
-    getRegistryList(function(result, r) {
+    self.getRegistryList(function(result, r) {
       self.setState(
         {
           cmdMsg: getCmd() + getUpdateUrl(plugin) + getParams(plugin),
@@ -312,7 +330,7 @@ var Home = React.createClass({
   },
   showInstall: function() {
     var self = this;
-    getRegistryList(function(result, r) {
+    self.getRegistryList(function(result, r) {
       self.setState({
         install: true,
         registryList: result,
@@ -856,7 +874,7 @@ var Tabs = React.createClass({
         plugin: plugin,
         plugins: getPluginList(props.plugins),
         pluginsRoot: dataCenter.pluginsRoot,
-        getRegistryList: getRegistryList
+        getRegistryList: this.getRegistryList
       });
       return;
     }
