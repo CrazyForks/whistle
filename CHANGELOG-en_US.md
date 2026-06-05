@@ -1,5 +1,9 @@
 [中文](./CHANGELOG.md) · English
 
+## v2.10.3
+1. **feat**: Support visually creating rules via a form (currently only `Mapping`, `Network`, `Debug` rules are supported; support for `Request` and `Response` related rules will be added later)
+2. **fix**: Fixed some bugs
+
 ## v2.10.2
 1. feat: Network Settings now supports two comment formats:
    - Inline comments: `#xxx` (no space between the config and `#`)
@@ -520,7 +524,7 @@
 
 ## v2.0.0
 1. feat: **Support for HTTP2 Functionality**
-	> Please ensure the Node version is [the latest LTS (>= 10.16.0) or Stable (>= 12.12.0) version](https://nodejs.org/en/), otherwise anomalies may occur, such as: [#24037](https://github.com/nodejs/node/issues/24037), [#24470](https://github.com/nodejs/node/issues/24470)
+	> Please ensure the Node version is [the latest LTS (>= 10.16.0) or Stable (>= 12.12.0) version](https://nodejs.org/en/), otherwise anomalies may occur, such as [#24037](https://github.com/nodejs/node/issues/24037), [#24470](https://github.com/nodejs/node/issues/24470)
 2. feat: `**/path/to` If `path/to` contains `*`, e.g., `*/cgi-*`, it is equivalent to `^*/cgi-*`.
 
 ## v1.17
