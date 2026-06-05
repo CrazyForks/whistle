@@ -58,6 +58,64 @@ exports.EDITOR_THEMES = [
   'midnight'
 ];
 
+exports.BODY_ACTIONS = ['Prepend To Body', 'Replace Body', 'Append To Body', 'Modify Body Text', 'Modify Form/JSON', 'Delete Form/JSON'];
+
+exports.METHODS = [
+  'GET',
+  'POST',
+  'PUT',
+  'HEAD',
+  'TRACE',
+  'DELETE',
+  'SEARCH',
+  'QUERY',
+  'UPGRADE',
+  'CONNECT',
+  'PROPFIND',
+  'PROPPATCH',
+  'MKCOL',
+  'COPY',
+  'MOVE',
+  'LOCK',
+  'UNLOCK',
+  'OPTIONS',
+  'PURGE',
+  'ACL',
+  'BIND',
+  'CHECKOUT',
+  'LINK',
+  'M-SEARCH',
+  'MERGE',
+  'MKACTIVITY',
+  'MKCALENDAR',
+  'NOTIFY',
+  'PATCH',
+  'PRI',
+  'REBIND',
+  'REPORT',
+  'SOURCE',
+  'SUBSCRIBE',
+  'UNBIND',
+  'UNLINK',
+  'UNSUBSCRIBE',
+  'BASELINE-CONTROL',
+  'CHECKIN',
+  'LABEL',
+  'MKREDIRECTREF',
+  'MKWORKSPACE',
+  'ORDERPATCH',
+  'UNCHECKOUT',
+  'UPDATE',
+  'UPDATEREDIRECTREF',
+  'VERSION-CONTROL'
+];
+
+function removeSpaces(str) {
+  return str.replace(/\s+/g, '');
+}
+
+exports.removeSpaces = removeSpaces;
+
 function isSafeNumStr(str) {
   if (str == '0') {
     return true;
@@ -162,11 +220,9 @@ function isString(str) {
 
 exports.isString = isString;
 
-function getString(str) {
+exports.getString = function (str) {
   return isString(str) ? str : '';
-}
-
-exports.getString = getString;
+};
 
 function notEStr(str) {
   return str && typeof str === 'string';
@@ -298,11 +354,18 @@ exports.getCAHash = function(server, urlList) {
   return len && len <= 120 ? '#p=' + result.join() : '';
 };
 
+exports.showForbidden = function(data) {
+  if (data.forbidden) {
+    // message.warn('Without a username and password for Whistle, local non-temporary files cannot be accessed');
+    return true;
+  }
+};
+
 exports.download = function(data, filename) {
   var a = document.createElement('a');
   document.body.appendChild(a);
   a.style = 'display: none';
-  var blob = new Blob([JSON.stringify(data)], {type: 'octet/stream'});
+  var blob = new Blob([JSON.stringify(data, null, 2)], {type: 'octet/stream'});
   var url = window.URL.createObjectURL(blob);
   a.href = url;
   a.download = filename || 'data_' + formatDate() + '.txt';
@@ -808,22 +871,40 @@ function getRealUrl(modal) {
 
 exports.getRealUrl = getRealUrl;
 
-exports.getReqRawHeaders = function(modal) {
+function getReqRawHeaders(modal) {
   var req = modal.req;
   var realUrl = getRealUrl(modal);
   var headers = objectToString(req.headers, req.rawHeaderNames);
   req = [req.method, req.method == 'CONNECT' ? headers.host : getPath(realUrl),
     'HTTP/' + (req.httpVersion || '1.1')].join(' ');
   return headers ? req  + '\r\n' +  headers : req;
-};
+}
 
-exports.getResRawHeaders = function(modal) {
+function getResRawHeaders(modal) {
   var res = modal.res || '';
   var headers = objectToString(res.headers, res.rawHeaderNames);
   var status = res.statusCode;
   var msg = status === 'captureError' ? '(Most likely caused by SSL pinning)' : getStatusMessage(res);
   res = ['HTTP/' + (modal.req.httpVersion || '1.1'), status, msg].join(' ');
   return headers ? res + '\r\n' + headers : res;
+}
+
+exports.getReqRawHeaders = getReqRawHeaders;
+
+exports.getResRawHeaders = getResRawHeaders;
+
+exports.getRawReq = function(modal) {
+  return modal ? (getReqRawHeaders(modal) + '\r\n\r\n' + getBody(modal.req, true)) : '';
+};
+
+exports.getRawRes = function(modal) {
+  var res = modal && modal.res;
+  var status = res && res.statusCode;
+  if (status == null) {
+    return '';
+  }
+  var trailer = res.trailers && objectToString(res.trailers, res.rawTrailerNames);
+  return getResRawHeaders(modal) + '\r\n\r\n' + getBody(res) + (trailer ? '\r\n\r\n' + trailer : '');
 };
 
 function toLowerCase(str) {
@@ -1113,6 +1194,8 @@ var STATUS_CODES = {
   510: 'Not Extended', // RFC 2774
   511: 'Network Authentication Required' // RFC 6585
 };
+
+exports.STATUS_CODES = STATUS_CODES;
 
 function getStatusMessage(res) {
   if (!res.statusCode) {
@@ -3306,11 +3389,10 @@ exports.shakeElem = function (elem) {
 };
 
 var INVALID_NAME_RE = /[\u001e\u001f\u200e\u200f\u200d\u200c\u202a\u202d\u202e\u202c\u206e\u206f\u206b\u206a\u206d\u206c'<>:"\\/|?*]+/g;
-var BLANK_RE = /\s+/g;
 var START_SPACE_RE = /^\s+/;
 
 exports.formatFilename = function(name) {
-  return name.replace(INVALID_NAME_RE, '').replace(START_SPACE_RE, '').replace(BLANK_RE, ' ');
+  return name.replace(INVALID_NAME_RE, '').replace(START_SPACE_RE, '').replace(/\s+/g, ' ');
 };
 
 var shortcutsSettings;
@@ -3372,4 +3454,61 @@ exports.getKeyPath = function (keys) {
           return key;
         })
         .join('.');
+};
+
+
+exports.handleEditorKeydown = function(e) {
+  if (e.ctrlKey || e.metaKey) {
+    if (e.keyCode == 68) {
+      e.target.value = '';
+      e.preventDefault();
+      e.stopPropagation();
+    } else if (e.keyCode == 88) {
+      e.stopPropagation();
+    }
+  }
+};
+
+var HIDE_STYLE = { display: 'none' };
+
+exports.HIDE_STYLE = HIDE_STYLE;
+exports.getHideStyle = function(isHide) {
+  return isHide ? HIDE_STYLE : null;
+};
+
+exports.getRulesTheme = function() {
+  return {
+    theme: storage.get('rulesTheme') || 'cobalt',
+    fontSize: storage.get('rulesFontSize') || '14px',
+    lineNumbers: storage.get('showRulesLineNumbers') === 'true',
+    lineWrapping: !!storage.get('autoRulesLineWrapping')
+  };
+};
+
+exports.isSpecPattern = function (str) {
+  // isRegExp
+  if (/^\/[^/](.*)\/i?$/.test(str) || /^\$/.test(str)) {
+    return true;
+  }
+  // isRegUrl
+  if (/^\^/.test(str) || /^\.[\w-]+(?:[?$]|$)/.test(str)) {
+    return true;
+  }
+  // isPort
+  if (/^:\d{1,5}$/.test(str)) {
+    return true;
+  }
+  return false;
+};
+
+exports.isWildcard = function (str) {
+  if (!/^(?:\$?(?:https?:|wss?:|tunnel:)?\/\/)?([^/?]+)/.test(str)) {
+    return false;
+  }
+  var domain = RegExp.$1;
+  return (
+      domain.indexOf('*') !== -1 ||
+      domain.indexOf('~') !== -1 ||
+      /^\.[^./?]+\.[^/?]/.test(domain)
+    );
 };

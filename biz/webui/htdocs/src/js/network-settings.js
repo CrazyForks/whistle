@@ -1,7 +1,7 @@
 require('../css/network-settings.css');
 var $ = require('jquery');
 var React = require('react');
-var ReactDOM = require('react-dom');
+var findDOMNode = require('react-dom').findDOMNode;
 var NetworkModal = require('./network-modal');
 var Dialog = require('./dialog');
 var columns = require('./columns');
@@ -16,7 +16,7 @@ var CloseBtn = require('./close-btn');
 
 var NOT_EMPTY_STYLE = { backgroundColor: 'var(--b-filtered)' };
 var NOT_EMPTY_RE = /[^\s]/;
-var DATA_KEY_TIPS = 'e.g.: res.body or res.body:/"msgno":"(\w+)"/ ...';
+var DATA_KEY_TIPS = 'e.g. res.body or res.body:/"msgno":"(\w+)"/ ...';
 
 var Settings = React.createClass({
   getInitialState: function () {
@@ -159,7 +159,7 @@ var Settings = React.createClass({
       },
       function () {
         setTimeout(function () {
-          var input = ReactDOM.findDOMNode(self.refs.newColumnName);
+          var input = findDOMNode(self.refs.newColumnName);
           input.select();
           input.focus();
         }, 360);
@@ -174,9 +174,8 @@ var Settings = React.createClass({
     });
   },
   onKeyChange: function(e) {
-    var value = e.target.value;
     this.setState({
-      key: value.replace(/\s+/, ''),
+      key: util.removeSpaces(e.target.value),
       nameChanged: true
     });
   },

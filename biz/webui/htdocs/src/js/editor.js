@@ -24,12 +24,11 @@ require('../css/editor.css');
 
 var $ = require('jquery');
 var React = require('react');
-var ReactDOM = require('react-dom');
+var findDOMNode = require('react-dom').findDOMNode;
 var CodeMirror = require('codemirror');
 var message = require('./message');
 var util = require('./util');
 
-var findDOMNode = ReactDOM.findDOMNode;
 var themes = util.EDITOR_THEMES;
 var INIT_LENGTH = 1024 * 16;
 var GUTTER_STYLE = [
@@ -236,7 +235,7 @@ var Editor = React.createClass({
         return;
       }
       var cursor = start ? null : editor.getCursor();
-      var value  =editor.getValue();
+      var value = editor.getValue();
       if (keyword !== preKeyeord) {
         if (cursor && preCursor && preKeyeord && cursor.ch === preCursor.ch && cursor.line === preCursor.line) {
           cursor.ch = Math.max(cursor.ch + (prev ? preKeyeord.length : -preKeyeord.length), 0);
@@ -407,7 +406,7 @@ var Editor = React.createClass({
           if (!helpUrl) {
             return;
           }
-          window.open(helpUrl);
+          events.trigger('openUrl', helpUrl);
           e.stopPropagation();
           e.preventDefault();
           return true;

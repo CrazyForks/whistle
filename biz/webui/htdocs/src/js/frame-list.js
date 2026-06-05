@@ -1,5 +1,5 @@
 var React = require('react');
-var ReactDOM = require('react-dom');
+var findDOMNode = require('react-dom').findDOMNode;
 var $ = require('jquery');
 var util = require('./util');
 var FilterInput = require('./filter-input');
@@ -10,7 +10,6 @@ var ContextMenu = require('./context-menu');
 var Icon = require('./icon');
 var BackToBottomBtn = require('./back-to-bottom-btn');
 
-var findDOMNode = ReactDOM.findDOMNode;
 var SEND_PERATORS = [
   {
     value: 0,
@@ -216,7 +215,6 @@ var FrameList = React.createClass({
         }
         this.clear();
       } else if (e.keyCode === 13) {
-        e.stopPropagation();
         if (!util.hasShortcut('replaySelectedFrame')) {
           return;
         }

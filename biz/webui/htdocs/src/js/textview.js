@@ -1,5 +1,5 @@
 var React = require('react');
-var ReactDOM = require('react-dom');
+var findDOMNode = require('react-dom').findDOMNode;
 var util = require('./util');
 
 var TextView = React.createClass({
@@ -19,7 +19,7 @@ var TextView = React.createClass({
   updateValue: function () {
     var self = this;
     var value = self.props.value || '';
-    var textarea = ReactDOM.findDOMNode(self.refs.textarea);
+    var textarea = findDOMNode(self.refs.textarea);
     if (self.props.hide) {
       textarea.value = '';
       self.curValue = '';

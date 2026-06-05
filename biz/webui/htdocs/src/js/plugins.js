@@ -1,7 +1,7 @@
 require('../css/plugins.css');
 var $ = require('jquery');
 var React = require('react');
-var ReactDOM = require('react-dom');
+var findDOMNode = require('react-dom').findDOMNode;
 var events = require('./events');
 var Dialog = require('./dialog');
 var dataCenter = require('./data-center');
@@ -16,7 +16,6 @@ var Icon = require('./icon');
 var CloseBtn = require('./close-btn');
 
 
-var findDOMNode = ReactDOM.findDOMNode;
 var CMD_RE = /^([\w]{1,12})(\s+-g)?$/;
 var WHISTLE_PLUGIN_RE = /(?:^|[\s,;|])(?:@[\w.~-]+\/)?whistle\.[a-z\d_-]+(?:\@[\w.^~*-]*)?(?:$|[\s,;|])/;
 var PLUGIN_NAME_RE = /^((?:@[\w.~-]+\/)?whistle\.[a-z\d_-]+)(?:\@([\w.^~*-]*))?$/;
@@ -745,12 +744,12 @@ var Home = React.createClass({
         <Dialog ref="operatePluginDialog" wstyle="w-plugin-update-dialog">
           <div className="modal-body">
             <h5>{
-              install ? 'Enter plugin name(s) (space-separated) and click Install:' : 'Update the following plugin(s):'
+              install ? 'Enter plugin names (space‑separated) and click Install:' : 'Update the following plugins:'
             }</h5>
             <textarea
               ref="textarea"
               value={cmdMsg || ''}
-              placeholder={install ? 'SUCH AS: whistle.inspect whistle.abc@1.0.0 @scope/whistle.xyz' : undefined}
+              placeholder={install ? 'Enter npm package names (version optional), space‑separated, e.g. whistle.inspect whistle.abc@1.0.0 @scope/whistle.xyz' : undefined}
               className={'w-plugin-update-cmd' + (install ? ' w-plugin-install' : '')}
               maxLength="600"
               onChange={this.onCmdChange}
@@ -900,15 +899,16 @@ var Tabs = React.createClass({
     CTX_MENU_LIST[5].disabled = disabled || plugin.isProj || plugin.notUn;
     CTX_MENU_LIST[8].disabled = plugin && !plugin.homepage;
     var pluginItem = CTX_MENU_LIST[7];
+    pluginItem.maxHeight = 280;
     util.addPluginMenus(
       pluginItem,
       dataCenter.getPluginsMenus(),
-      6,
+      7,
       disabled,
       null,
       plugin && util.getSimplePluginName(plugin)
     );
-    var data = util.getMenuPosition(e, 110, 250 - (pluginItem.hide ? 0 : 30));
+    var data = util.getMenuPosition(e, 110, 250 + (pluginItem.hide ? 0 : 30));
     data.list = CTX_MENU_LIST;
     this.refs.contextMenu.show(data);
   },

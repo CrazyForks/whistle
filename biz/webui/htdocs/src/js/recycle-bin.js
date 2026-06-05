@@ -1,5 +1,5 @@
 var React = require('react');
-var ReactDOM = require('react-dom');
+var findDOMNode = require('react-dom').findDOMNode;
 var $ = require('jquery');
 var Dialog = require('./dialog');
 var dataCenter = require('./data-center');
@@ -133,7 +133,7 @@ var RecycleBinDialog = React.createClass({
     );
   },
   isVisible: function () {
-    return $(ReactDOM.findDOMNode(this.refs.recycleBinBody)).is(':visible');
+    return $(findDOMNode(this.refs.recycleBinBody)).is(':visible');
   },
   render: function () {
     var self = this;
