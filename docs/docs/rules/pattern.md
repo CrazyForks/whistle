@@ -1,10 +1,6 @@
-`pattern` 是 Whistle 规则中的第一部分，用于匹配请求 URL，支持域名、路径、通配符、正则表达式等多种匹配方式。
+# pattern
 
-通过 `pattern`，你可以：
-- 精确匹配特定域名或路径
-- 使用通配符匹配一组相关请求
-- 使用正则表达式实现复杂匹配逻辑
-- 支持三种不同类型的 URL 匹配
+`pattern` 是 Whistle 规则中匹配请求 URL 的表达式，支持 URL 片段/域名、通配符、正则表达式等多种匹配方式。
 
 ## 请求 URL 类型
 
@@ -12,11 +8,27 @@ Whistle 支持三种请求 URL 类型：
 
 | 类型 | 格式 | 示例 |
 | :--- | :--- | :--- |
-| **隧道代理** | `tunnel://domain[:port]` | `tunnel://www.test.com:443` |
+| **隧道代理** | `tunnel://domain:port` | `tunnel://www.test.com:443` |
 | **WebSocket** | `ws[s]://domain[:port]/[path/to[?query]]` | `wss://www.test.com/path?a=1&b=2`<br>`ws://www.example.com:8080/path` |
 | **普通 HTTP/HTTPS** | `http[s]://domain[:port]/[path/to][?query]` | `https://www.test.com/path`<br>`http://www.example.com/path?a=1&b=2` |
 
-## 域名匹配
+> URL 中的 hash（即 `#` 及之后的内容）不会被发送到后台。Hash 仅在客户端（如浏览器）中生效，后台无法直接获取
+
+## URL 片段 {#url}
+1. 不带请求参数：`https://example.com/path/to` 将匹配 `https://example.com/path/to` 和 `https://example.com/path/to/xxx?query`，不能匹配？？
+2. 带请求参数：`https://example.com/path/to?xxx` 将匹配 `https://example.com/path/to?xxx` 和 `https://example.com/path/to?xxxyyy&zzzzz`，不能匹配？？
+3. 不带协议：`example.com/path/to`  或 `//example.com/path/to` 将匹配 `p://example.com/path/to` 和 `p://example.com/path/to/xxx?query` ，其中 `p` 为任意请求协议，不能匹配？？
+4. 域名部分支持通配符 `*`：`https://*.example.com/path/to` 将匹配 `https://www.example.com/path/to` 和 `https://abc.example.com/path/to/xxx?query`，不能匹配？？，其中
+   - `*`：相当于正则 `/[^/?.]*/`（即域名里面的 0 或任意多个非 `.` 字符）
+   - `**`：相当于正则 `/[^/?]*/`（即域名里面的 0 或任意多个字符）
+   - `***`（及以上）：不推荐使用
+5. 精确匹配：`$https://example.com/path/to` 将匹配 `https://example.com/path/to` 和 `https://example.com/path/to?query`，不能匹配？？
+
+## 通配符匹配 {#wildcard}
+
+
+## 正则匹配 {#regexp}
+
 
 ### 域名结构
 ```txt
