@@ -16,6 +16,8 @@ Whistle supports three types of request URLs:
 | **WebSocket** | `ws[s]://domain[:port]/[path/to[?query]]` | `wss://www.test.com/path?a=1&b=2`<br>`ws://www.example.com:8080/path` |
 | **Regular HTTP/HTTPS** | `http[s]://domain[:port]/[path/to][?query]` | `https://www.test.com/path`<br>`http://www.example.com/path?a=1&b=2` |
 
+> The hash in a URL (i.e., the `#` and everything after it) is not sent to the backend. The hash only takes effect on the client side (e.g., in a browser); the backend cannot directly access it.
+
 ## Domain Matching
 
 ### Domain Structure
