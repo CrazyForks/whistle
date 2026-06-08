@@ -234,13 +234,15 @@
 }
 
 .w-preview-rules .w-pr-REQDELAY, .w-preview-rules .w-pr-REQSPEED, .w-preview-rules .w-pr-METHOD,
-.w-preview-rules .w-pr-REQHEADERS,.w-preview-rules .w-pr-REQBODY,.w-preview-rules .w-pr-HEADERREPLACE {
+.w-preview-rules .w-pr-REQHEADERS,.w-preview-rules .w-pr-REQBODY,.w-preview-rules .w-pr-HEADERREPLACE,
+.w-preview-rules .w-pr-REQCORS {
   color: #9effff;
 }
 
 .w-preview-rules .w-pr-RESDELAY, .w-preview-rules .w-pr-RESSPEED, .w-preview-rules .w-pr-RESTYPE,
 .w-preview-rules .w-pr-PROXY, .w-preview-rules .w-pr-HTTPS-PROXY, .w-preview-rules .w-pr-SOCKS,
-.w-preview-rules .w-pr-RESPHEADERS, .w-preview-rules .w-pr-RESPBODY, .w-preview-rules .w-pr-REPLACESTATUS {
+.w-preview-rules .w-pr-RESPHEADERS, .w-preview-rules .w-pr-RESPBODY, .w-preview-rules .w-pr-REPLACESTATUS,
+.w-preview-rules .w-pr-RESCORS {
   color: #292;
 }
 
