@@ -357,7 +357,7 @@ var UrlInput = React.createClass({
           type="text"
           maxLength="8192"
           placeholder={props.placeholder || 'Enter ' + (isFile ?  'file or directory path or (value)' : 'request URL')}
-          className="fill form-control"
+          className={'fill form-control' + (isFile ? ' w-file-input' : '')}
         />
         <button
           disabled={disabled}
