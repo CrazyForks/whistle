@@ -16,19 +16,93 @@ Whistle 支持三种请求 URL 类型：
 
 ## URL 片段 {#url}
 
-URL 片段支持以下几种结构：
-1. 普通域名：`www.example.com` ，匹配该域名下任意端口的所有请求，如：`https://www.example.com/path/to?query` 或 `https://www.example.com:9090/path/to?query`
-2. 带端口的域名： `www.example.com:8080`，匹配该域名及端口为 `8080` 的所有请求，如： `https://www.example.com:8080/path/to?query`，但不匹配 `https://www.example.com:9090/path/to?query`
-3. 不带请求参数的 URL：``
+URL 片段用于匹配请求的 URL，支持多种灵活的模式。以下按匹配规则分类说明。
 
-4. 不带请求参数：`https://example.com/path/to` 将匹配 `https://example.com/path/to` 和 `https://example.com/path/to/xxx?query`，不能匹配？？
-5. 带请求参数：`https://example.com/path/to?xxx` 将匹配 `https://example.com/path/to?xxx` 和 `https://example.com/path/to?xxxyyy&zzzzz`，不能匹配？？
-6. 不带协议：`example.com/path/to`  或 `//example.com/path/to` 将匹配 `p://example.com/path/to` 和 `p://example.com/path/to/xxx?query` ，其中 `p` 为任意请求协议，不能匹配？？
-7. 域名部分支持通配符 `*`：`https://*.example.com/path/to` 将匹配 `https://www.example.com/path/to` 和 `https://abc.example.com/path/to/xxx?query`，不能匹配？？，其中
-   - `*`：相当于正则 `/[^/?.]*/`（即域名里面的 0 或任意多个非 `.` 字符）
-   - `**`：相当于正则 `/[^/?]*/`（即域名里面的 0 或任意多个字符）
-   - `***`（及以上）：不推荐使用
-8. 精确匹配：`$https://example.com/path/to` 将匹配 `https://example.com/path/to` 和 `https://example.com/path/to?query`，不能匹配？？
+### 1. 域名匹配
+
+- **普通域名**：`example.com`  
+  匹配该域名下所有端口及协议（http/https）的请求。  
+  ✅ `https://example.com/path/to?query`  
+  ✅ `https://example.com:9090/path/to?query`
+
+- **带端口的域名**：`example.com:8080`  
+  仅匹配指定端口（8080）的请求。  
+  ✅ `https://example.com:8080/path/to?query`  
+  ❌ `https://example.com:9090/path/to?query`
+  ❌ `https://example.com/path/to?query`
+
+### 2. 协议匹配
+
+- **带协议的 URL**：`https://example.com/path/to`  
+  仅匹配相同协议的请求。
+
+- **不带协议的 URL**：`example.com/path/to` 或 `//example.com/path/to`  
+  匹配任意协议（http、https 等），路径匹配规则与带协议时相同（见下文）。
+
+### 3. 路径与查询参数匹配
+
+#### 3.1 不带查询参数的 URL
+
+模式：`https://example.com/path/to`  
+匹配规则：**路径前缀匹配**（以 `/` 为边界）。  
+- ✅ `https://example.com/path/to`  
+- ✅ `https://example.com/path/to/xxx?query`  
+- ❌ `https://example.com/path/toxxx`（`to` 后缺少 `/` 边界）
+
+#### 3.2 带查询参数的 URL
+
+模式：`https://example.com/path/to?xxx`  
+匹配规则：**路径必须完全相同**，且查询字符串以 `xxx` 为前缀。  
+- ✅ `https://example.com/path/to?xxx`  
+- ✅ `https://example.com/path/to?xxxyyy&zzzzz`  
+- ❌ `https://example.com/path/to/yyy?xxx`（路径不同）
+
+### 4. 精确匹配
+
+使用 `$` 前缀，提供更严格的匹配。
+
+- `$https://example.com/path/to`  
+  匹配**路径精确**（以 `/` 为边界），查询参数可任意。  
+  ✅ `https://example.com/path/to`  
+  ✅ `https://example.com/path/to?query`  
+  ❌ `https://example.com/path/to/xxx`
+
+- `$https://example.com/path/to?query`  
+  匹配**路径与查询参数均完全一致**。  
+  ✅ `https://example.com/path/to?query`  
+  ❌ `https://example.com/path/to?query=1`  
+  ❌ `https://example.com/path/to`
+
+- 不带协议的精确匹配：`$example.com/path/to`（效果同上，协议任意）
+
+### 5. 域名通配符
+
+在域名部分使用 `*` 或 `**` 进行模糊匹配。
+
+- `*`：匹配 0 个或多个非 `.` 字符（相当于正则 `/[^/?.]*/`）。  
+  示例：`https://*.example.com/path/to`  
+  ✅ `https://www.example.com/path/to`  
+  ✅ `https://abc.example.com/path/to/xxx?query`
+
+- `**`：匹配 0 个或多个任意字符（除 `/` 和 `?` 外，相当于正则 `/[^/?]*/`）。  
+  示例：`https://**.example.com/path/to`  
+  ✅ `https://foo-bar.example.com/path/to`
+
+- `***` 及以上：不推荐使用。
+
+> 注意：`*` 也是 URL 路径中的合法字符。若需在路径部分使用通配符，请参阅 [通配符匹配](#wildcard)。
+
+### 要点总结
+
+| 模式示例 | 匹配协议 | 匹配端口 | 路径匹配规则 | 查询参数匹配规则 |
+|---------|---------|---------|-------------|----------------|
+| `example.com` | 任意 | 任意 | - | - |
+| `example.com:8080` | 任意 | 8080 | - | - |
+| `https://example.com/path/to` | https | 任意 | 前缀（`/`边界） | 任意 |
+| `https://example.com/path/to?xxx` | https | 任意 | 精确 | 前缀 |
+| `$https://example.com/path/to` | https | 任意 | 精确 | 任意 |
+| `$https://example.com/path/to?xxx` | https | 任意 | 精确 | 精确 |
+| `//example.com/path/to` | 任意 | 任意 | 前缀（`/`边界） | 任意 |
 
 ## 通配符匹配 {#wildcard}
 

@@ -18,6 +18,96 @@ Whistle supports three types of request URLs:
 
 > The hash in a URL (i.e., the `#` and everything after it) is not sent to the backend. The hash only takes effect on the client side (e.g., in a browser); the backend cannot directly access it.
 
+## URL Fragment {#url}
+
+The URL fragment is used to match request URLs. The following matching rules are supported, organized by category.
+
+### 1. Domain Matching
+
+- **Plain domain**: `example.com`  
+  Matches all requests under this domain, regardless of port and protocol (http/https).  
+  ✅ `https://example.com/path/to?query`  
+  ✅ `https://example.com:9090/path/to?query`
+
+- **Domain with port**: `example.com:8080`  
+  Matches requests only for the specified port (8080).  
+  ✅ `https://example.com:8080/path/to?query`  
+  ❌ `https://example.com:9090/path/to?query`
+  ❌ `https://example.com/path/to?query`
+
+### 2. Protocol Matching
+
+- **With protocol**: `https://example.com/path/to`  
+  Matches only requests using the same protocol.
+
+- **Without protocol**: `example.com/path/to` or `//example.com/path/to`  
+  Matches any protocol (http, https, etc.). Path matching follows the same rules as with protocol.
+
+### 3. Path & Query Parameter Matching
+
+#### 3.1 Without Query Parameters
+
+Pattern: `https://example.com/path/to`  
+Rule: **Path prefix matching** (using `/` as boundary).  
+- ✅ `https://example.com/path/to`  
+- ✅ `https://example.com/path/to/xxx?query`  
+- ❌ `https://example.com/path/toxxx` (missing `/` boundary after `to`)
+
+#### 3.2 With Query Parameters
+
+Pattern: `https://example.com/path/to?xxx`  
+Rule: **Exact path** and query string **prefix** matching.  
+- ✅ `https://example.com/path/to?xxx`  
+- ✅ `https://example.com/path/to?xxxyyy&zzzzz`  
+- ❌ `https://example.com/path/to/yyy?xxx` (path differs)
+
+### 4. Exact Matching
+
+Prefix with `$` for stricter control.
+
+- `$https://example.com/path/to`  
+  Matches **exact path** (with `/` boundary), any query parameters.  
+  ✅ `https://example.com/path/to`  
+  ✅ `https://example.com/path/to?query`  
+  ❌ `https://example.com/path/to/xxx`
+
+- `$https://example.com/path/to?query`  
+  Matches **exact path and exact query string**.  
+  ✅ `https://example.com/path/to?query`  
+  ❌ `https://example.com/path/to?query=1`  
+  ❌ `https://example.com/path/to`
+
+- Exact match without protocol: `$example.com/path/to` (same behavior, any protocol)
+
+### 5. Domain Wildcards
+
+Use `*` or `**` in the domain part for fuzzy matching.
+
+- `*` : Matches zero or more non-`.` characters (equivalent to regex `/[^/?.]*/`).  
+  Example: `https://*.example.com/path/to`  
+  ✅ `https://www.example.com/path/to`  
+  ✅ `https://abc.example.com/path/to/xxx?query`
+
+- `**` : Matches zero or more arbitrary characters except `/` and `?` (equivalent to regex `/[^/?]*/`).  
+  Example: `https://**.example.com/path/to`  
+  ✅ `https://foo-bar.example.com/path/to`
+
+- `***` and more: not recommended.
+
+> Note: `*` is also a legal character in URL paths. If you need to use wildcards in the path part, see [Wildcard Matching](#wildcard).
+
+### Summary
+
+| Pattern | Protocol | Port | Path Matching | Query Matching |
+|---------|----------|------|---------------|----------------|
+| `example.com` | Any | Any | - | - |
+| `example.com:8080` | Any | 8080 | - | - |
+| `https://example.com/path/to` | https | Any | Prefix (`/` boundary) | Any |
+| `https://example.com/path/to?xxx` | https | Any | Exact | Prefix |
+| `$https://example.com/path/to` | https | Any | Exact | Any |
+| `$https://example.com/path/to?xxx` | https | Any | Exact | Exact |
+| `//example.com/path/to` | Any | Any | Prefix (`/` boundary) | Any |
+
 ## Domain Matching
 
 ### Domain Structure
