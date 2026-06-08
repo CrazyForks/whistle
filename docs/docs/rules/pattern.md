@@ -15,14 +15,20 @@ Whistle 支持三种请求 URL 类型：
 > URL 中的 hash（即 `#` 及之后的内容）不会被发送到后台。Hash 仅在客户端（如浏览器）中生效，后台无法直接获取
 
 ## URL 片段 {#url}
-1. 不带请求参数：`https://example.com/path/to` 将匹配 `https://example.com/path/to` 和 `https://example.com/path/to/xxx?query`，不能匹配？？
-2. 带请求参数：`https://example.com/path/to?xxx` 将匹配 `https://example.com/path/to?xxx` 和 `https://example.com/path/to?xxxyyy&zzzzz`，不能匹配？？
-3. 不带协议：`example.com/path/to`  或 `//example.com/path/to` 将匹配 `p://example.com/path/to` 和 `p://example.com/path/to/xxx?query` ，其中 `p` 为任意请求协议，不能匹配？？
-4. 域名部分支持通配符 `*`：`https://*.example.com/path/to` 将匹配 `https://www.example.com/path/to` 和 `https://abc.example.com/path/to/xxx?query`，不能匹配？？，其中
+
+URL 片段支持以下几种结构：
+1. 普通域名：`www.example.com` ，匹配该域名下任意端口的所有请求，如：`https://www.example.com/path/to?query` 或 `https://www.example.com:9090/path/to?query`
+2. 带端口的域名： `www.example.com:8080`，匹配该域名及端口为 `8080` 的所有请求，如： `https://www.example.com:8080/path/to?query`，但不匹配 `https://www.example.com:9090/path/to?query`
+3. 不带请求参数的 URL：``
+
+4. 不带请求参数：`https://example.com/path/to` 将匹配 `https://example.com/path/to` 和 `https://example.com/path/to/xxx?query`，不能匹配？？
+5. 带请求参数：`https://example.com/path/to?xxx` 将匹配 `https://example.com/path/to?xxx` 和 `https://example.com/path/to?xxxyyy&zzzzz`，不能匹配？？
+6. 不带协议：`example.com/path/to`  或 `//example.com/path/to` 将匹配 `p://example.com/path/to` 和 `p://example.com/path/to/xxx?query` ，其中 `p` 为任意请求协议，不能匹配？？
+7. 域名部分支持通配符 `*`：`https://*.example.com/path/to` 将匹配 `https://www.example.com/path/to` 和 `https://abc.example.com/path/to/xxx?query`，不能匹配？？，其中
    - `*`：相当于正则 `/[^/?.]*/`（即域名里面的 0 或任意多个非 `.` 字符）
    - `**`：相当于正则 `/[^/?]*/`（即域名里面的 0 或任意多个字符）
    - `***`（及以上）：不推荐使用
-5. 精确匹配：`$https://example.com/path/to` 将匹配 `https://example.com/path/to` 和 `https://example.com/path/to?query`，不能匹配？？
+8. 精确匹配：`$https://example.com/path/to` 将匹配 `https://example.com/path/to` 和 `https://example.com/path/to?query`，不能匹配？？
 
 ## 通配符匹配 {#wildcard}
 
