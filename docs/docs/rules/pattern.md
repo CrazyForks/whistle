@@ -102,7 +102,7 @@ URL 片段用于匹配请求的 URL，支持多种灵活的模式。以下按匹
 | `https://example.com/path/to?xxx` | https | 任意 | 精确 | 前缀 |
 | `$https://example.com/path/to` | https | 任意 | 精确 | 任意 |
 | `$https://example.com/path/to?xxx` | https | 任意 | 精确 | 精确 |
-| `//example.com/path/to` | 任意 | 任意 | 前缀（`/`边界） | 任意 |
+| `example.com/path/to` <br/> 或 `//example.com/path/to` | 任意 | 任意 | 前缀（`/`边界） | 任意 |
 
 ## 通配符匹配 {#wildcard}
 

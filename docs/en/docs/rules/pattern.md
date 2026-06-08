@@ -106,7 +106,7 @@ Use `*` or `**` in the domain part for fuzzy matching.
 | `https://example.com/path/to?xxx` | https | Any | Exact | Prefix |
 | `$https://example.com/path/to` | https | Any | Exact | Any |
 | `$https://example.com/path/to?xxx` | https | Any | Exact | Exact |
-| `//example.com/path/to` | Any | Any | Prefix (`/` boundary) | Any |
+| `example.com/path/to` <br/> or `//example.com/path/to` | Any | Any | Prefix (`/` boundary) | Any |
 
 ## Domain Matching
 
