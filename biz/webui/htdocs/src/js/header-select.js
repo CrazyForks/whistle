@@ -22,8 +22,10 @@ var HeaderSelect = React.createClass({
       'access-control-expose-headers',
       'access-control-allow-credentials',
       'access-control-max-age',
+      'content-disposition',
       'x-forwarded-for',
-      'x-real-ip'
+      'x-real-ip',
+      'server'
     ];
     var addOption = function(name) {
       if (options.indexOf(name) === -1) {
