@@ -25,6 +25,7 @@ var HeaderSelect = React.createClass({
       'content-disposition',
       'x-forwarded-for',
       'x-real-ip',
+      'location',
       'server'
     ];
     var addOption = function(name) {
