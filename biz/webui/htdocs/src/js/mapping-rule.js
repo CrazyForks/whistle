@@ -137,7 +137,7 @@ var NetworkRule = React.createClass({
             <HelpIcon className="ml-10" docsUrl={this.getDocsUrl} />
           </label>
           <div className="w-form-value">
-            <UrlInput ref="url" name="url" enableLocalFile enableTplFile onChange={this.onChange} disabled={disabled} session={props.session} />
+            <UrlInput ref="url" enableLocalFile enableTplFile onChange={this.onChange} disabled={disabled} session={props.session} />
           </div>
         </div>
         <div className="w-form-item">

@@ -4,6 +4,7 @@ var util = require('./util');
 var HelpIcon = require('./help-icon');
 var ruleMixin = require('./rule-mixin');
 var StatusSelect = require('./status-select');
+var UrlInput = require('./url-input');
 
 var STATUS_CODE_ACTIONS = [
   { value: 'statusCode://', label: 'Direct Status Code' },
@@ -27,7 +28,8 @@ var ResponseRule = React.createClass({
       statusCodeAction: STATUS_CODE_ACTIONS[0].value,
       statusCode: '200',
       headerActions: [this.createAction(HEADER_ACTIONS[0])],
-      bodyActions: [this.createAction(BODY_ACTIONS[0])]
+      bodyActions: [this.createAction(BODY_ACTIONS[0])],
+      redirectUrl: ''
     };
   },
   handleChange: function() {
@@ -62,6 +64,9 @@ var ResponseRule = React.createClass({
     item.type = option.value;
     this.setState({}, this.handleChange);
   },
+  onUrlChange: function(url) {
+    this.setState({ redirectUrl: url }, this.handleChange);
+  },
   render: function() {
     var self = this;
     var hide = self.props.hide;
@@ -74,6 +79,8 @@ var ResponseRule = React.createClass({
     var bodyActions = state.bodyActions;
     var headerCount = headerActions.length;
     var bodyCount = bodyActions.length;
+    var isRedirect = statusCodeAction[0] === '3';
+    var statusDocsUrl = isRedirect ? 'redirect' : (statusCodeAction === STATUS_CODE_ACTIONS[0].value ? 'statusCode' : 'replaceStatus');
 
     return (
       <div className={'w-rules-form' + (hide ? ' w-hide' : '')}>
@@ -82,8 +89,9 @@ var ResponseRule = React.createClass({
             <input type="checkbox" className="mr-10" checked={!disabledStatusCode} onChange={self.onDisableStatusCodeChange} />
             <Select value={statusCodeAction} disabled={disabledStatusCode} className="w-175" options={STATUS_CODE_ACTIONS}
               onChange={self.onStatusCodeActionChange} />
-            <StatusSelect value={state.statusCode} disabled={disabledStatusCode} onChange={self.onStatusCodeChange} />
-            <HelpIcon docsUrl={'rules/' + (statusCodeAction === STATUS_CODE_ACTIONS[0].value ? 'statusCode' : 'replaceStatus') + '.html'} />
+            <StatusSelect value={state.statusCode} className={isRedirect ? 'w-hide' : null} disabled={disabledStatusCode} onChange={self.onStatusCodeChange} />
+            <UrlInput className={'mr-10' + (isRedirect ? '' : ' w-hide')} disabled={disabledStatusCode} onChange={this.onUrlChange} />
+            <HelpIcon docsUrl={'rules/' + statusDocsUrl + '.html'} />
           </div>
         </div>
         <div className="w-form-item">
