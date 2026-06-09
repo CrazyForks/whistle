@@ -38,10 +38,11 @@ var NetworkRule = React.createClass({
   },
   setResType: function(session) {
     var type = session && session.res;
+    type = type && type.headers;
     if (!type) {
       return;
     }
-    type = type.headers['content-type'];
+    type = type['content-type'];
     type = util.isString(type) && util.removeSpaces(type);
     if (type) {
       this.refs.responseType.createOption(type);

@@ -110,8 +110,8 @@ var contextMenuList = [
     list: [
       { name: 'Mapping' },
       { name: 'Network' },
-      // { name: 'Request' },
-      // { name: 'Response' },
+      { name: 'Request' },
+      { name: 'Response' },
       { name: 'Debug' }
     ]
   },

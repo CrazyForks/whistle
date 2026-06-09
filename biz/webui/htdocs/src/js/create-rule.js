@@ -7,8 +7,8 @@ var UrlInput = require('./url-input');
 var CopyBtn = require('./copy-btn');
 var NetworkRule = require('./network-rule');
 var MappingRule = require('./mapping-rule');
-// var RequestRule = require('./request-rule');
-// var ResponseRule = require('./response-rule');
+var RequestRule = require('./request-rule');
+var ResponseRule = require('./response-rule');
 var DebugRule = require('./debug-rule');
 var FiltersRule = require('./filters-rule');
 var Icon = require('./icon');
@@ -20,8 +20,8 @@ var getHideStyle = util.getHideStyle;
 var TYPE_OPTIONS = [
   { value: 'Mapping', label: 'Modify Mapping' },
   { value: 'Network', label: 'Modify Network' },
-  // { value: 'Request', label: 'Modify Request' },
-  // { value: 'Response', label: 'Modify Response' },
+  { value: 'Request', label: 'Modify Request' },
+  { value: 'Response', label: 'Modify Response' },
   { value: 'Debug', label: 'Debug Tools' }
 ];
 var PATTERN_OPTIONS = [
@@ -283,8 +283,8 @@ var CreateRuleDialog = React.createClass({
           {this.renderPattern()}
           <MappingRule hide={type !== 'Mapping'} onChange={this.onMappingChange} session={state.session} />
           <NetworkRule hide={type !== 'Network'} onChange={this.onNetworkChange} session={state.session} />
-          {/* <RequestRule hide={type !== 'Request'} onChange={this.onRequestChange} session={state.session} />
-          <ResponseRule hide={type !== 'Response'} onChange={this.onResponseChange} session={state.session} /> */}
+          <RequestRule hide={type !== 'Request'} onChange={this.onRequestChange} session={state.session} />
+          <ResponseRule hide={type !== 'Response'} onChange={this.onResponseChange} session={state.session} />
           <DebugRule hide={type !== 'Debug'} onChange={this.onDebugChange} session={state.session} />
           <FiltersRule onChange={this.onFiltersChange} session={state.session} />
           {this.renderRules(rules)}
