@@ -17,6 +17,8 @@ var UrlInput = React.createClass({
     var protocols = ['', 'http://', 'https://', 'ws://', 'wss://', 'tunnel://'];
     if (props.enableLocalFile) {
       protocols = ['file://', 'http://', 'https://'];
+    } else if (props.isRedirect) {
+      protocols = ['', 'http://', 'https://'];
     }
     if (props.enableTplFile) {
       protocols.splice(1, 0, 'tpl://');

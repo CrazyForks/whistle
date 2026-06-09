@@ -36,7 +36,19 @@ var ResponseRule = React.createClass({
     var rules = [];
     var state = this.state;
     if (!state.disabledStatusCode) {
-      rules.push(state.statusCodeAction + state.statusCode);
+      var action = state.statusCodeAction;
+      if (action[0] === '3') {
+        var redirectUrl = state.redirectUrl;
+        if (redirectUrl) {
+          action = action.substring(0, 3);
+          rules.push('redirect://' + redirectUrl);
+          if (action !== '302') {
+            rules.push('replaceStatus://' + action);
+          }
+        }
+      } else {
+        rules.push(action + state.statusCode);
+      }
     }
     rules = rules.join(' ');
     if (this._curRules !== rules) {
@@ -90,7 +102,7 @@ var ResponseRule = React.createClass({
             <Select value={statusCodeAction} disabled={disabledStatusCode} className="w-175" options={STATUS_CODE_ACTIONS}
               onChange={self.onStatusCodeActionChange} />
             <StatusSelect value={state.statusCode} className={isRedirect ? 'w-hide' : null} disabled={disabledStatusCode} onChange={self.onStatusCodeChange} />
-            <UrlInput className={'mr-10' + (isRedirect ? '' : ' w-hide')} disabled={disabledStatusCode} onChange={this.onUrlChange} />
+            <UrlInput isRedirect className={'mr-10' + (isRedirect ? '' : ' w-hide')} disabled={disabledStatusCode} onChange={this.onUrlChange} />
             <HelpIcon docsUrl={'rules/' + statusDocsUrl + '.html'} />
           </div>
         </div>

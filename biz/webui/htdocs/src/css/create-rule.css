@@ -216,7 +216,7 @@
 }
 
 .w-preview-rules .w-pr-FILE, .w-preview-rules .w-pr-TPL, .w-preview-rules .w-pr-STATUSCODE,
-.w-preview-rules .w-pr-URLPARAMS, .w-preview-rules .w-pr-PATHREPLACE {
+.w-preview-rules .w-pr-URLPARAMS, .w-preview-rules .w-pr-PATHREPLACE, .w-preview-rules .w-pr-REDIRECT {
   color: #ff9e59;
 }
 
