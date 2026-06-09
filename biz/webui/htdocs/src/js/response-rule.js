@@ -7,7 +7,12 @@ var StatusSelect = require('./status-select');
 
 var STATUS_CODE_ACTIONS = [
   { value: 'statusCode://', label: 'Direct Status Code' },
-  { value: 'replaceStatus://', label: 'Replace Status Code'}
+  { value: 'replaceStatus://', label: 'Replace Status Code'},
+  '301 Permanent Redirect',
+  '302 Temporary Redirect',
+  '303 See Other',
+  '307 Temporary Redirect',
+  '308 Permanent Redirect'
 ];
 var HEADER_ACTIONS = ['Set Custom Header', 'Set Response CORS', 'Set Response Cookie', 'Delete Response Header'];
 var BODY_ACTIONS = util.BODY_ACTIONS;
