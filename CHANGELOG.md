@@ -2,7 +2,8 @@
 
 ## v2.10.3
 1. feat: **可视化规则创建**：支持通过表单创建 `Mapping` / `Network` / `Debug` 规则（`Request` / `Response` 规则敬请期待）
-2. fix: **缺陷修复**：修复多项问题，增强系统稳定性
+2. feat: Online 新增 `Clear DNS Cache` 按钮用于手动清空 Whistle 的 DNS 缓存
+3. fix: **缺陷修复**：修复多项问题，增强系统稳定性
 
 ## v2.10.2
 1. feat: Network Settings 支持两种注释格式：

@@ -1,8 +1,9 @@
 [中文](./CHANGELOG.md) · English
 
 ## v2.10.3
-1. **feat**: Support visually creating rules via a form (currently only `Mapping`, `Network`, `Debug` rules are supported; support for `Request` and `Response` related rules will be added later)
-2. **fix**: Fixed some bugs
+1. feat: **Visual rule creation**: Supports creating `Mapping` / `Network` / `Debug` rules via forms (`Request` / `Response` rules coming soon)
+2. feat: Added a `Clear DNS Cache` button to Online for manually clearing Whistle's DNS cache
+3. fix: **Bug fixes**: Fixed multiple issues to enhance system stability
 
 ## v2.10.2
 1. feat: Network Settings now supports two comment formats:
