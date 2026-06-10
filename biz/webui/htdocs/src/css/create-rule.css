@@ -184,13 +184,13 @@
   white-space: pre-wrap;
   max-height: 160px;
   min-height: 42px;
+  font-size: 14px;
   overflow: auto;
 }
 
 .w-preview-rules span {
   margin-right: 10px;
   line-height: 1.5;
-  font-size: 14px;
   color: var(--c-cobalt);
 }
 

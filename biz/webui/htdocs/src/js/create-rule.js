@@ -78,9 +78,10 @@ var CreateRuleDialog = React.createClass({
   saveRules: function() {
     var state = this.state;
     var rules = this.getRules();
+    var values = rules._values || '';
     events.trigger('showRulesDialog', {
       filename: state.filename,
-      rules: this.formatRules(rules)
+      rules: this.formatRules(rules) + values
     });
   },
   formatRules: function(rules) {
@@ -123,7 +124,7 @@ var CreateRuleDialog = React.createClass({
     if (filters) {
       rules = rules.concat(filters.split(' '));
     }
-    rules._values = values;
+    rules._values = values ? '\n\n' + values : '';
     return rules;
   },
   onPatternTypeChange: function(option) {
@@ -253,7 +254,7 @@ var CreateRuleDialog = React.createClass({
     var text = this.formatRules(rules);
     var values;
     if (rules) {
-      values = rules._values;
+      values = rules._values || null;
       rules = rules.map(function(rule, i) {
         var className = i ? 'w-pr-' + util.getProtocol(rule) : (util.isSpecPattern(rule) || util.isWildcard(rule) ? 'w-pr-REGEXP' : null);
         return <span className={className}>{rule}</span>;
@@ -272,7 +273,6 @@ var CreateRuleDialog = React.createClass({
         </label>
         <pre className={'w-preview-rules ' + (isMulti ? ' w-preview-rules-multi' : '')}>
           {rules}
-          <br />
           {values}
         </pre>
       </div>
