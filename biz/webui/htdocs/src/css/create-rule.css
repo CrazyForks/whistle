@@ -209,6 +209,7 @@
 
 .w-preview-rules .w-pr-line {
   color: #ffee80;
+  display: inline;
 }
 
 .w-preview-rules .w-pr-FILE, .w-preview-rules .w-pr-TPL, .w-preview-rules .w-pr-STATUSCODE,
