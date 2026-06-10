@@ -42,6 +42,8 @@ var RequestRule = React.createClass({
         rules.push('enable://http2');
       }
     }
+    var urlRules = this.getUrlRules();
+    urlRules && rules.push(urlRules);
     rules = rules.join(' ');
     if (this._curRules !== rules) {
       this._curRules = rules;
@@ -71,6 +73,40 @@ var RequestRule = React.createClass({
     var keyPlaceholder = isParam ? 'Enter param name' : 'Enter keyword or regexp';
     var valuePlaceholder = isParam ? 'Enter param value' : 'Enter replacement value';
     return this.renderKV(action, keyPlaceholder, valuePlaceholder, disabled, isParam, isParam);
+  },
+  getUrlRules: function() {
+    var state = this.state;
+    var disabledUrl = state.disabledUrl;
+    if (disabledUrl) {
+      return;
+    }
+    var rules = [];
+    var params;
+    state.urlActions.forEach(function(action) {
+      var key = action.key && action.key.trim();
+      if (!key) {
+        return;
+      }
+      var value = action.value || '';
+      switch(action.type) {
+      case URL_ACTIONS[0]:
+        if (!params) {
+          params = {};
+          rules.push('urlParams://temp/urlParams_file_hash_placeholder');
+        }
+        params[key] = value;
+        break;
+      case URL_ACTIONS[1]:
+        rules.push('delete://urlParams.' + util.removeSpaces(key));
+        break;
+      default:
+        var data = {};
+        data[util.removeSpaces(key)] = util.removeSpaces(value);
+        rules.push('pathReplace://(' + JSON.stringify(data) + ')');
+      }
+    });
+    state.urlParamsValue = params && JSON.stringify(params, null, 2);
+    return rules.join(' ');
   },
   renderHeaderAction: function(action, disabled) {
     var session = this.props.session;
