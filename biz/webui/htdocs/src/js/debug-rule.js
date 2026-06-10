@@ -189,7 +189,7 @@ var DebugRule = React.createClass({
         <div className="w-form-item">
           <div className="w-form-value">
             <label>
-              <input type="checkbox" className="mr-10" checked={state.abortReq} onChange={this.onAbortReqChange} />
+              <input type="checkbox" className="mr-10" checked={state.abortReq} data-name="abortReq" onChange={this.onEnableCheckChange} />
               Abort Request
               <HelpIcon docsUrl="rules/enable.html" className="ml-10" />
             </label>
@@ -198,7 +198,7 @@ var DebugRule = React.createClass({
         <div className="w-form-item">
           <div className="w-form-value">
             <label>
-              <input type="checkbox" className="mr-10" checked={state.abortRes} onChange={this.onAbortResChange} />
+              <input type="checkbox" className="mr-10" checked={state.abortRes} data-name="abortRes" onChange={this.onEnableCheckChange} />
               Abort Response
               <HelpIcon docsUrl="rules/enable.html" className="ml-10" />
             </label>
