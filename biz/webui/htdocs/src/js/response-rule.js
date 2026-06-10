@@ -107,7 +107,7 @@ var ResponseRule = React.createClass({
               headerActions.map(function(action) {
                 return (
                   <div data-name="headerActions" className="w-form-value" data-index={action.index} key={action.index}>
-                    <Select className=" w-175" disabled={disabledHeader} value={action.type} data={action} options={HEADER_ACTIONS}
+                    <Select className="w-190" disabled={disabledHeader} value={action.type} data={action} options={HEADER_ACTIONS}
                       onChange={self.onActionChange} key={action.index} />
                     <input type="text" value={action.value} className="form-control" maxLength="5120"
                       placeholder={action.placeholder} disabled={disabledHeader} onChange={self.onValueChange} />
@@ -127,7 +127,7 @@ var ResponseRule = React.createClass({
               bodyActions.map(function(action) {
                 return (
                   <div data-name="bodyActions" className="w-form-value" data-index={action.index} key={action.index}>
-                    <Select className="w-175" disabled={disabledBody} value={action.type} data={action} options={BODY_ACTIONS}
+                    <Select className="w-190" disabled={disabledBody} value={action.type} data={action} options={BODY_ACTIONS}
                       onChange={self.onActionChange} key={action.index} />
                     <input type="text" value={action.value} className="form-control" maxLength="5120"
                       placeholder={action.placeholder} disabled={disabledBody} onChange={self.onValueChange} />
