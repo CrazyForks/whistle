@@ -96,6 +96,7 @@ var CreateRuleDialog = React.createClass({
       return '';
     }
     var rule = '';
+    var values = '';
     switch (state.type) {
     case 'Mapping':
       rule = state.mappingRule;
@@ -105,6 +106,7 @@ var CreateRuleDialog = React.createClass({
       break;
     case 'Request':
       rule = state.requestRule;
+      values = state.requestValues;
       break;
     case 'Response':
       rule = state.responseRule;
@@ -121,6 +123,7 @@ var CreateRuleDialog = React.createClass({
     if (filters) {
       rules = rules.concat(filters.split(' '));
     }
+    rules._values = values;
     return rules;
   },
   onPatternTypeChange: function(option) {
@@ -184,8 +187,8 @@ var CreateRuleDialog = React.createClass({
   onNetworkChange: function(rule) {
     this.setState({ networkRule: rule });
   },
-  onRequestChange: function(rule) {
-    this.setState({ requestRule: rule });
+  onRequestChange: function(rule, values) {
+    this.setState({ requestRule: rule, requestValues: values });
   },
   onResponseChange: function(rule) {
     this.setState({ responseRule: rule });
@@ -267,6 +270,8 @@ var CreateRuleDialog = React.createClass({
         </label>
         <pre className={'w-preview-rules ' + (isMulti ? ' w-preview-rules-multi' : '')}>
           {rules}
+
+          {rules && rules._values}
         </pre>
       </div>
     );

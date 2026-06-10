@@ -32,6 +32,7 @@ var RequestRule = React.createClass({
   handleChange: function() {
     var state = this.state;
     var rules = [];
+    var values = [];
     if (!state.disabledMethod) {
       rules.push('method://' + state.method);
     }
@@ -43,11 +44,16 @@ var RequestRule = React.createClass({
       }
     }
     var urlRules = this.getUrlRules();
-    urlRules && rules.push(urlRules);
+    if (urlRules) {
+      rules.push(urlRules.rules);
+      if (urlRules.value) {
+        values.push(urlRules.value);
+      }
+    }
     rules = rules.join(' ');
     if (this._curRules !== rules) {
       this._curRules = rules;
-      this.props.onChange(rules);
+      this.props.onChange(rules, values.join('\n'));
     }
   },
   shouldComponentUpdate: util.shouldComponentUpdate,
@@ -82,6 +88,7 @@ var RequestRule = React.createClass({
     }
     var rules = [];
     var params;
+    var paramsKey;
     state.urlActions.forEach(function(action) {
       var key = action.key && action.key.trim();
       if (!key) {
@@ -92,7 +99,8 @@ var RequestRule = React.createClass({
       case URL_ACTIONS[0]:
         if (!params) {
           params = {};
-          rules.push('urlParams://temp/urlParams_file_hash_placeholder');
+          paramsKey = 'urlParams_' + Date.now().toString(16) + Math.ceil(Math.random() * 1000000).toString(16) + '.json';
+          rules.push('urlParams://{' + paramsKey + '}');
         }
         params[key] = value;
         break;
@@ -105,8 +113,11 @@ var RequestRule = React.createClass({
         rules.push('pathReplace://(' + JSON.stringify(data) + ')');
       }
     });
-    state.urlParamsValue = params && JSON.stringify(params, null, 2);
-    return rules.join(' ');
+    var result = rules.join(' ');
+    return result && {
+      rules: result,
+      value: params ? '``` ' + paramsKey + '\n' + JSON.stringify(params, null, 2) + '\n```' : ''
+    };
   },
   renderHeaderAction: function(action, disabled) {
     var session = this.props.session;
