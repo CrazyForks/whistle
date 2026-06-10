@@ -49,9 +49,6 @@ var RequestRule = React.createClass({
     }
   },
   shouldComponentUpdate: util.shouldComponentUpdate,
-  onDisableMethodChange: function(e) {
-    this.setState({ disabledMethod: !e.target.checked }, this.handleChange);
-  },
   onDisableVersionChange: function(e) {
     this.setState({ disabledVersion: !e.target.checked }, this.handleChange);
   },
@@ -144,7 +141,7 @@ var RequestRule = React.createClass({
         <div className="w-form-item">
           <div className="w-form-value">
             <label className="w-155">
-              <input type="checkbox" className="mr-10" checked={!disabledMethod} onChange={self.onDisableMethodChange} />
+              <input type="checkbox" data-name="disabledMethod" className="mr-10" checked={!disabledMethod} onChange={self.onDisableCheckChange} />
               Modify Method
             </label>
             <MethodSelect disabled={disabledMethod} value={state.method}  onChange={self.onMethodChange} />

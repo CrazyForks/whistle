@@ -51,6 +51,11 @@ module.exports = {
       remove(true);
     }
   },
+  onDisableCheckChange: function(e) {
+    var name = e.target.getAttribute('data-name');
+    this.state[name] = !e.target.checked;
+    this.setState({}, this.handleChange);
+  },
   onSelectChange: function(e) {
     var data = this.getData(e);
     var value = typeof e.value === 'string' ? e.value : e.target.value;
