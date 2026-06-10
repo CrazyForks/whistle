@@ -111,7 +111,7 @@ exports.METHODS = [
 ];
 
 function removeSpaces(str) {
-  return str.replace(/\s+/g, '');
+  return str && str.replace(/\s+/g, '');
 }
 
 exports.removeSpaces = removeSpaces;
