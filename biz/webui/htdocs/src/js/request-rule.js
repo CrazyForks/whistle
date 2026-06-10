@@ -49,18 +49,6 @@ var RequestRule = React.createClass({
     }
   },
   shouldComponentUpdate: util.shouldComponentUpdate,
-  onDisableVersionChange: function(e) {
-    this.setState({ disabledVersion: !e.target.checked }, this.handleChange);
-  },
-  onDisableUrlChange: function(e) {
-    this.setState({ disabledUrl: !e.target.checked }, this.handleChange);
-  },
-  onDisableHeaderChange: function(e) {
-    this.setState({ disabledHeader: !e.target.checked }, this.handleChange);
-  },
-  onDisableBodyChange: function(e) {
-    this.setState({ disabledBody: !e.target.checked }, this.handleChange);
-  },
   onMethodChange: function(option) {
     this.setState({ method: option.value }, this.handleChange);
   },
@@ -151,7 +139,7 @@ var RequestRule = React.createClass({
         <div className="w-form-item">
           <div className="w-form-value">
             <label className="w-155">
-              <input type="checkbox" className="mr-10" checked={!disabledVersion} onChange={self.onDisableVersionChange} />
+              <input type="checkbox" className="mr-10" data-name="disabledVersion" checked={!disabledVersion} onChange={self.onDisableCheckChange} />
               Modify HTTP Version
             </label>
             <Select disabled={disabledVersion} className="mx-10 w-300" options={HTTP_VERSION_OPTIONS} value={version} onChange={self.onVersionChange} />
@@ -160,7 +148,7 @@ var RequestRule = React.createClass({
         </div>
         <div className="w-form-item">
           <label>
-            <input type="checkbox" className="mr-10" checked={!disabledUrl} onChange={self.onDisableUrlChange} />
+            <input type="checkbox" className="mr-10" data-name="disabledUrl" checked={!disabledUrl} onChange={self.onDisableCheckChange} />
             Modify Request URL
             <HelpIcon className="ml-10" docsUrl="rules/urlParams.html" />
           </label>
@@ -179,7 +167,7 @@ var RequestRule = React.createClass({
         </div>
         <div className="w-form-item">
           <label>
-            <input type="checkbox" className="mr-10" checked={!disabledHeader} onChange={self.onDisableHeaderChange} />
+            <input type="checkbox" className="mr-10" data-name="disabledHeader" checked={!disabledHeader} onChange={self.onDisableCheckChange} />
             Modify Request Headers
             <HelpIcon className="ml-10" docsUrl="rules/reqHeaders.html" />
           </label>
@@ -198,7 +186,7 @@ var RequestRule = React.createClass({
         </div>
         <div className="w-form-item">
           <label>
-            <input type="checkbox" className="mr-10" checked={!disabledBody} onChange={self.onDisableBodyChange} />
+            <input type="checkbox" className="mr-10" data-name="disabledBody" checked={!disabledBody} onChange={self.onDisableCheckChange} />
             Modify Request Body
             <HelpIcon className="ml-10" docsUrl="rules/reqBody.html" />
           </label>
