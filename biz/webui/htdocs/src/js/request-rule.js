@@ -66,18 +66,18 @@ var RequestRule = React.createClass({
   renderUrlAction: function(action, disabled) {
     if (action.type === URL_ACTIONS[0]) {
       return [
-        <input type="text" value={action.key} className="form-control w-190 mr-10" maxLength="100"
+        <input type="text" value={action.key} className="form-control w-190 mr-10" maxLength="256"
           placeholder="Enter param name" disabled={disabled} onChange={this.onSelectChange} />,
         <input type="text" value={action.value} className="form-control" maxLength="1024"
           placeholder="Enter param value" disabled={disabled} onChange={this.onValueChange} />
       ];
     }
     if (action.type === URL_ACTIONS[1]) {
-      return <input type="text" value={action.key} className="form-control" maxLength="100"
+      return <input type="text" value={action.key} className="form-control" maxLength="256"
         placeholder="Enter param name to delete" disabled={disabled} onChange={this.onSelectChange} />;
     }
     return [
-      <input type="text" value={action.key} className="form-control mr-10" maxLength="100"
+      <input type="text" value={action.key} className="form-control mr-10" maxLength="256"
         placeholder="Enter param name" disabled={disabled} onChange={this.onSelectChange} />,
       <input type="text" value={action.value} className="form-control" maxLength="1024"
         placeholder="Enter param value" disabled={disabled} onChange={this.onValueChange} />
@@ -100,7 +100,7 @@ var RequestRule = React.createClass({
     }
     if (action.type === HEADER_ACTIONS[2]) {
       return [
-        <input type="text" value={action.key} className="form-control w-190 mr-10" maxLength="100"
+        <input type="text" value={action.key} className="form-control w-190 mr-10" maxLength="256"
           placeholder="Enter cookie name" disabled={disabled} onChange={this.onSelectChange} />,
         <input type="text" value={action.value} className="form-control" maxLength="1024"
           placeholder="Enter cookie value" disabled={disabled} onChange={this.onValueChange} />
