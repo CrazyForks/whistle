@@ -394,7 +394,7 @@ var Online = React.createClass({
         self.refs.dnsDialog.show(dataCenter.getServerInfo());
       });
       dialog.find('.w-online-clear-dns').on('click', function() {
-        win.confirm('Do you confirm DNS cache clear', function(sure) {
+        win.confirm('Do you confirm DNS cache clear?', function(sure) {
           if (sure) {
             dataCenter.rules.clearDnsCache(function (data, xhr) {
               if (!data) {
