@@ -3,6 +3,7 @@ var HostInput = require('./host-input');
 var Select = require('./custom-select');
 var HelpIcon = require('./help-icon');
 var util = require('./util');
+var ruleMixin = require('./rule-mixin');
 
 var PROXY_OPTIONS = [
   { value: 'proxy', label: 'HTTP' },
@@ -11,6 +12,7 @@ var PROXY_OPTIONS = [
 ];
 
 var NetworkRule = React.createClass({
+  mixins: [ruleMixin],
   getInitialState: function() {
     return {
       disabledServer: false,
@@ -26,12 +28,6 @@ var NetworkRule = React.createClass({
   },
   onProxyNameChange: function(option) {
     this.setState({ proxyName: option.value }, this.handleChange);
-  },
-  onDisableServerChange: function(e) {
-    this.setState({ disabledServer: !e.target.checked }, this.handleChange);
-  },
-  onDisableProxyChange: function(e) {
-    this.setState({ disabledProxy: !e.target.checked }, this.handleChange);
   },
   handleChange: function() {
     var state = this.state;
@@ -65,7 +61,7 @@ var NetworkRule = React.createClass({
       <div className={'w-rules-form' + (hide ? ' w-hide' : '')}>
         <div className="w-form-item">
           <label>
-            <input type="checkbox" className="mr-10" checked={!disabledServer} onChange={this.onDisableServerChange} />
+            <input type="checkbox" className="mr-10" checked={!disabledServer} data-name="disabledServer" onChange={this.onDisableCheckChange} />
             Server Address
             <HelpIcon docsUrl="rules/host.html" className="ml-10" />
           </label>
@@ -73,7 +69,7 @@ var NetworkRule = React.createClass({
         </div>
         <div className="w-form-item">
           <label>
-            <input type="checkbox" className="mr-10" checked={!disabledProxy} onChange={this.onDisableProxyChange} />
+            <input type="checkbox" className="mr-10" checked={!disabledProxy} data-name="disabledProxy" onChange={this.onDisableCheckChange} />
             <Select value={proxyName} className="w-proxy-options" onChange={this.onProxyNameChange} options={PROXY_OPTIONS} />
             Proxy Address
             <HelpIcon docsUrl={'rules/' + proxyName + '.html'} className="ml-10" />
