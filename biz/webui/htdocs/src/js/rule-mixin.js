@@ -61,7 +61,7 @@ module.exports = {
     this.state[name] = e.target.checked;
     this.setState({}, this.handleChange);
   },
-  onSelectChange: function(e) {
+  onKeyChange: function(e) {
     var data = this.getData(e);
     var value = typeof e.value === 'string' ? e.value : e.target.value;
     data.list[data.index].key = value;
@@ -89,7 +89,7 @@ module.exports = {
   renderKV: function(data, disabled) {
     return [
       <input type="text" value={data.key} className="form-control w-190 mr-10" maxLength="512"
-          placeholder={data.keyPlaceholder} disabled={disabled} onChange={this.onSelectChange} />,
+          placeholder={data.keyPlaceholder} disabled={disabled} onChange={this.onKeyChange} />,
       <input type="text" value={data.value} className="form-control" maxLength="2560"
         placeholder={data.valuePlaceholder} disabled={disabled} onChange={this.onValueChange} />
     ];

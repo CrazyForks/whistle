@@ -67,18 +67,18 @@ var RequestRule = React.createClass({
     if (action.type === URL_ACTIONS[0]) {
       return [
         <input type="text" value={action.key} className="form-control w-190 mr-10" maxLength="256"
-          placeholder="Enter param name" disabled={disabled} onChange={this.onSelectChange} />,
+          placeholder="Enter param name" disabled={disabled} onChange={this.onKeyChange} />,
         <input type="text" value={action.value} className="form-control" maxLength="1024"
           placeholder="Enter param value" disabled={disabled} onChange={this.onValueChange} />
       ];
     }
     if (action.type === URL_ACTIONS[1]) {
       return <input type="text" value={action.key} className="form-control" maxLength="256"
-        placeholder="Enter param name to delete" disabled={disabled} onChange={this.onSelectChange} />;
+        placeholder="Enter param name to delete" disabled={disabled} onChange={this.onKeyChange} />;
     }
     return [
       <input type="text" value={action.key} className="form-control mr-10" maxLength="256"
-        placeholder="Enter param name" disabled={disabled} onChange={this.onSelectChange} />,
+        placeholder="Enter param name" disabled={disabled} onChange={this.onKeyChange} />,
       <input type="text" value={action.value} className="form-control" maxLength="1024"
         placeholder="Enter param value" disabled={disabled} onChange={this.onValueChange} />
     ];
@@ -89,7 +89,7 @@ var RequestRule = React.createClass({
     if (action.type === HEADER_ACTIONS[0] || isDel) {
       return [
         <HeaderSelect name="customHeaders" disabled={disabled} value={action.key} placeholder={'Select request header name' + (isDel ? ' to delete' : '')}
-          className={isDel ? 'flex-1 mr-0' : 'w-190'} onChange={this.onSelectChange} session={session} keepCase />,
+          className={isDel ? 'flex-1 mr-0' : 'w-190'} onChange={this.onKeyChange} session={session} keepCase />,
         <input type="text" value={action.value} className={isDel ? 'w-hide' : 'form-control'} maxLength="5120"
           placeholder="Enter request header value" disabled={disabled} data-keep-space="1" onChange={this.onValueChange} />
       ];
@@ -101,7 +101,7 @@ var RequestRule = React.createClass({
     if (action.type === HEADER_ACTIONS[2]) {
       return [
         <input type="text" value={action.key} className="form-control w-190 mr-10" maxLength="256"
-          placeholder="Enter cookie name" disabled={disabled} onChange={this.onSelectChange} />,
+          placeholder="Enter cookie name" disabled={disabled} onChange={this.onKeyChange} />,
         <input type="text" value={action.value} className="form-control" maxLength="1024"
           placeholder="Enter cookie value" disabled={disabled} onChange={this.onValueChange} />
       ];
