@@ -80,8 +80,7 @@ module.exports = {
   onValueChange: function(e) {
     var target = e.target;
     var data = this.getData(e);
-    var value = target.value;
-    data.list[data.index].value = target.getAttribute('data-keep-space') ? value : util.removeSpaces(value);
+    data.list[data.index].value = getValue(e.target, target.getAttribute('data-keep-space'));
     this.setState({}, this.handleChange);
   },
   renderButtons: function(action, disabled, len) {
