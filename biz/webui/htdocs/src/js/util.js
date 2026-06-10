@@ -613,7 +613,7 @@ exports.stopPropagation = function(e) {
   e.stopPropagation();
 };
 
-function showSystemError(xhr, useToast) {
+function showSysErr(xhr, useToast) {
   xhr = xhr || {};
   var status = xhr.status;
   var showTips = useToast ? message.error : win.alert;
@@ -630,7 +630,7 @@ function showSystemError(xhr, useToast) {
   showTips('[' + status + '] Unknown error, try again later');
 }
 
-exports.showSystemError = showSystemError;
+exports.showSysErr = showSysErr;
 
 exports.getClasses = function getClasses(obj) {
   var classes = [];
@@ -3253,7 +3253,7 @@ exports.getPluginCgiUrl = getPluginCgiUrl;
 
 exports.showHandlePluginInfo = function(data, xhr) {
   if (!data) {
-    showSystemError(xhr);
+    showSysErr(xhr);
     return false;
   }
   if (data.ec) {

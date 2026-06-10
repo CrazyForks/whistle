@@ -409,7 +409,7 @@ var List = React.createClass({
         var name = this.props.name === 'rules' ? 'rules' : 'values';
         dataCenter[name].moveTo(params, function (data, xhr) {
           if (!data) {
-            util.showSystemError(xhr);
+            util.showSysErr(xhr);
             return;
           }
           if (data.ec === 2) {
@@ -451,7 +451,7 @@ var List = React.createClass({
     dataCenter[name.toLowerCase()].recycleList(function (data, xhr) {
       self._pendingRecycle = false;
       if (!data) {
-        util.showSystemError(xhr);
+        util.showSysErr(xhr);
         return;
       }
       if (!data.list.length) {
@@ -732,7 +732,7 @@ var List = React.createClass({
     var self = this;
     dataCenter.rules.getEnabledRules(function (data, xhr) {
       if (!data) {
-        util.showSystemError(xhr);
+        util.showSysErr(xhr);
         return;
       }
       var enabledRules = [];

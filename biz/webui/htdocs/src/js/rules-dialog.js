@@ -85,7 +85,7 @@ var RulesDialog = React.createClass({
           self.setState({ rulesName: name });
           self.setValue(name, true);
         } else {
-          util.showSystemError(xhr);
+          util.showSysErr(xhr);
         }
       });
     });
@@ -113,7 +113,7 @@ var RulesDialog = React.createClass({
           init && cb(TEMP_FILE_RE.test(rulesValue) ? result.filepath : null);
         } else if (!hasError) {
           hasError = true;
-          util.showSystemError(xhr);
+          util.showSysErr(xhr);
         }
       });
     };
@@ -145,7 +145,7 @@ var RulesDialog = React.createClass({
             });
             cb();
           } else {
-            util.showSystemError(xhr);
+            util.showSysErr(xhr);
           }
         });
       }
@@ -213,7 +213,7 @@ var RulesDialog = React.createClass({
           self.refs.rulesDialog.hide();
           events.trigger('hideRulesDialog');
         } else {
-          util.showSystemError(xhr);
+          util.showSysErr(xhr);
         }
       });
     });

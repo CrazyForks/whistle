@@ -44,7 +44,7 @@ var HttpsSettings = React.createClass({
     dataCenter.certs.all(function (data, xhr) {
       self.loadingCerts = false;
       if (!data) {
-        util.showSystemError(xhr);
+        util.showSysErr(xhr);
         return;
       }
       self.refs.certsInfoDialog.show(data.certs, data.dir);

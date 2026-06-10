@@ -195,7 +195,7 @@ function createDialog() {
           self._pendingDnsOrder = false;
         }, 300);
         if (!data) {
-          util.showSystemError(xhr);
+          util.showSysErr(xhr);
           return;
         }
         selectDnsOption(order);
@@ -370,7 +370,7 @@ var Online = React.createClass({
           }
           dataCenter.logout(function (data, xhr) {
             if (!data) {
-              return util.showSystemError(xhr);
+              return util.showSysErr(xhr);
             }
             if (data.ec !== 0) {
               return message.error(data.em || 'Logout failed');
@@ -398,7 +398,7 @@ var Online = React.createClass({
           if (sure) {
             dataCenter.rules.clearDnsCache(function (data, xhr) {
               if (!data) {
-                util.showSystemError(xhr);
+                util.showSysErr(xhr);
                 return;
               }
               message.success('DNS cache cleared successfully');

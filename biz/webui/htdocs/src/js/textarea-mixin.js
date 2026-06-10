@@ -69,7 +69,7 @@ module.exports = {
           target.value = '';
           target.blur();
         } else {
-          util.showSystemError(xhr);
+          util.showSysErr(xhr);
         }
       });
     };

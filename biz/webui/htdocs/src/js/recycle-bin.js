@@ -61,7 +61,7 @@ var RecycleBinDialog = React.createClass({
   },
   checkFile: function (data, xhr) {
     if (!data) {
-      util.showSystemError(xhr);
+      util.showSysErr(xhr);
       return;
     }
     if (data.ec === 3) {
@@ -72,7 +72,7 @@ var RecycleBinDialog = React.createClass({
         xhr
       ) {
         if (!result) {
-          util.showSystemError(xhr);
+          util.showSysErr(xhr);
           return;
         }
         self.show(result);
@@ -122,7 +122,7 @@ var RecycleBinDialog = React.createClass({
             { name: name },
             function (data, xhr) {
               if (!data) {
-                util.showSystemError(xhr);
+                util.showSysErr(xhr);
                 return;
               }
               self.show(data);

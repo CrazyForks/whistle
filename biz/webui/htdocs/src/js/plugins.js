@@ -240,7 +240,7 @@ var Home = React.createClass({
     dataCenter.plugins.getRegistryList(function(data, xhr) {
       var registry = storage.get('pluginsRegistry');
       if (!data) {
-        util.showSystemError(xhr);
+        util.showSysErr(xhr);
       } else if (data.ec !== 0) {
         win.alert(data.em);
       } else {
@@ -429,7 +429,7 @@ var Home = React.createClass({
       if (ok) {
         dataCenter.plugins.uninstallPlugins({ name: util.getSimplePluginName(plugin) }, function(data, xhr) {
           if (!data) {
-            return util.showSystemError(xhr);
+            return util.showSysErr(xhr);
           }
           if (data.ec) {
             return win.alert((data.em || 'Error') + ', ' + 'try again or manually delete the directory:\n' + plugin.path,

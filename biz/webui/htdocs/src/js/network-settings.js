@@ -189,7 +189,7 @@ var Settings = React.createClass({
       },
       function (data, xhr) {
         if (!data) {
-          util.showSystemError(xhr);
+          util.showSysErr(xhr);
           return;
         }
         self.refs.editCustomColumn.hide();

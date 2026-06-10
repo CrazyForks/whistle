@@ -105,7 +105,7 @@ var FrameComposer = React.createClass({
     this.props.framesCtx.trigger('enableRecordFrame');
     dataCenter.socket.send(params, function (data, xhr) {
       if (!data) {
-        return util.showSystemError(xhr);
+        return util.showSysErr(xhr);
       }
       if (data.ec !== 0) {
         return message.error('Server temporarily unavailable. Please try again shortly');

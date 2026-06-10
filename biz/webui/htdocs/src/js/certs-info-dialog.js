@@ -106,7 +106,7 @@ var CertsInfoDialog = React.createClass({
   },
   handleCgi: function (data, xhr) {
     if (!data) {
-      return util.showSystemError(xhr);
+      return util.showSysErr(xhr);
     }
     this.show(data);
   },

@@ -28,7 +28,7 @@ function getTempFile(tempFile, cb) {
     filename: tempFile
   }, function (result, xhr) {
     if (!result) {
-      return util.showSystemError(xhr);
+      return util.showSysErr(xhr);
     }
     if (result.em) {
       message.error(result.em);
@@ -213,7 +213,7 @@ var EditorDialog = React.createClass({
           });
           self.hide();
         } else {
-          util.showSystemError(xhr);
+          util.showSysErr(xhr);
         }
       });
       return;
@@ -222,7 +222,7 @@ var EditorDialog = React.createClass({
     params[isBase64 ? 'base64' : 'value'] = value;
     dataCenter.createTempFile(JSON.stringify(params), function (result, xhr) {
       if (!result || result.ec !== 0) {
-        return util.showSystemError(xhr);
+        return util.showSysErr(xhr);
       }
       var elem = self._fileElem;
       if (!elem) {
@@ -282,7 +282,7 @@ var EditorDialog = React.createClass({
             });
             self.hide();
           } else {
-            util.showSystemError(xhr);
+            util.showSysErr(xhr);
           }
         }
       );
