@@ -15,7 +15,7 @@ var iframes = require('./iframes');
 var Icon = require('./icon');
 var CloseBtn = require('./close-btn');
 
-
+var showSysErr = util.showSysErr;
 var CMD_RE = /^([\w]{1,12})(\s+-g)?$/;
 var WHISTLE_PLUGIN_RE = /(?:^|[\s,;|])(?:@[\w.~-]+\/)?whistle\.[a-z\d_-]+(?:\@[\w.^~*-]*)?(?:$|[\s,;|])/;
 var PLUGIN_NAME_RE = /^((?:@[\w.~-]+\/)?whistle\.[a-z\d_-]+)(?:\@([\w.^~*-]*))?$/;
@@ -240,7 +240,7 @@ var Home = React.createClass({
     dataCenter.plugins.getRegistryList(function(data, xhr) {
       var registry = storage.get('pluginsRegistry');
       if (!data) {
-        util.showSysErr(xhr);
+        showSysErr(xhr);
       } else if (data.ec !== 0) {
         win.alert(data.em);
       } else {
@@ -429,7 +429,7 @@ var Home = React.createClass({
       if (ok) {
         dataCenter.plugins.uninstallPlugins({ name: util.getSimplePluginName(plugin) }, function(data, xhr) {
           if (!data) {
-            return util.showSysErr(xhr);
+            return showSysErr(xhr);
           }
           if (data.ec) {
             return win.alert((data.em || 'Error') + ', ' + 'try again or manually delete the directory:\n' + plugin.path,

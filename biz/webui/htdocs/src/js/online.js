@@ -14,6 +14,7 @@ var ShortcutsSettings = require('./shortcuts-settings');
 var Icon = require('./icon');
 var CloseBtn = require('./close-btn');
 
+var showSysErr = util.showSysErr;
 var IPV6_ONLY_VAL = 4;
 var dialog;
 var curOrder;
@@ -195,7 +196,7 @@ function createDialog() {
           self._pendingDnsOrder = false;
         }, 300);
         if (!data) {
-          util.showSysErr(xhr);
+          showSysErr(xhr);
           return;
         }
         selectDnsOption(order);
@@ -370,7 +371,7 @@ var Online = React.createClass({
           }
           dataCenter.logout(function (data, xhr) {
             if (!data) {
-              return util.showSysErr(xhr);
+              return showSysErr(xhr);
             }
             if (data.ec !== 0) {
               return message.error(data.em || 'Logout failed');
@@ -398,7 +399,7 @@ var Online = React.createClass({
           if (sure) {
             dataCenter.rules.clearDnsCache(function (data, xhr) {
               if (!data) {
-                util.showSysErr(xhr);
+                showSysErr(xhr);
                 return;
               }
               message.success('DNS cache cleared successfully');
