@@ -251,7 +251,9 @@ var CreateRuleDialog = React.createClass({
     // 这里不能用 Editor，用了会出现预览内容不更新，Copy 功能失效等诡异问题
     var isMulti;
     var text = this.formatRules(rules);
+    var values;
     if (rules) {
+      values = rules._values;
       rules = rules.map(function(rule, i) {
         var className = i ? 'w-pr-' + util.getProtocol(rule) : (util.isSpecPattern(rule) || util.isWildcard(rule) ? 'w-pr-REGEXP' : null);
         return <span className={className}>{rule}</span>;
@@ -270,8 +272,8 @@ var CreateRuleDialog = React.createClass({
         </label>
         <pre className={'w-preview-rules ' + (isMulti ? ' w-preview-rules-multi' : '')}>
           {rules}
-
-          {rules && rules._values}
+          <br />
+          {values}
         </pre>
       </div>
     );
