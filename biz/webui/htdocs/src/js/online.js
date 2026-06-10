@@ -169,6 +169,7 @@ function createDialog() {
       '<h5 class="w-theme-option"><strong>Theme:</strong><select class="form-control"><option value="auto">Auto</option>' +
       '<option value="dark">Dark</option><option value="light">Light</option></select></h5>'+
       '<h5 class="w-dns-order-option"><strong>DNS Order:</strong><select class="form-control"></select></h5>' +
+      '<p><a class="w-online-clear-dns">Clear DNS Cache</a></p>' +
       '<p><a class="w-online-dns">View Custom DNS Servers</a></p>' +
       '<a class="w-online-shortcuts-settings">Shortcuts Settings</a>' +
       '</div>' +
@@ -391,6 +392,19 @@ var Online = React.createClass({
 
       dnsElem.on('click', function () {
         self.refs.dnsDialog.show(dataCenter.getServerInfo());
+      });
+      dialog.find('.w-online-clear-dns').on('click', function() {
+        win.confirm('Are you sure to clear DNS cache?', function(sure) {
+          if (sure) {
+            dataCenter.rules.clearDnsCache(function (data, xhr) {
+              if (!data) {
+                util.showSystemError(xhr);
+                return;
+              }
+              message.success('DNS cache cleared successfully');
+            });
+          }
+        });
       });
       shortcutsElem.on('click', function () {
         self.refs.shortcutsSettings.show();

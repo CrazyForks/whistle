@@ -544,6 +544,7 @@ exports.installPluginsFromService = function (plugins, registry) {
 exports.rules = createCgiObj(
   {
     disableAllRules: 'cgi-bin/rules/disable-all-rules',
+    clearDnsCache: 'cgi-bin/rules/clear-dns-cache',
     recycleList: {
       type: 'get',
       url: 'cgi-bin/rules/recycle/list'
