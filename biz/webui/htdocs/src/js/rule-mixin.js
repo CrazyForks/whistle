@@ -12,6 +12,7 @@ module.exports = {
     return { type: action, label: action, value: '', index: keyIndex++ };
   },
   getData: function(e) {
+    var key = e.target.getAttribute('data-key') || 'key';
     var target = $(e.target).closest('.w-form-value');
     var index = +target.data('index');
     var list = this.state[target.data('name')];
@@ -20,7 +21,7 @@ module.exports = {
         return { index: i, list: list};
       }
     }
-    return  { index: 0, list: list };
+    return  { index: 0, list: list, key: key };
   },
   onAdd: function(e) {
     var data = this.getData(e);
@@ -64,7 +65,7 @@ module.exports = {
   onKeyChange: function(e) {
     var data = this.getData(e);
     var value = typeof e.value === 'string' ? e.value : e.target.value;
-    data.list[data.index].key = value;
+    data.list[data.index][data.key] = value;
     this.setState({}, this.handleChange);
   },
   onValueChange: function(e) {
