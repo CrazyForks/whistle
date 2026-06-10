@@ -9,6 +9,7 @@ var win = require('./win');
 var Icon = require('./icon');
 var CloseBtn = require('./close-btn');
 
+var showSysErr = util.showSysErr;
 var MAX_LEN = 1024 * 1024 * 11;
 var fakeIframe = 'javascript:"<style>html,body{padding:0;margin:0}</style><textarea></textarea>"';
 var iframeStyle = {
@@ -28,7 +29,7 @@ function getTempFile(tempFile, cb) {
     filename: tempFile
   }, function (result, xhr) {
     if (!result) {
-      return util.showSysErr(xhr);
+      return showSysErr(xhr);
     }
     if (result.em) {
       message.error(result.em);
@@ -213,7 +214,7 @@ var EditorDialog = React.createClass({
           });
           self.hide();
         } else {
-          util.showSysErr(xhr);
+          showSysErr(xhr);
         }
       });
       return;
@@ -222,7 +223,7 @@ var EditorDialog = React.createClass({
     params[isBase64 ? 'base64' : 'value'] = value;
     dataCenter.createTempFile(JSON.stringify(params), function (result, xhr) {
       if (!result || result.ec !== 0) {
-        return util.showSysErr(xhr);
+        return showSysErr(xhr);
       }
       var elem = self._fileElem;
       if (!elem) {
@@ -282,7 +283,7 @@ var EditorDialog = React.createClass({
             });
             self.hide();
           } else {
-            util.showSysErr(xhr);
+            showSysErr(xhr);
           }
         }
       );

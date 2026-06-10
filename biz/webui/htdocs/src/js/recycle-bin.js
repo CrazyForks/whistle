@@ -10,6 +10,7 @@ var win = require('./win');
 var Icon = require('./icon');
 var CloseBtn = require('./close-btn');
 
+var showSysErr = util.showSysErr;
 var TIMESTAMP_RE = /^(\d+)\.([\s\S]+)$/;
 
 function decode(name) {
@@ -61,7 +62,7 @@ var RecycleBinDialog = React.createClass({
   },
   checkFile: function (data, xhr) {
     if (!data) {
-      util.showSysErr(xhr);
+      showSysErr(xhr);
       return;
     }
     if (data.ec === 3) {
@@ -72,7 +73,7 @@ var RecycleBinDialog = React.createClass({
         xhr
       ) {
         if (!result) {
-          util.showSysErr(xhr);
+          showSysErr(xhr);
           return;
         }
         self.show(result);
@@ -122,7 +123,7 @@ var RecycleBinDialog = React.createClass({
             { name: name },
             function (data, xhr) {
               if (!data) {
-                util.showSysErr(xhr);
+                showSysErr(xhr);
                 return;
               }
               self.show(data);
