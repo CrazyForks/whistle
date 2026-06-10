@@ -5,6 +5,7 @@ var util = require('./util');
 var Select = require('./custom-select');
 var MethodSelect = require('./method-select');
 var StatusSelect = require('./status-select');
+var ruleMixin = require('./rule-mixin');
 
 var RES_CORS_OPTIONS = ['*', 'credentials'];
 var RES_TYPE_OPTIONS = [
@@ -22,6 +23,7 @@ var RES_TYPE_OPTIONS = [
 });
 
 var NetworkRule = React.createClass({
+  mixins: [ruleMixin],
   getInitialState: function() {
     return {
       disabled: false,
@@ -58,21 +60,6 @@ var NetworkRule = React.createClass({
   },
   onTypeChange: function(option) {
     this.setState({ type: option.value }, this.handleChange);
-  },
-  onDisableChange: function(e) {
-    this.setState({ disabled: !e.target.checked }, this.handleChange);
-  },
-  onDisableMethodChange: function(e) {
-    this.setState({ disabledMethod: !e.target.checked }, this.handleChange);
-  },
-  onDisableTypeChange: function(e) {
-    this.setState({ disabledType: !e.target.checked }, this.handleChange);
-  },
-  onDisableStatusCodeChange: function(e) {
-    this.setState({ disabledStatusCode: !e.target.checked }, this.handleChange);
-  },
-  onDisableResCorsChange: function(e) {
-    this.setState({ disabledResCors: !e.target.checked }, this.handleChange);
   },
   onResCorsChange: function(option) {
     this.setState({ resCors: option.value }, this.handleChange);
@@ -139,7 +126,7 @@ var NetworkRule = React.createClass({
       <div className={'w-rules-form' + (hide ? ' w-hide' : '')}>
         <div className="w-form-item">
           <label>
-            <input type="checkbox" className="mr-10" checked={!disabled} onChange={this.onDisableChange} />
+            <input type="checkbox" className="mr-10" checked={!disabled} data-name="disabled" onChange={this.onDisableCheckChange} />
             Mapping File/URL/(Value)
             <HelpIcon className="ml-10" docsUrl={this.getDocsUrl} />
           </label>
@@ -159,7 +146,7 @@ var NetworkRule = React.createClass({
         <div className="w-form-item">
           <div className="w-form-value">
             <label className="w-175">
-              <input type="checkbox" className="mr-10" checked={!disabledMethod} onChange={this.onDisableMethodChange} />
+              <input type="checkbox" className="mr-10" checked={!disabledMethod} data-name="disabledMethod" onChange={this.onDisableCheckChange} />
               Modify Request Method
             </label>
             <MethodSelect disabled={disabledMethod} value={state.method}  onChange={this.onMethodChange} />
@@ -169,7 +156,7 @@ var NetworkRule = React.createClass({
         <div className="w-form-item">
           <div className="w-form-value">
             <label className="w-175">
-              <input type="checkbox" className="mr-10" checked={!disabledStatusCode} onChange={this.onDisableStatusCodeChange} />
+              <input type="checkbox" className="mr-10" checked={!disabledStatusCode} data-name="disabledStatusCode" onChange={this.onDisableCheckChange} />
               Set Status Code
             </label>
             <StatusSelect ref="statusCode" disabled={disabledStatusCode} value={state.statusCode} className="ml-10 w-300" onChange={this.onStatusCodeChange} />
@@ -179,7 +166,7 @@ var NetworkRule = React.createClass({
         <div className="w-form-item">
           <div className="w-form-value">
             <label className="w-175">
-              <input type="checkbox" className="mr-10" checked={!disabledType} onChange={this.onDisableTypeChange} />
+              <input type="checkbox" className="mr-10" checked={!disabledType} data-name="disabledType" onChange={this.onDisableCheckChange} />
               Set Response Type
             </label>
             <Select ref="responseType" disabled={disabledType} value={state.type} className="ml-10 w-300" onChange={this.onTypeChange} toLowerCase
@@ -191,7 +178,7 @@ var NetworkRule = React.createClass({
         <div className="w-form-item">
           <div className="w-form-value">
             <label className="w-175">
-              <input type="checkbox" className="mr-10" checked={!disabledResCors} onChange={this.onDisableResCorsChange} />
+              <input type="checkbox" className="mr-10" checked={!disabledResCors} data-name="disabledResCors" onChange={this.onDisableCheckChange} />
               Set Response CORS
             </label>
             <Select disabled={disabledResCors} value={state.resCors} className="ml-10 w-300" onChange={this.onResCorsChange} options={RES_CORS_OPTIONS} />
