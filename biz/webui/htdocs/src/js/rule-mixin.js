@@ -3,6 +3,7 @@ var $ = require('jquery');
 var Icon = require('./icon');
 var win = require('./win');
 var util = require('./util');
+var UrlInput = require('./url-input');
 
 var MAX_COUNT = 20;
 var keyIndex = 0;
@@ -107,5 +108,8 @@ module.exports = {
       <input type="text" value={getValue(data.value, keepValueSpace)} className="form-control" maxLength="2560"
         placeholder={valuePlaceholder} disabled={disabled} onChange={this.onValueChange} data-keep-space={keepValueSpace || undefined} />
     ];
+  },
+  renderFileInput: function(file, disabled) {
+    return <UrlInput value={file} enableLocalFile onChange={this.onFileChange} disabled={disabled} session={this.props.session} />;
   }
 };

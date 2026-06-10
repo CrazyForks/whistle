@@ -216,6 +216,9 @@ var UrlInput = React.createClass({
     }
   },
   setUrl: function(url) {
+    if (url === this._curUrl) {
+      return;
+    }
     var result = this.parseUrl(url);
     var state = this.state;
     state.protocol = result.protocol;
