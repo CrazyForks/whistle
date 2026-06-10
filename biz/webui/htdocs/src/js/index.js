@@ -72,6 +72,7 @@ var TABS = ['Network', 'Rules', 'Values', 'Plugins'];
 var TEXT_SUFFIX_RE = /[\w-]\.(?:txt|csv|tsv|json|xml|yaml|yml|ini|conf|log|html|htm|css|js|py|java|c|cpp|h|sh|php|sql|md|markdown|rtf|tex|bib|vcf)(>)?$/i;
 var findDOMNode = ReactDOM.findDOMNode;
 var getHideStyle = util.getHideStyle;
+var showSysErr = util.showSysErr;
 
 function trimStr(url) {
   return util.getString(url).trim();
@@ -781,7 +782,7 @@ var Index = React.createClass({
     quite = quite === true;
     var handleResponse = function (data, xhr) {
       if (!data) {
-        !quite && util.showSysErr(xhr, true);
+        !quite && showSysErr(xhr, true);
         return setTimeout(function() {
           events.trigger(isRules ? 'rulesChanged' : 'valuesChanged', true);
         }, 2000);
@@ -1161,7 +1162,7 @@ var Index = React.createClass({
               events.trigger('rulesRecycleList', result);
               events.trigger('focusRulesList');
             } else {
-              util.showSysErr(xhr);
+              showSysErr(xhr);
             }
           }
         );
@@ -1196,7 +1197,7 @@ var Index = React.createClass({
               self.triggerValuesChange('create');
               events.trigger('valuesRecycleList', result);
             } else {
-              util.showSysErr(xhr);
+              showSysErr(xhr);
             }
           }
         );
@@ -1845,7 +1846,7 @@ var Index = React.createClass({
       form.append('replaceAll', '1');
       dataCenter.upload.importRules(form, function (data, xhr) {
         if (!data) {
-          util.showSysErr(xhr);
+          showSysErr(xhr);
         } else if (data.ec === 0) {
           self.reloadRules(data);
           message.success('Rules imported successfully');
@@ -1859,7 +1860,7 @@ var Index = React.createClass({
       form.append('replaceAll', '1');
       dataCenter.upload.importValues(form, function (data, xhr) {
         if (!data) {
-          util.showSysErr(xhr);
+          showSysErr(xhr);
         }
         if (data.ec === 0) {
           self.reloadValues(data);
@@ -2511,7 +2512,7 @@ var Index = React.createClass({
             });
             events.trigger('focusValuesList');
           } else {
-            util.showSysErr(xhr);
+            showSysErr(xhr);
           }
         });
       } else {
@@ -2819,7 +2820,7 @@ var Index = React.createClass({
           events.trigger('reqTabsChange');
           events.trigger('resTabsChange');
         } else {
-          util.showSysErr(xhr);
+          showSysErr(xhr);
         }
         self.setState({});
       }
@@ -2844,7 +2845,7 @@ var Index = React.createClass({
         if (data && data.ec === 0) {
           self.state.enableHttp2 = checked;
         } else {
-          util.showSysErr(xhr);
+          showSysErr(xhr);
         }
         self.setState({});
       }
@@ -2911,7 +2912,7 @@ var Index = React.createClass({
         });
         self.triggerRulesChange('create');
       } else {
-        util.showSysErr(xhr);
+        showSysErr(xhr);
       }
     }
     );
@@ -2983,7 +2984,7 @@ var Index = React.createClass({
         });
         self.triggerValuesChange('create');
       } else {
-        util.showSysErr(xhr);
+        showSysErr(xhr);
       }
     });
   },
@@ -3066,7 +3067,7 @@ var Index = React.createClass({
           self.setState({ activeRules: modal.getActive() });
           self.triggerRulesChange('rename');
         } else {
-          util.showSysErr(xhr);
+          showSysErr(xhr);
         }
       }
     );
@@ -3106,7 +3107,7 @@ var Index = React.createClass({
           self.setState({ activeValues: modal.getActive() });
           self.triggerValuesChange('rename');
         } else {
-          util.showSysErr(xhr);
+          showSysErr(xhr);
         }
       }
     );
@@ -3166,7 +3167,7 @@ var Index = React.createClass({
                         self.state.disabledAllRules = false;
                         self.setState({});
                       } else {
-                        util.showSysErr(xhr);
+                        showSysErr(xhr);
                       }
                     }
                   );
@@ -3175,7 +3176,7 @@ var Index = React.createClass({
             );
           }
         } else {
-          util.showSysErr(xhr);
+          showSysErr(xhr);
         }
       }
     );
@@ -3195,7 +3196,7 @@ var Index = React.createClass({
           self.triggerRulesChange('unselect');
           self.setState({});
         } else {
-          util.showSysErr(xhr);
+          showSysErr(xhr);
         }
       }
     );
@@ -3224,7 +3225,7 @@ var Index = React.createClass({
         self.setSelected(self.state.values, item.name);
         self.triggerValuesChange('save');
       } else {
-        util.showSysErr(xhr);
+        showSysErr(xhr);
       }
     });
     return false;
@@ -3339,7 +3340,7 @@ var Index = React.createClass({
         self.triggerRulesChange('remove');
         events.trigger('focusRulesList');
       } else {
-        util.showSysErr(xhr);
+        showSysErr(xhr);
       }
     });
     this.refs.deleteRulesDialog.hide();
@@ -3363,7 +3364,7 @@ var Index = React.createClass({
         self.triggerValuesChange('remove');
         events.trigger('focusValuesList');
       } else {
-        util.showSysErr(xhr);
+        showSysErr(xhr);
       }
     });
     this.refs.deleteValuesDialog.hide();
@@ -3576,7 +3577,7 @@ var Index = React.createClass({
             callback(checked);
           }
         } else {
-          util.showSysErr(xhr);
+          showSysErr(xhr);
         }
       }
     );
@@ -3597,7 +3598,7 @@ var Index = React.createClass({
             callback(checked);
           }
         } else {
-          util.showSysErr(xhr);
+          showSysErr(xhr);
         }
       }
     );
@@ -3620,7 +3621,7 @@ var Index = React.createClass({
           protocols.setPlugins(self.state);
           self.setState({});
         } else {
-          util.showSysErr(xhr);
+          showSysErr(xhr);
         }
       }
     );
@@ -3659,7 +3660,7 @@ var Index = React.createClass({
             allowMultipleChoice: checked
           });
         } else {
-          util.showSysErr(xhr);
+          showSysErr(xhr);
         }
       }
     );
@@ -3678,7 +3679,7 @@ var Index = React.createClass({
           });
           dataCenter.backRulesFirst = checked;
         } else {
-          util.showSysErr(xhr);
+          showSysErr(xhr);
         }
       }
     );
