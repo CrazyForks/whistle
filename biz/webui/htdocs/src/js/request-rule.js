@@ -70,7 +70,7 @@ var RequestRule = React.createClass({
     var isParam = action.type === URL_ACTIONS[0];
     var keyPlaceholder = isParam ? 'Enter param name' : 'Enter keyword or regexp';
     var valuePlaceholder = isParam ? 'Enter param value' : 'Enter replacement value';
-    return this.renderKV(action, keyPlaceholder, valuePlaceholder, disabled);
+    return this.renderKV(action, keyPlaceholder, valuePlaceholder, disabled, isParam, isParam);
   },
   renderHeaderAction: function(action, disabled) {
     var session = this.props.session;

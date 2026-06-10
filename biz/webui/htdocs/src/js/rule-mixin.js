@@ -6,9 +6,14 @@ var util = require('./util');
 
 var MAX_COUNT = 20;
 var keyIndex = 0;
+var removeSpaces = util.removeSpaces;
 
-function getValue(elem) {
-  return elem.getAttribute('data-keep-space') ? elem.value : util.removeSpaces(elem.value);
+function getElemValue(elem) {
+  return elem.getAttribute('data-keep-space') ? elem.value : removeSpaces(elem.value);
+}
+
+function getValue(value, keepSpace) {
+  return keepSpace ? value : removeSpaces(value);
 }
 
 module.exports = {
@@ -70,13 +75,13 @@ module.exports = {
   },
   onKeyChange: function(e) {
     var data = this.getData(e);
-    var value = typeof e.value === 'string' ? e.value : getValue(e.target);
+    var value = typeof e.value === 'string' ? e.value : getElemValue(e.target);
     data.list[data.index][data.key] = value;
     this.setState({}, this.handleChange);
   },
   onValueChange: function(e) {
     var data = this.getData(e);
-    data.list[data.index].value = getValue(e.target);
+    data.list[data.index].value = getElemValue(e.target);
     this.setState({}, this.handleChange);
   },
   renderButtons: function(action, disabled, len) {
@@ -91,16 +96,16 @@ module.exports = {
       </button>
     ];
   },
-  renderKey: function(key, placeholder, disabled) {
-    return <input type="text" value={key} className="form-control" maxLength="512"
+  renderKey: function(key, placeholder, disabled, keepSpace) {
+    return <input type="text" value={getValue(key, keepSpace)} className="form-control" maxLength="512"
       placeholder={placeholder} disabled={disabled} onChange={this.onKeyChange} />;
   },
-  renderKV: function(data, keyPlaceholder, valuePlaceholder, disabled) {
+  renderKV: function(data, keyPlaceholder, valuePlaceholder, disabled, keepKeySpace, keepValueSpace) {
     return [
-      <input type="text" value={data.key} className="form-control w-190 mr-10" maxLength="512"
-        placeholder={keyPlaceholder} disabled={disabled} onChange={this.onKeyChange} />,
-      <input type="text" value={data.value} className="form-control" maxLength="2560"
-        placeholder={valuePlaceholder} disabled={disabled} onChange={this.onValueChange} />
+      <input type="text" value={getValue(data.key, keepKeySpace)} className="form-control w-190 mr-10" maxLength="512"
+        placeholder={keyPlaceholder} disabled={disabled} onChange={this.onKeyChange} data-keep-space={keepKeySpace || undefined} />,
+      <input type="text" value={getValue(data.value, keepValueSpace)} className="form-control" maxLength="2560"
+        placeholder={valuePlaceholder} disabled={disabled} onChange={this.onValueChange} data-keep-space={keepValueSpace || undefined} />
     ];
   }
 };
