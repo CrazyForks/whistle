@@ -57,15 +57,6 @@ var ResponseRule = React.createClass({
     }
   },
   shouldComponentUpdate: util.shouldComponentUpdate,
-  onDisableStatusCodeChange: function(e) {
-    this.setState({ disabledStatusCode: !e.target.checked }, this.handleChange);
-  },
-  onDisableHeaderChange: function(e) {
-    this.setState({ disabledHeader: !e.target.checked }, this.handleChange);
-  },
-  onDisableBodyChange: function(e) {
-    this.setState({ disabledBody: !e.target.checked }, this.handleChange);
-  },
   onStatusCodeActionChange: function(option) {
     this.setState({ statusCodeAction: option.value }, this.handleChange);
   },
@@ -98,7 +89,7 @@ var ResponseRule = React.createClass({
       <div className={'w-rules-form' + (hide ? ' w-hide' : '')}>
         <div className="w-form-item">
           <div className="w-form-value">
-            <input type="checkbox" className="mr-10" checked={!disabledStatusCode} onChange={self.onDisableStatusCodeChange} />
+            <input type="checkbox" className="mr-10" checked={!disabledStatusCode} data-name="disabledStatusCode" onChange={self.onDisableCheckChange} />
             <Select value={statusCodeAction} disabled={disabledStatusCode} className="w-175" options={STATUS_CODE_ACTIONS}
               onChange={self.onStatusCodeActionChange} />
             <StatusSelect value={state.statusCode} className={isRedirect ? 'w-hide' : null} disabled={disabledStatusCode} onChange={self.onStatusCodeChange} />
@@ -108,7 +99,7 @@ var ResponseRule = React.createClass({
         </div>
         <div className="w-form-item">
           <label>
-            <input type="checkbox" className="mr-10" checked={!disabledHeader} onChange={self.onDisableHeaderChange} />
+            <input type="checkbox" className="mr-10" checked={!disabledHeader} data-name="disabledHeader" onChange={self.onDisableCheckChange} />
             Modify Response Headers
             <HelpIcon className="ml-10" docsUrl="rules/resHeaders.html" />
           </label>
@@ -128,7 +119,7 @@ var ResponseRule = React.createClass({
         </div>
         <div className="w-form-item">
           <label>
-            <input type="checkbox" className="mr-10" checked={!disabledBody} onChange={self.onDisableBodyChange} />
+            <input type="checkbox" className="mr-10" checked={!disabledBody} data-name="disabledBody" onChange={self.onDisableCheckChange} />
             Modify Response Body
             <HelpIcon className="ml-10" docsUrl="rules/resBody.html" />
           </label>
