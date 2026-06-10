@@ -85,5 +85,13 @@ module.exports = {
         <Icon name="minus" />
       </button>
     ];
+  },
+  renderKV: function(data, disabled) {
+    return [
+      <input type="text" value={data.key} className="form-control w-190 mr-10" maxLength="512"
+          placeholder={data.keyPlaceholder} disabled={disabled} onChange={this.onSelectChange} />,
+      <input type="text" value={data.value} className="form-control" maxLength="2560"
+        placeholder={data.valuePlaceholder} disabled={disabled} onChange={this.onValueChange} />
+    ];
   }
 };

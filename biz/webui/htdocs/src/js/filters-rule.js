@@ -79,10 +79,6 @@ var FiltersRule = React.createClass({
     filter[name] = util.removeSpaces(e.target.value);
     this.setState({}, this.handleChange);
   },
-  onKeyChange: function(options, filter) {
-    filter.key = options.value;
-    this.setState({}, this.handleChange);
-  },
   getFilterOptions: function(type) {
     return FILTER_OPTIONS.map(function(option) {
       var value = type.toLowerCase() + 'Filter://' + option.value;
@@ -122,7 +118,7 @@ var FiltersRule = React.createClass({
                   </optgroup>
                 </select>
                 {option.keyPlaceholder ? <HeaderSelect className="w-190 mr-10" maxLength="100" name="filterHeaders" session={self.props.session}
-                  value={filter.key} disabled={disabled} onChange={self.onKeyChange} data={filter} placeholder={option.keyPlaceholder} /> : null}
+                  value={filter.key} disabled={disabled} onChange={self.onSelectChange} placeholder={option.keyPlaceholder} /> : null}
                 <input type="text"  data-name="value" value={filter.value} className="form-control w-filter-header-value" maxLength="100"
                   placeholder={option.placeholder} disabled={disabled} onChange={self.onChange} />
                 {self.renderButtons(filter, disabled, len)}
