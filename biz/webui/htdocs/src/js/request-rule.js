@@ -9,7 +9,7 @@ var CloseBtn = require('./close-btn');
 var MethodSelect = require('./method-select');
 
 var HTTP_VERSION_OPTIONS = ['HTTP/1.1', 'HTTP/2.0'];
-var URL_ACTIONS = ['Set Param', 'Delete Param', 'Modify Path'];
+var URL_ACTIONS = ['Set Param', 'Delete Param', 'Modify Path (path/to?query)'];
 var HEADER_ACTIONS = ['Set Custom Header', 'Set Request CORS', 'Set Request Cookie', 'Delete Request Header'];
 var BODY_ACTIONS = util.BODY_ACTIONS;
 
