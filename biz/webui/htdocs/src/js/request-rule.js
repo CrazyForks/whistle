@@ -128,7 +128,7 @@ var RequestRule = React.createClass({
       <div className={'w-rules-form' + (hide ? ' w-hide' : '')}>
         <div className="w-form-item">
           <div className="w-form-value">
-            <label className="w-155">
+            <label className="w-175">
               <input type="checkbox" data-name="disabledMethod" className="mr-10" checked={!disabledMethod} onChange={self.onDisableCheckChange} />
               Modify Request Method
             </label>
@@ -138,7 +138,7 @@ var RequestRule = React.createClass({
         </div>
         <div className="w-form-item">
           <div className="w-form-value">
-            <label className="w-155">
+            <label className="w-175">
               <input type="checkbox" className="mr-10" data-name="disabledVersion" checked={!disabledVersion} onChange={self.onDisableCheckChange} />
               Modify HTTP Version
             </label>
