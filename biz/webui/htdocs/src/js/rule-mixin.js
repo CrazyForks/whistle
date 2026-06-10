@@ -46,7 +46,7 @@ module.exports = {
       }
     };
     if (action.value) {
-      win.confirm('Are you sure to delete this item?', remove);
+      win.confirm('Do you confirm the deletion of this item?', remove);
     } else {
       remove(true);
     }
