@@ -91,10 +91,14 @@ module.exports = {
       </button>
     ];
   },
+  renderKey: function(key, placeholder, disabled) {
+    return <input type="text" value={key} className="form-control" maxLength="512"
+      placeholder={placeholder} disabled={disabled} onChange={this.onKeyChange} />;
+  },
   renderKV: function(data, keyPlaceholder, valuePlaceholder, disabled) {
     return [
       <input type="text" value={data.key} className="form-control w-190 mr-10" maxLength="512"
-          placeholder={keyPlaceholder} disabled={disabled} onChange={this.onKeyChange} />,
+        placeholder={keyPlaceholder} disabled={disabled} onChange={this.onKeyChange} />,
       <input type="text" value={data.value} className="form-control" maxLength="2560"
         placeholder={valuePlaceholder} disabled={disabled} onChange={this.onValueChange} />
     ];
