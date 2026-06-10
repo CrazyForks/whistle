@@ -130,7 +130,7 @@ var RequestRule = React.createClass({
           <div className="w-form-value">
             <label className="w-155">
               <input type="checkbox" data-name="disabledMethod" className="mr-10" checked={!disabledMethod} onChange={self.onDisableCheckChange} />
-              Modify Method
+              Modify Request Method
             </label>
             <MethodSelect disabled={disabledMethod} value={state.method}  onChange={self.onMethodChange} />
             <HelpIcon docsUrl="rules/method.html" />
