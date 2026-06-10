@@ -7,9 +7,8 @@ var util = require('./util');
 var MAX_COUNT = 20;
 var keyIndex = 0;
 
-function getValue(elem, keepSpace) {
-  elem = elem.value;
-  return keepSpace ? elem : util.removeSpaces(elem);
+function getValue(elem) {
+  return elem.getAttribute('data-keep-space') ? elem.value : util.removeSpaces(elem.value);
 }
 
 module.exports = {
@@ -17,13 +16,11 @@ module.exports = {
     return { type: action, label: action, value: '', index: keyIndex++ };
   },
   getData: function(e) {
-    var target = e.target;
-    var key = target.getAttribute('data-key') || 'key';
-    var keepSpace = target.getAttribute('data-keep-space');
-    target = $(target).closest('.w-form-value');
+    var key =  e.target.getAttribute('data-key') || 'key';
+    var target = $(e.target).closest('.w-form-value');
     var index = +target.data('index');
     var list = this.state[target.data('name')];
-    var result = {index: 0 , list: list, key: key, keepSpace: keepSpace};
+    var result = {index: 0 , list: list, key: key};
     for (var i = 0, len = list.length; i < len; i++) {
       if (list[i].index === index) {
         result.index = i;
@@ -73,14 +70,13 @@ module.exports = {
   },
   onKeyChange: function(e) {
     var data = this.getData(e);
-    var value = typeof e.value === 'string' ? e.value : getValue(e.target, data.keepSpace);
+    var value = typeof e.value === 'string' ? e.value : getValue(e.target);
     data.list[data.index][data.key] = value;
     this.setState({}, this.handleChange);
   },
   onValueChange: function(e) {
-    var target = e.target;
     var data = this.getData(e);
-    data.list[data.index].value = getValue(e.target, target.getAttribute('data-keep-space'));
+    data.list[data.index].value = getValue(e.target);
     this.setState({}, this.handleChange);
   },
   renderButtons: function(action, disabled, len) {
