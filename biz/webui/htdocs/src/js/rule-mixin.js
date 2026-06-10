@@ -16,12 +16,14 @@ module.exports = {
     var target = $(e.target).closest('.w-form-value');
     var index = +target.data('index');
     var list = this.state[target.data('name')];
+    var result = {index: 0 , list: list, key: key};
     for (var i = 0, len = list.length; i < len; i++) {
       if (list[i].index === index) {
-        return { index: i, list: list};
+        result.index = i;
+        return result;
       }
     }
-    return  { index: 0, list: list, key: key };
+    return result;
   },
   onAdd: function(e) {
     var data = this.getData(e);
