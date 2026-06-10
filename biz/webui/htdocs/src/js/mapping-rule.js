@@ -30,6 +30,7 @@ var NetworkRule = React.createClass({
       disabledStatusCode: true,
       disabledResCors: true,
       statusCode: '200',
+      disabledCache: false,
       method: util.METHODS[0],
       url: '',
       type: RES_TYPE_OPTIONS[0].value,
@@ -79,6 +80,9 @@ var NetworkRule = React.createClass({
   onStatusCodeChange: function(option) {
     this.setState({ statusCode: option.value }, this.handleChange);
   },
+  onDisableCache: function(e) {
+    this.setState({disabledCache: e.target.checked}, this.handleChange);
+  },
   onMethodChange: function(option) {
     this.setState({ method: option.value }, this.handleChange);
   },
@@ -95,6 +99,9 @@ var NetworkRule = React.createClass({
     var rules = [];
     if (url) {
       rules.push(url);
+    }
+    if (state.disabledCache) {
+      rules.push('disable://cache');
     }
     if (method) {
       rules.push('method://' + method);
@@ -138,6 +145,15 @@ var NetworkRule = React.createClass({
           </label>
           <div className="w-form-value">
             <UrlInput ref="url" enableLocalFile enableTplFile onChange={this.onChange} disabled={disabled} session={props.session} />
+          </div>
+        </div>
+        <div className="w-form-item">
+          <div className="w-form-value">
+            <label>
+              <input type="checkbox" className="mr-10" checked={state.disabledCache} onChange={this.onDisableCache} />
+              Disable Cache
+              <HelpIcon docsUrl="rules/disable.html" className="ml-10" />
+            </label>
           </div>
         </div>
         <div className="w-form-item">

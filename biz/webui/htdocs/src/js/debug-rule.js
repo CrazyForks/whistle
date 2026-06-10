@@ -22,7 +22,6 @@ var DebugRule = React.createClass({
       disabledResSpeed: true,
       abortReq: false,
       abortRes: false,
-      disabledCache: false,
       weinreId: '',
       logId: '',
       reqDelay: '',
@@ -57,9 +56,6 @@ var DebugRule = React.createClass({
     }
     if (state.abortRes) {
       rules.push('enable://abortRes');
-    }
-    if (state.disabledCache) {
-      rules.push('disable://cache');
     }
     rules = rules.join(' ');
     if (this._curRules !== rules) {
@@ -105,9 +101,6 @@ var DebugRule = React.createClass({
   },
   onAbortResChange: function(e) {
     this.setState({abortRes: e.target.checked}, this.handleChange);
-  },
-  onDisableCache: function(e) {
-    this.setState({disabledCache: e.target.checked}, this.handleChange);
   },
   onWeinreIdChange: function(e) {
     this.setState({ weinreId: removeSpaces(e.target.value) }, this.handleChange);
@@ -224,15 +217,6 @@ var DebugRule = React.createClass({
               <input type="checkbox" className="mr-10" checked={state.abortRes} onChange={this.onAbortResChange} />
               Abort Response
               <HelpIcon docsUrl="rules/enable.html" className="ml-10" />
-            </label>
-          </div>
-        </div>
-        <div className="w-form-item">
-          <div className="w-form-value">
-            <label>
-              <input type="checkbox" className="mr-10" checked={state.disabledCache} onChange={this.onDisableCache} />
-              Disable Cache
-              <HelpIcon docsUrl="rules/disable.html" className="ml-10" />
             </label>
           </div>
         </div>
