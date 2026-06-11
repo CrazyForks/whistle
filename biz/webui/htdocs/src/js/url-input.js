@@ -145,6 +145,13 @@ var UrlInput = React.createClass({
       }
     };
     $(document).on('click mousedown', self.handleHideParams);
+    this.componentDidUpdate();
+  },
+  componentDidUpdate: function() {
+    var value = this.props.value;
+    if (value != null) {
+      this.setUrl(value);
+    }
   },
   showHints: function() {
     this.setState({ showHints: true });

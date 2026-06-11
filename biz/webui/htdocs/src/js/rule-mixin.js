@@ -109,7 +109,7 @@ module.exports = {
         placeholder={valuePlaceholder} disabled={disabled} onChange={this.onValueChange} data-keep-space={keepValueSpace || undefined} />
     ];
   },
-  renderFileInput: function(file, disabled) {
-    return <UrlInput value={file} enableLocalFile onChange={this.onFileChange} disabled={disabled} session={this.props.session} />;
+  renderFileInput: function(value, disabled) {
+    return <UrlInput value={value} enableLocalFile onChange={this.onFileChange} disabled={disabled} session={this.props.session} />;
   }
 };
