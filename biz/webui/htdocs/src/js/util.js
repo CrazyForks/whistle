@@ -225,6 +225,7 @@ exports.getRandomKey = function(prefix) {
 };
 
 exports.getInjectValue = function(key, data) {
+  data = getText(data);
   return data ? '``` ' + key + '\n' + JSON.stringify(data, null, 2) + '\n```' : '';
 };
 
