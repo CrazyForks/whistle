@@ -24,7 +24,7 @@ var JSONEditor = React.createClass({
           <a onClick={this.onClear}>Clear</a>
         </div>
         <textarea ref="target" className="form-control" value={props.value} maxLength="256000" disabled={props.disabled}
-          onChange={props.onValueChange} placeholder={PLACEHOLDER} />
+          onChange={props.onChange} placeholder={PLACEHOLDER} data-keep-space="1" />
       </div>
     );
   }
