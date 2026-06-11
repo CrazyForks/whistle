@@ -3457,15 +3457,6 @@ var SPACE_MAP = {
   '.': '\\.'
 };
 
-exports.setObjValue = function(obj, key, value) {
-  key = key.replace(/(\\+)\./g, function(all, slash) {
-    if (slash.length % 2 === 0) {
-      return all;
-    }
-    return slash.substring(1) + '\r';
-  }).split('.').join('\n').replace(/\r/g, '.').split('\n');
-};
-
 exports.getKeyPath = function (keys) {
   var last = keys.length - 1;
   return keys

@@ -166,13 +166,13 @@ var RequestRule = React.createClass({
         }
         break;
       case BODY_ACTIONS[4]:
-        if (key) {
+        if (value) {
           if (!reqMerge) {
             reqMerge = {};
             reqMergeKey = 'reqMerge_' + getRandomKey();
             rules.push('reqMerge://{' + reqMergeKey + '}');
           }
-          util.setObjValue(reqMerge, key, value);
+
         }
         break;
       case BODY_ACTIONS[5]:
