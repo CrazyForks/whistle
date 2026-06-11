@@ -60,7 +60,7 @@ var UrlInput = React.createClass({
       }
     }
     return {
-      protocol: protocol,
+      protocol: protocol || protocols[0],
       url: url
     };
   },
@@ -149,7 +149,8 @@ var UrlInput = React.createClass({
   },
   componentDidUpdate: function() {
     var value = this.props.value;
-    if (value != null) {
+    if (value !== this._curValue) {
+      this._curValue = value;
       this.setUrl(value);
     }
   },
