@@ -12,8 +12,6 @@ var HTTP_VERSION_OPTIONS = ['HTTP/1.1', 'HTTP/2.0'];
 var URL_ACTIONS = ['Set Param', 'Delete Param', 'Modify Path (path/to?query)'];
 var HEADER_ACTIONS = ['Set Custom Header', 'Set Request CORS', 'Set Request Cookie', 'Delete Request Header'];
 var BODY_ACTIONS = util.BODY_ACTIONS;
-var BODY_ACTIONS_LEN = BODY_ACTIONS.length;
-var KEY_PATH_PLACEHOLDER = 'Enter key path, e.g. a\\.b.c.d';
 var getRandomKey = util.getRandomKey;
 var getInjectValue = util.getInjectValue;
 
@@ -224,19 +222,6 @@ var RequestRule = React.createClass({
       ];
     }
   },
-  renderBodyAction: function(action, disabled) {
-    var type = action.type;
-    if (type === BODY_ACTIONS[BODY_ACTIONS_LEN - 1]) {
-      return this.renderKey(action.key, KEY_PATH_PLACEHOLDER, disabled, true);
-    }
-    if (type === BODY_ACTIONS[BODY_ACTIONS_LEN - 2]) {
-      return this.renderJSONEditor(action.value, disabled);
-    }
-    if (type === BODY_ACTIONS[BODY_ACTIONS_LEN - 3]) {
-      return this.renderKV(action, 'Enter keyword or regexp', 'Enter replacement value', disabled, true, true);
-    }
-    return this.renderFileInput(action.value, disabled);
-  },
   render: function() {
     var self = this;
     var hide = self.props.hide;
@@ -326,7 +311,7 @@ var RequestRule = React.createClass({
                 <div data-name="bodyActions" className="w-form-value" data-index={action.index} key={action.index}>
                   <Select className="w-190" disabled={disabledBody} value={action.type} data={action} options={BODY_ACTIONS}
                     onChange={self.onActionChange} key={action.index} />
-                  {self.renderBodyAction(action, disabledBody)}
+                  {self.renderBodyAction(action, disabledBody, BODY_ACTIONS)}
                   {self.renderButtons(action, disabledBody, bodyActionCount)}
                 </div>
               );

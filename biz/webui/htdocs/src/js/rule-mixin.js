@@ -122,5 +122,19 @@ module.exports = {
   },
   renderJSONEditor: function(value, disabled) {
     return <JSONEditor value={value} disabled={disabled} onChange={this.onValueChange} />;
+  },
+  renderBodyAction: function(action, disabled, actions) {
+    var type = action.type;
+    var len = actions.length;
+    if (type === actions[len - 1]) {
+      return this.renderKey(action.key, 'Enter key path, e.g. a\\.b.c.d', disabled, true);
+    }
+    if (type === actions[len - 2]) {
+      return this.renderJSONEditor(action.value, disabled);
+    }
+    if (type === actions[len - 3]) {
+      return this.renderKV(action, 'Enter keyword or regexp', 'Enter replacement value', disabled, true, true);
+    }
+    return this.renderFileInput(action.value, disabled);
   }
 };

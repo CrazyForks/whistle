@@ -157,8 +157,7 @@ var ResponseRule = React.createClass({
                   <div data-name="bodyActions" className="w-form-value" data-index={action.index} key={action.index}>
                     <Select className="w-190" disabled={disabledBody} value={action.type} data={action} options={BODY_ACTIONS}
                       onChange={self.onActionChange} key={action.index} />
-                    <input type="text" value={action.value} className="form-control" maxLength="5120"
-                      placeholder={action.placeholder} disabled={disabledBody} onChange={self.onValueChange} />
+                    {self.renderBodyAction(action, disabledBody, BODY_ACTIONS)}
                     {self.renderButtons(action, disabledBody, bodyCount)}
                   </div>
                 );
