@@ -80,8 +80,7 @@ module.exports = {
   },
   onKeyChange: function(e) {
     var data = this.getData(e);
-    var value = getElemValue(e);
-    data.list[data.index][data.key] = value;
+    data.list[data.index][data.key] = getElemValue(e);
     this.setState({}, this.handleChange);
   },
   onValueChange: function(e) {
