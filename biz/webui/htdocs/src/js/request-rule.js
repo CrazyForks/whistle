@@ -15,6 +15,7 @@ var BODY_ACTIONS = util.BODY_ACTIONS;
 var BODY_ACTIONS_LEN = BODY_ACTIONS.length;
 var KEY_PATH_PLACEHOLDER = 'Enter key path, e.g. a\\.b.c.d';
 var getRandomKey = util.getRandomKey;
+var getInjectValue = util.getInjectValue;
 
 function getFilepath(str) {
   return str && str.replace(/^file:\/\//, '');
@@ -52,19 +53,20 @@ var RequestRule = React.createClass({
     }
     var urlRules = this.getUrlRules();
     var bodyRules = this.getBodyRules();
-    if (urlRules) {
-      rules.push(urlRules.rules);
-      if (urlRules.values) {
-        values.push(urlRules.values);
+    var addRules = function(item) {
+      if (item) {
+        rules.push(item.rules);
+        if (item.values) {
+          values.push(item.values);
+        }
       }
-    }
-    if (bodyRules) {
-      rules.push(bodyRules);
-    }
+    };
+    addRules(urlRules);
+    addRules(bodyRules);
     rules = rules.join(' ');
     if (this._curRules !== rules) {
       this._curRules = rules;
-      this.props.onChange(rules, values.join('\n'));
+      this.props.onChange(rules, values.join('\n\n'));
     }
   },
   shouldComponentUpdate: util.shouldComponentUpdate,
@@ -116,10 +118,10 @@ var RequestRule = React.createClass({
         rules.push('pathReplace://(' + JSON.stringify(data) + ')');
       }
     });
-    var result = rules.join(' ');
-    return result && {
-      rules: result,
-      values: params ? '``` ' + paramsKey + '\n' + JSON.stringify(params, null, 2) + '\n```' : ''
+    rules = rules.join(' ');
+    return rules && {
+      rules: rules,
+      values: getInjectValue(paramsKey, params)
     };
   },
   getBodyRules: function() {
@@ -128,13 +130,13 @@ var RequestRule = React.createClass({
       return;
     }
     var rules = [];
+    var reqReplace;
+    var reqReplaceKey;
+    var reqMerge;
+    var reqMergeKey;
     state.bodyActions.forEach(function(action) {
       var key = (action.key || '').trim();
       var value = (action.value || '').trim();
-      var reqReplace;
-      var reqReplaceKey;
-      var reqMerge;
-      var reqMergeKey;
       switch(action.type) {
       case BODY_ACTIONS[0]:
         if (value) {
@@ -182,7 +184,18 @@ var RequestRule = React.createClass({
         break;
       }
     });
-    return rules.join(' ');
+    rules = rules.join(' ');
+    if (!rules) {
+      return;
+    }
+    var values = [];
+    if (reqReplace) {
+      values.push(getInjectValue(reqReplaceKey, reqReplace));
+    }
+    if (reqMerge) {
+      values.push(getInjectValue(reqMergeKey, reqMerge));
+    }
+    return { rules: rules, values: values.join('\n\n') };
   },
   renderUrlAction: function(action, disabled) {
     if (action.type === URL_ACTIONS[1]) {

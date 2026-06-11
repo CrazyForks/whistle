@@ -224,6 +224,10 @@ exports.getRandomKey = function(prefix) {
   return (prefix || '') + Date.now().toString(16) + Math.ceil(Math.random() * 1000000).toString(16) + '.json';
 };
 
+exports.getInjectValue = function(key, data) {
+  return data ? '``` ' + key + '\n' + JSON.stringify(data, null, 2) + '\n```' : '';
+};
+
 exports.getString = function (str) {
   return isString(str) ? str : '';
 };
