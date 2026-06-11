@@ -14,10 +14,7 @@ var HEADER_ACTIONS = ['Set Custom Header', 'Set Request CORS', 'Set Request Cook
 var BODY_ACTIONS = util.BODY_ACTIONS;
 var getRandomKey = util.getRandomKey;
 var getInjectValue = util.getInjectValue;
-
-function getFilepath(str) {
-  return str && str.replace(/^file:\/\//, '');
-}
+var getFilepath = util.getFilepath;
 
 var RequestRule = React.createClass({
   mixins: [ruleMixin],
