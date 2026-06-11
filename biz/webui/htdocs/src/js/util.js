@@ -226,7 +226,7 @@ exports.getRandomKey = function(prefix) {
 
 exports.getInjectValue = function(key, data) {
   data = getText(data);
-  return data ? '``` ' + key + '\n' + JSON.stringify(data, null, 2) + '\n```' : '';
+  return data ? '``` ' + key + '\n' + data + '\n```' : '';
 };
 
 exports.getString = function (str) {
@@ -2331,7 +2331,7 @@ exports.addPluginMenus = function (item, list, maxTop, disabled, treeId, url) {
 function getText(text) {
   if (text && typeof text === 'object') {
     try {
-      return JSON.stringify(text, null, '  ');
+      return JSON.stringify(text, null, 2);
     } catch (e) {}
   }
   return text == null ? '' : String(text);
