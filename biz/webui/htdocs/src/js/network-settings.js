@@ -508,7 +508,7 @@ var Settings = React.createClass({
             <input checked={viewAllInNewWindow} data-name="viewAllInNewWindow" type="checkbox" />
             "ViewAll" in new window
             <Icon onClick={this.showViewAllSettings} name="cog" title="Custom URL opening"
-              className={'ml-10 w-help-icon' + (viewAllInNewWindow ? (state.openUrl ? ' w-enabled' : '') : ' w-not-allowed')} />
+              className={'ml-10' + (viewAllInNewWindow ? (state.openUrl ? ' w-enabled' : '') + ' w-help-icon' : ' w-not-allowed')} />
           </label>
           <label className="w-ns-own">
             <input checked={isTreeView} data-name="treeView" type="checkbox" />
