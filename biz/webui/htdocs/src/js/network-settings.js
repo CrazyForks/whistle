@@ -19,17 +19,10 @@ var message = require('./message');
 var NOT_EMPTY_STYLE = { backgroundColor: 'var(--b-filtered)' };
 var NOT_EMPTY_RE = /[^\s]/;
 var DATA_KEY_TIPS = 'e.g. res.body or res.body:/"msgno":"(\w+)"/ ...';
-var OPEN_WITH_URL = 'openWithUrl';
-var URL_RE = /^https?:\/\/\S+\{WHISTLE_DATA\}/;
 var URL_DEMO = ', e.g. https://example.com/path#xxx={WHISTLE_DATA}';
 
 var isViewInNewWin =function() {
   return storage.get('viewAllInNewWindow') === '1';
-};
-
-var getOpenUrl = function() {
-  var url = storage.get(OPEN_WITH_URL);
-  return URL_RE.test(url) ? url : '';
 };
 
 var Settings = React.createClass({
@@ -40,7 +33,7 @@ var Settings = React.createClass({
     return $.extend(this.getNetworkSettings(), {
       dragger: dragger,
       urlType: urlType === '-' ? '-' : '',
-      openUrl: getOpenUrl()
+      openUrl: util.getOpenUrl()
     });
   },
   getNetworkSettings: function () {
@@ -152,11 +145,11 @@ var Settings = React.createClass({
     }
     var self = this;
     self.refs.prompt.show(function(url) {
-      if (url && !URL_RE.test(url)) {
+      if (url && !util.isOpenUrl(url)) {
         message.error('Please enter a valid URL' + URL_DEMO);
         return false;
       }
-      storage.set(OPEN_WITH_URL, url);
+      storage.set('openWithUrl', url);
       self.setState({ openUrl: url });
     }, self.state.openUrl);
   },

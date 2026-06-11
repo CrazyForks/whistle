@@ -1266,6 +1266,17 @@ function getTheme() {
   return document.documentElement.getAttribute('data-theme') || 'light';
 }
 
+function isOpenUrl(url) {
+  return /^https?:\/\/\S+\{WHISTLE_DATA\}/.test(url);
+}
+
+exports.isOpenUrl = isOpenUrl;
+
+exports.getOpenUrl = function() {
+  var url = storage.get('openWithUrl');
+  return isOpenUrl(url) ? url : '';
+};
+
 exports.openInNewWin = function(value) {
   var win = window.open('editor.html');
   win.getValue = function () {

@@ -1085,7 +1085,12 @@ var Index = React.createClass({
     var editorWin;
     events.on('openEditor', function(_, text) {
       if (storage.get('viewAllInNewWindow') === '1') {
-        return util.openInNewWin(text || '');
+        text = text || '';
+        var url = util.getOpenUrl();
+        if (url) {
+          return window.open(url.replace('{WHISTLE_DATA}', encodeURIComponent(text)));
+        }
+        return util.openInNewWin(text);
       }
       try {
         if (editorWin && typeof editorWin.setValue === 'function') {
