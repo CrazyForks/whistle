@@ -106,7 +106,7 @@ module.exports = {
   },
   renderKey: function(key, placeholder, disabled, keepSpace) {
     return <input type="text" value={getValue(key, keepSpace)} className="form-control" maxLength="512"
-      placeholder={placeholder} disabled={disabled} onChange={this.onKeyChange} />;
+      placeholder={placeholder} disabled={disabled} onChange={this.onKeyChange} data-keep-space={keepSpace || undefined} />;
   },
   renderKV: function(data, keyPlaceholder, valuePlaceholder, disabled, keepKeySpace, keepValueSpace) {
     return [

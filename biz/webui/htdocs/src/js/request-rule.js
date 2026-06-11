@@ -14,9 +14,10 @@ var HEADER_ACTIONS = ['Set Custom Header', 'Set Request CORS', 'Set Request Cook
 var BODY_ACTIONS = util.BODY_ACTIONS;
 var BODY_ACTIONS_LEN = BODY_ACTIONS.length;
 var KEY_PATH_PLACEHOLDER = 'Enter key path, e.g. a\\.b.c.d';
-var getFilepath = function(value) {
-  return value && value.replace(/^file:\/\//, '');
-};
+
+function getFilepath(str) {
+  return str && str.replace(/^file:\/\//, '');
+}
 
 var RequestRule = React.createClass({
   mixins: [ruleMixin],
