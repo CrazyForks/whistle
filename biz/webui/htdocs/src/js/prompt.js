@@ -59,7 +59,7 @@ var Prompt = React.createClass({
           type="button"
           className="btn btn-primary"
           onClick={this.onConfirm}
-          disabled={!value}
+          disabled={!value && !props.allowEmpty}
         >
           Confirm
         </button>

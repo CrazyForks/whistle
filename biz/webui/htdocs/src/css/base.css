@@ -595,6 +595,7 @@ select.form-control {
   color: var(--c-heavy);
   font-size: 14px;
   margin-right: 5px;
+  cursor: pointer;
 }
 .w-help-icon:hover {
   color: var(--c-link);

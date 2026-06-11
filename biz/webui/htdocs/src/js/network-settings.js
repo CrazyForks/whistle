@@ -13,17 +13,35 @@ var storage = require('./storage');
 var Icon = require('./icon');
 var HelpIcon = require('./help-icon');
 var CloseBtn = require('./close-btn');
+var Prompt = require('./prompt');
+var message = require('./message');
 
 var NOT_EMPTY_STYLE = { backgroundColor: 'var(--b-filtered)' };
 var NOT_EMPTY_RE = /[^\s]/;
 var DATA_KEY_TIPS = 'e.g. res.body or res.body:/"msgno":"(\w+)"/ ...';
+var OPEN_WITH_URL = 'openWithUrl';
+var URL_RE = /^https?:\/\/\S+\{WHISTLE_DATA\}/;
+var URL_DEMO = ', e.g. https://example.com/path#xxx={WHISTLE_DATA}';
+
+var isViewInNewWin =function() {
+  return storage.get('viewAllInNewWindow') === '1';
+};
+
+var getOpenUrl = function() {
+  var url = storage.get(OPEN_WITH_URL);
+  return URL_RE.test(url) ? url : '';
+};
 
 var Settings = React.createClass({
   getInitialState: function () {
     var dragger = columns.getDragger();
     var urlType = storage.get('urlType');
     dragger.onDrop = dragger.onDrop.bind(this);
-    return $.extend(this.getNetworkSettings(), { dragger: dragger, urlType: urlType === '-' ? '-' : '' });
+    return $.extend(this.getNetworkSettings(), {
+      dragger: dragger,
+      urlType: urlType === '-' ? '-' : '',
+      openUrl: getOpenUrl()
+    });
   },
   getNetworkSettings: function () {
     return $.extend(dataCenter.getFilterText(), {
@@ -127,6 +145,21 @@ var Settings = React.createClass({
     }
     this.setState(settings);
   },
+  showViewAllSettings: function(e) {
+    e.preventDefault();
+    if (!isViewInNewWin()) {
+      return;
+    }
+    var self = this;
+    self.refs.prompt.show(function(url) {
+      if (url && !URL_RE.test(url)) {
+        message.error('Please enter a valid URL' + URL_DEMO);
+        return false;
+      }
+      storage.set(OPEN_WITH_URL, url);
+      self.setState({ openUrl: url });
+    }, self.state.openUrl);
+  },
   onFilterKeyDown: function (e) {
     if ((e.ctrlKey || e.metaKey) && e.keyCode == 88) {
       e.stopPropagation();
@@ -225,7 +258,7 @@ var Settings = React.createClass({
     }
 
     var viewInWin = settings.viewAllInWindow;
-    if (util.isBool(viewInWin) && viewInWin !== (storage.get('viewAllInNewWindow') === '1')) {
+    if (util.isBool(viewInWin) && viewInWin !== isViewInNewWin()) {
       storage.set('viewAllInNewWindow', viewInWin ? '1' : '');
     }
 
@@ -321,7 +354,7 @@ var Settings = React.createClass({
       custom2Key: dataCenter.custom2Key,
       maxRows: NetworkModal.getMaxRows(),
       viewOwn: dataCenter.isOnlyViewOwnData(),
-      viewAllInWindow: storage.get('viewAllInNewWindow') === '1',
+      viewAllInWindow: isViewInNewWin(),
       treeView: storage.get('isTreeView') === '1',
       disabledHNR: storage.get('disabledHNR') === '1'
     };
@@ -339,7 +372,7 @@ var Settings = React.createClass({
     var state = self.state;
     var columnList = state.columns;
     var isTreeView = storage.get('isTreeView') === '1';
-    var viewAllInNewWindow = storage.get('viewAllInNewWindow') === '1';
+    var viewAllInNewWindow = isViewInNewWin();
 
     return (
       <Dialog ref="networkSettingsDialog" wstyle="w-ns-dialog">
@@ -481,6 +514,8 @@ var Settings = React.createClass({
           <label className="w-ns-own">
             <input checked={viewAllInNewWindow} data-name="viewAllInNewWindow" type="checkbox" />
             "ViewAll" in new window
+            <Icon onClick={this.showViewAllSettings} name="cog" title="Custom URL opening"
+              className={'ml-10 w-help-icon' + (viewAllInNewWindow ? (state.openUrl ? ' w-enabled' : '') : ' w-not-allowed')} />
           </label>
           <label className="w-ns-own">
             <input checked={isTreeView} data-name="treeView" type="checkbox" />
@@ -564,6 +599,7 @@ var Settings = React.createClass({
             </button>
           </div>
         </Dialog>
+        <Prompt ref="prompt" title="Custom URL Opening" placeholder={'Enter URL' + URL_DEMO} allowEmpty />
       </Dialog>
     );
   }
