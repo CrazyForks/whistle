@@ -14,6 +14,7 @@ var HEADER_ACTIONS = ['Set Custom Header', 'Set Request CORS', 'Set Request Cook
 var BODY_ACTIONS = util.BODY_ACTIONS;
 var BODY_ACTIONS_LEN = BODY_ACTIONS.length;
 var KEY_PATH_PLACEHOLDER = 'Enter key path, e.g. a\\.b.c.d';
+var getRandomKey = util.getRandomKey;
 
 function getFilepath(str) {
   return str && str.replace(/^file:\/\//, '');
@@ -53,8 +54,8 @@ var RequestRule = React.createClass({
     var bodyRules = this.getBodyRules();
     if (urlRules) {
       rules.push(urlRules.rules);
-      if (urlRules.value) {
-        values.push(urlRules.value);
+      if (urlRules.values) {
+        values.push(urlRules.values);
       }
     }
     if (bodyRules) {
@@ -99,7 +100,7 @@ var RequestRule = React.createClass({
       case URL_ACTIONS[0]:
         if (!params) {
           params = {};
-          paramsKey = util.getRandomKey('urlParams_');
+          paramsKey = getRandomKey('urlParams_');
           rules.push('urlParams://{' + paramsKey + '}');
         }
         if (params[key] == null) {
@@ -118,7 +119,7 @@ var RequestRule = React.createClass({
     var result = rules.join(' ');
     return result && {
       rules: result,
-      value: params ? '``` ' + paramsKey + '\n' + JSON.stringify(params, null, 2) + '\n```' : ''
+      values: params ? '``` ' + paramsKey + '\n' + JSON.stringify(params, null, 2) + '\n```' : ''
     };
   },
   getBodyRules: function() {
@@ -128,10 +129,12 @@ var RequestRule = React.createClass({
     }
     var rules = [];
     state.bodyActions.forEach(function(action) {
-      var value = (action.value || '').trim();
       var key = (action.key || '').trim();
+      var value = (action.value || '').trim();
       var reqReplace;
+      var reqReplaceKey;
       var reqMerge;
+      var reqMergeKey;
       switch(action.type) {
       case BODY_ACTIONS[0]:
         if (value) {
@@ -149,8 +152,28 @@ var RequestRule = React.createClass({
         }
         break;
       case BODY_ACTIONS[3]:
+        if (key) {
+          if (!reqReplace) {
+            reqReplace = {};
+            reqReplaceKey = 'reqReplace_' + getRandomKey();
+            rules.push('reqReplace://{' + reqReplaceKey + '}');
+          }
+          if (reqReplace[key] == null) {
+            reqReplace[key] = value;
+          }
+        }
         break;
       case BODY_ACTIONS[4]:
+        if (key) {
+          if (!reqMerge) {
+            reqMerge = {};
+            reqMergeKey = 'reqMerge_' + getRandomKey();
+            rules.push('reqMerge://{' + reqMergeKey + '}');
+          }
+          if (reqMerge[key] == null) {
+            reqMerge[key] = value;
+          }
+        }
         break;
       case BODY_ACTIONS[5]:
         if (key) {
