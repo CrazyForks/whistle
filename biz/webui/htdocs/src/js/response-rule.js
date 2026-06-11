@@ -13,7 +13,8 @@ var STATUS_CODE_ACTIONS = [
   '302 Temporary Redirect',
   '303 See Other',
   '307 Temporary Redirect',
-  '308 Permanent Redirect'
+  '308 Permanent Redirect',
+  'Client Side Redirect'
 ];
 var HEADER_ACTIONS = ['Set Custom Header', 'Set Response CORS', 'Set Response Cookie', 'Delete Response Header'];
 var BODY_ACTIONS = util.BODY_ACTIONS;
@@ -51,13 +52,18 @@ var ResponseRule = React.createClass({
     var state = this.state;
     if (!state.disabledStatusCode) {
       var action = state.statusCodeAction;
-      if (action[0] === '3') {
+      var isLoc = action[0] === 'C';
+      if (isLoc || action[0] === '3') {
         var redirectUrl = state.redirectUrl;
         if (redirectUrl) {
-          action = action.substring(0, 3);
-          rules.push('redirect://' + redirectUrl);
-          if (action !== '302') {
-            rules.push('replaceStatus://' + action);
+          if (isLoc) {
+            rules.push('locationHref://' + redirectUrl);
+          } else {
+            action = action.substring(0, 3);
+            rules.push('redirect://' + redirectUrl);
+            if (action !== '302') {
+              rules.push('replaceStatus://' + action);
+            }
           }
         }
       } else {
@@ -84,6 +90,15 @@ var ResponseRule = React.createClass({
   onUrlChange: function(url) {
     this.setState({ redirectUrl: url }, this.handleChange);
   },
+  getStatusProtocol: function(statusCodeAction) {
+    if (statusCodeAction[0] === 'C') {
+      return 'locationHref';
+    }
+    if (statusCodeAction[0] === '3') {
+      return 'redirect';
+    }
+    return statusCodeAction === STATUS_CODE_ACTIONS[0].value ? 'statusCode' : 'replaceStatus';
+  },
   render: function() {
     var self = this;
     var hide = self.props.hide;
@@ -96,8 +111,7 @@ var ResponseRule = React.createClass({
     var bodyActions = state.bodyActions;
     var headerCount = headerActions.length;
     var bodyCount = bodyActions.length;
-    var isRedirect = statusCodeAction[0] === '3';
-    var statusDocsUrl = isRedirect ? 'redirect' : (statusCodeAction === STATUS_CODE_ACTIONS[0].value ? 'statusCode' : 'replaceStatus');
+    var isRedirect = statusCodeAction[0] === '3' || statusCodeAction[0] === 'C';
 
     return (
       <div className={'w-rules-form' + (hide ? ' w-hide' : '')}>
@@ -108,7 +122,7 @@ var ResponseRule = React.createClass({
               onChange={self.onStatusCodeActionChange} />
             <StatusSelect value={state.statusCode} className={isRedirect ? 'w-hide' : null} disabled={disabledStatusCode} onChange={self.onStatusCodeChange} />
             <UrlInput isRedirect className={'mr-10' + (isRedirect ? '' : ' w-hide')} disabled={disabledStatusCode} onChange={this.onUrlChange} />
-            <HelpIcon docsUrl={'rules/' + statusDocsUrl + '.html'} />
+            <HelpIcon docsUrl={'rules/' + this.getStatusProtocol(statusCodeAction) + '.html'} />
           </div>
         </div>
         <div className="w-form-item">

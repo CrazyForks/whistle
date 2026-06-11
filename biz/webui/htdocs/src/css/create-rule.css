@@ -213,7 +213,8 @@
 }
 
 .w-preview-rules .w-pr-FILE, .w-preview-rules .w-pr-TPL, .w-preview-rules .w-pr-STATUSCODE,
-.w-preview-rules .w-pr-URLPARAMS, .w-preview-rules .w-pr-PATHREPLACE, .w-preview-rules .w-pr-REDIRECT {
+.w-preview-rules .w-pr-URLPARAMS, .w-preview-rules .w-pr-PATHREPLACE, .w-preview-rules .w-pr-REDIRECT,
+.w-preview-rules .w-pr-LOCATIONHREF {
   color: #ff9e59;
 }
 
