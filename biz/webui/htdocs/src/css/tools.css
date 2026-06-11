@@ -311,6 +311,15 @@
   display: none;
 }
 
+.w-json-editor {
+  flex: 1;
+}
+
+.w-json-editor textarea {
+  height: 120px!important;
+  line-height: 1.5!important;
+}
+
 .w-big-editor-dialog .modal-dialog {
   width: 1000px;
 }

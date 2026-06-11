@@ -229,11 +229,11 @@ var RequestRule = React.createClass({
     if (type === BODY_ACTIONS[BODY_ACTIONS_LEN - 1]) {
       return this.renderKey(action.key, KEY_PATH_PLACEHOLDER, disabled, true);
     }
-    var isMerge = type === BODY_ACTIONS[BODY_ACTIONS_LEN - 2];
-    if (isMerge || type === BODY_ACTIONS[BODY_ACTIONS_LEN - 3]) {
-      var keyPlaceholder = isMerge ? KEY_PATH_PLACEHOLDER : 'Enter keyword or regexp';
-      var valuePlaceholder = isMerge ? 'Enter value' : 'Enter replacement value';
-      return this.renderKV(action, keyPlaceholder, valuePlaceholder, disabled, true, true);
+    if (type === BODY_ACTIONS[BODY_ACTIONS_LEN - 2]) {
+      return this.renderJSONEditor(action.value, disabled);
+    }
+    if (type === BODY_ACTIONS[BODY_ACTIONS_LEN - 3]) {
+      return this.renderKV(action, 'Enter keyword or regexp', 'Enter replacement value', disabled, true, true);
     }
     return this.renderFileInput(action.value, disabled);
   },

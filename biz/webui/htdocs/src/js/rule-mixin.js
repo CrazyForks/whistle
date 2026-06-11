@@ -4,6 +4,7 @@ var Icon = require('./icon');
 var win = require('./win');
 var util = require('./util');
 var UrlInput = require('./url-input');
+var JSONEditor = require('./json-editor');
 
 var MAX_COUNT = 20;
 var keyIndex = 0;
@@ -118,5 +119,8 @@ module.exports = {
   },
   renderFileInput: function(value, disabled) {
     return <UrlInput value={value} enableLocalFile onChange={this.onFileChange} disabled={disabled} session={this.props.session} />;
+  },
+  renderJSONEditor: function(value, disabled) {
+    return <JSONEditor value={value} disabled={disabled} onChange={this.onValueChange} />;
   }
 };
