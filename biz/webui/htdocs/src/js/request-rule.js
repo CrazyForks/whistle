@@ -132,8 +132,7 @@ var RequestRule = React.createClass({
     var rules = [];
     var reqReplace;
     var reqReplaceKey;
-    var reqMerge;
-    var reqMergeKey;
+    var values = [];
     state.bodyActions.forEach(function(action) {
       var key = (action.key || '').trim();
       var value = (action.value || '').trim();
@@ -167,12 +166,13 @@ var RequestRule = React.createClass({
         break;
       case BODY_ACTIONS[4]:
         if (value) {
-          if (!reqMerge) {
-            reqMerge = {};
-            reqMergeKey = 'reqMerge_' + getRandomKey();
+          if (/\s/.test(value)) {
+            rules.push('reqMerge://(' + value + ')');
+          } else {
+            var reqMergeKey = 'reqMerge_' + getRandomKey();
             rules.push('reqMerge://{' + reqMergeKey + '}');
+            values.push(getInjectValue(reqMergeKey, value));
           }
-
         }
         break;
       case BODY_ACTIONS[5]:
@@ -186,12 +186,8 @@ var RequestRule = React.createClass({
     if (!rules) {
       return;
     }
-    var values = [];
     if (reqReplace) {
-      values.push(getInjectValue(reqReplaceKey, reqReplace));
-    }
-    if (reqMerge) {
-      values.push(getInjectValue(reqMergeKey, reqMerge));
+      values.unshift(getInjectValue(reqReplaceKey, reqReplace));
     }
     return { rules: rules, values: values.join('\n\n') };
   },
