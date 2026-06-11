@@ -172,6 +172,12 @@ var RequestRule = React.createClass({
             reqMergeKey = 'reqMerge_' + getRandomKey();
             rules.push('reqMerge://{' + reqMergeKey + '}');
           }
+          key = key.replace(/(\\+)\./g, function(all, slash) {
+            if (slash.length % 2 === 0) {
+              return all;
+            }
+            return slash.substring(1) + '\r';
+          }).split('.').join('\n').replace(/\r/g, '.').split('\n');
           if (reqMerge[key] == null) {
             reqMerge[key] = value;
           }
