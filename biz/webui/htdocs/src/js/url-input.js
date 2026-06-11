@@ -221,6 +221,9 @@ var UrlInput = React.createClass({
     }
     var result = this.parseUrl(url);
     var state = this.state;
+    if (result.protocol === state.protocol && result.url === state.url) {
+      return;
+    }
     state.protocol = result.protocol;
     state.url = result.url;
     this.hideHints();
