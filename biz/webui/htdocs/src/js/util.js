@@ -2327,14 +2327,16 @@ exports.addPluginMenus = function (item, list, maxTop, disabled, treeId, url) {
   }
 };
 
-exports.getText = function(text) {
+function getText(text) {
   if (text && typeof text === 'object') {
     try {
       return JSON.stringify(text, null, '  ');
     } catch (e) {}
   }
   return text == null ? '' : String(text);
-};
+}
+
+exports.getText = getText;
 
 function getKeys(obj) {
   var list = obj[''];
