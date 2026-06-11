@@ -92,7 +92,7 @@ var RequestRule = React.createClass({
       case URL_ACTIONS[0]:
         if (!params) {
           params = {};
-          paramsKey = 'urlParams_' + Date.now().toString(16) + Math.ceil(Math.random() * 1000000).toString(16) + '.json';
+          paramsKey = util.getRandomKey('urlParams_');
           rules.push('urlParams://{' + paramsKey + '}');
         }
         if (params[key] == null) {
@@ -113,6 +113,9 @@ var RequestRule = React.createClass({
       rules: result,
       value: params ? '``` ' + paramsKey + '\n' + JSON.stringify(params, null, 2) + '\n```' : ''
     };
+  },
+  getBodyRules: function() {
+
   },
   renderUrlAction: function(action, disabled) {
     if (action.type === URL_ACTIONS[1]) {

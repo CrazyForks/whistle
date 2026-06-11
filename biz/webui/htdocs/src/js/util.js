@@ -220,6 +220,10 @@ function isString(str) {
 
 exports.isString = isString;
 
+exports.getRandomKey = function(prefix) {
+  return (prefix || '') + Date.now().toString(16) + Math.ceil(Math.random() * 1000000).toString(16) + '.json';
+};
+
 exports.getString = function (str) {
   return isString(str) ? str : '';
 };
