@@ -131,14 +131,59 @@ var ResponseRule = React.createClass({
           rules.push('resPrepend://' + getFilepath(value));
         }
         break;
+      case BODY_ACTIONS[1]:
+        if (value) {
+          rules.push('htmlPrepend://' + getFilepath(value));
+        }
+        break;
+      case BODY_ACTIONS[2]:
+        if (value) {
+          rules.push('cssPrepend://' + getFilepath(value));
+        }
+        break;
+      case BODY_ACTIONS[3]:
+        if (value) {
+          rules.push('jsPrepend://' + getFilepath(value));
+        }
+        break;
       case BODY_ACTIONS[4]:
         if (value) {
           rules.push('resBody://' + getFilepath(value));
         }
         break;
+      case BODY_ACTIONS[5]:
+        if (value) {
+          rules.push('htmlBody://' + getFilepath(value));
+        }
+        break;
+      case BODY_ACTIONS[6]:
+        if (value) {
+          rules.push('cssBody://' + getFilepath(value));
+        }
+        break;
+      case BODY_ACTIONS[7]:
+        if (value) {
+          rules.push('jsBody://' + getFilepath(value));
+        }
+        break;
       case BODY_ACTIONS[8]:
         if (value) {
           rules.push('resAppend://' + getFilepath(value));
+        }
+        break;
+      case BODY_ACTIONS[9]:
+        if (value) {
+          rules.push('htmlAppend://' + getFilepath(value));
+        }
+        break;
+      case BODY_ACTIONS[10]:
+        if (value) {
+          rules.push('cssAppend://' + getFilepath(value));
+        }
+        break;
+      case BODY_ACTIONS[11]:
+        if (value) {
+          rules.push('jsAppend://' + getFilepath(value));
         }
         break;
       case BODY_ACTIONS[12]:
