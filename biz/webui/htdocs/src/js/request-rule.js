@@ -102,7 +102,9 @@ var RequestRule = React.createClass({
           paramsKey = 'urlParams_' + Date.now().toString(16) + Math.ceil(Math.random() * 1000000).toString(16) + '.json';
           rules.push('urlParams://{' + paramsKey + '}');
         }
-        params[key] = value;
+        if (params[key] == null) {
+          params[key] = value;
+        }
         break;
       case URL_ACTIONS[1]:
         rules.push('delete://urlParams.' + util.removeSpaces(key));
