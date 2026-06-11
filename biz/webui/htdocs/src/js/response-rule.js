@@ -17,6 +17,20 @@ var STATUS_CODE_ACTIONS = [
 ];
 var HEADER_ACTIONS = ['Set Custom Header', 'Set Response CORS', 'Set Response Cookie', 'Delete Response Header'];
 var BODY_ACTIONS = util.BODY_ACTIONS;
+BODY_ACTIONS = [
+  BODY_ACTIONS[0],
+  'Prepend HTML To Body',
+  'Prepend CSS To Body',
+  'Prepend JS To Body',
+  BODY_ACTIONS[1],
+  'Replace Body With HTML',
+  'Replace Body With CSS',
+  'Replace Body With JS',
+  BODY_ACTIONS[2],
+  'Append HTML To Body',
+  'Append CSS To Body',
+  'Append JS To Body'
+].concat(BODY_ACTIONS.slice(-3));
 
 var ResponseRule = React.createClass({
   mixins: [ruleMixin],
