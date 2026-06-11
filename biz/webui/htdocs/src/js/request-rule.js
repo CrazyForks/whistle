@@ -129,6 +129,9 @@ var RequestRule = React.createClass({
     var rules = [];
     state.bodyActions.forEach(function(action) {
       var value = (action.value || '').trim();
+      var key = (action.key || '').trim();
+      var reqReplace;
+      var reqMerge;
       switch(action.type) {
       case BODY_ACTIONS[0]:
         if (value) {
@@ -143,6 +146,15 @@ var RequestRule = React.createClass({
       case BODY_ACTIONS[2]:
         if (value) {
           rules.push('reqAppend://' + getFilepath(value));
+        }
+        break;
+      case BODY_ACTIONS[3]:
+        break;
+      case BODY_ACTIONS[4]:
+        break;
+      case BODY_ACTIONS[5]:
+        if (key) {
+          rules.push('delete://reqBody.' + key.replace(/\s/g, '\\s'));
         }
         break;
       }
