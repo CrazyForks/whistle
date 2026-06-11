@@ -480,7 +480,7 @@ var Settings = React.createClass({
           </label>
           <label className="w-ns-own">
             <input checked={viewAllInNewWindow} data-name="viewAllInNewWindow" type="checkbox" />
-            ViewAll in new window
+            "ViewAll" in new window
           </label>
           <label className="w-ns-own">
             <input checked={isTreeView} data-name="treeView" type="checkbox" />
