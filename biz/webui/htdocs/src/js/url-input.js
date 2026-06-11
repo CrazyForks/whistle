@@ -72,7 +72,7 @@ var UrlInput = React.createClass({
       url = url ? state.protocol + state.url : '';
       if (url !== this._curUrl) {
         this._curUrl = url;
-        onChange(url);
+        onChange(url, this.refs.checkbox);
       }
     }
   },
@@ -362,6 +362,7 @@ var UrlInput = React.createClass({
           })}
         </select>
         <input
+          ref="checkbox"
           disabled={disabled}
           value={state.url}
           onChange={this.onUrlChange}

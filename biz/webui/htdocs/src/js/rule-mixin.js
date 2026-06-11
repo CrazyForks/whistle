@@ -9,8 +9,12 @@ var MAX_COUNT = 20;
 var keyIndex = 0;
 var removeSpaces = util.removeSpaces;
 
-function getElemValue(elem) {
-  return elem.getAttribute('data-keep-space') ? elem.value : removeSpaces(elem.value);
+function getElemValue(e) {
+  if (util.isString(e.value)) {
+    return e.value;
+  }
+  var target = e.target;
+  return target.getAttribute('data-keep-space') ? target.value : removeSpaces(target.value);
 }
 
 function getValue(value, keepSpace) {
@@ -76,14 +80,17 @@ module.exports = {
   },
   onKeyChange: function(e) {
     var data = this.getData(e);
-    var value = typeof e.value === 'string' ? e.value : getElemValue(e.target);
+    var value = getElemValue(e);
     data.list[data.index][data.key] = value;
     this.setState({}, this.handleChange);
   },
   onValueChange: function(e) {
     var data = this.getData(e);
-    data.list[data.index].value = getElemValue(e.target);
+    data.list[data.index].value = getElemValue(e);
     this.setState({}, this.handleChange);
+  },
+  onFileChange: function(url, target) {
+    this.onValueChange({ value: url, target: target  });
   },
   renderButtons: function(action, disabled, len) {
     var isMax = len >= MAX_COUNT;
