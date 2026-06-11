@@ -111,6 +111,7 @@ var CreateRuleDialog = React.createClass({
       break;
     case 'Response':
       rule = state.responseRule;
+      values = state.responseValues;
       break;
     case 'Debug':
       rule = state.debugRule;
@@ -191,8 +192,8 @@ var CreateRuleDialog = React.createClass({
   onRequestChange: function(rule, values) {
     this.setState({ requestRule: rule, requestValues: values });
   },
-  onResponseChange: function(rule) {
-    this.setState({ responseRule: rule });
+  onResponseChange: function(rule, values) {
+    this.setState({ responseRule: rule, responseValues: values });
   },
   onDebugChange: function(rule) {
     this.setState({ debugRule: rule });
