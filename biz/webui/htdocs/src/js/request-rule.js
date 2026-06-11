@@ -14,6 +14,9 @@ var HEADER_ACTIONS = ['Set Custom Header', 'Set Request CORS', 'Set Request Cook
 var BODY_ACTIONS = util.BODY_ACTIONS;
 var BODY_ACTIONS_LEN = BODY_ACTIONS.length;
 var KEY_PATH_PLACEHOLDER = 'Enter key path, e.g. a\\.b.c.d';
+var getFilepath = function(value) {
+  return value && value.replace(/^file:\/\//, '');
+};
 
 var RequestRule = React.createClass({
   mixins: [ruleMixin],
@@ -128,17 +131,17 @@ var RequestRule = React.createClass({
       switch(action.type) {
       case BODY_ACTIONS[0]:
         if (value) {
-          rules.push('reqPrepend://' + value);
+          rules.push('reqPrepend://' + getFilepath(value));
         }
         break;
       case BODY_ACTIONS[1]:
         if (value) {
-          rules.push('reqBody://' + value);
+          rules.push('reqBody://' + getFilepath(value));
         }
         break;
       case BODY_ACTIONS[2]:
         if (value) {
-          rules.push('reqAppend://' + value);
+          rules.push('reqAppend://' + getFilepath(value));
         }
         break;
       }
