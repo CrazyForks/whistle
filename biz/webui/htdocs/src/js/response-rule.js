@@ -108,8 +108,8 @@ var ResponseRule = React.createClass({
       return;
     }
     var rules = [];
-    var reqReplace;
-    var reqReplaceKey;
+    var resReplace;
+    var resReplaceKey;
     var values = [];
     state.bodyActions.forEach(function(action) {
       var key = (action.key || '').trim();
@@ -117,45 +117,45 @@ var ResponseRule = React.createClass({
       switch(action.type) {
       case BODY_ACTIONS[0]:
         if (value) {
-          rules.push('reqPrepend://' + getFilepath(value));
-        }
-        break;
-      case BODY_ACTIONS[1]:
-        if (value) {
-          rules.push('reqBody://' + getFilepath(value));
-        }
-        break;
-      case BODY_ACTIONS[2]:
-        if (value) {
-          rules.push('reqAppend://' + getFilepath(value));
-        }
-        break;
-      case BODY_ACTIONS[3]:
-        if (key) {
-          if (!reqReplace) {
-            reqReplace = {};
-            reqReplaceKey = 'reqReplace_' + getRandomKey();
-            rules.push('reqReplace://{' + reqReplaceKey + '}');
-          }
-          if (reqReplace[key] == null) {
-            reqReplace[key] = value;
-          }
+          rules.push('resPrepend://' + getFilepath(value));
         }
         break;
       case BODY_ACTIONS[4]:
         if (value) {
-          if (/\s/.test(value)) {
-            var reqMergeKey = 'reqMerge_' + getRandomKey();
-            rules.push('reqMerge://{' + reqMergeKey + '}');
-            values.push(getInjectValue(reqMergeKey, value));
-          } else {
-            rules.push('reqMerge://(' + value + ')');
+          rules.push('resBody://' + getFilepath(value));
+        }
+        break;
+      case BODY_ACTIONS[8]:
+        if (value) {
+          rules.push('resAppend://' + getFilepath(value));
+        }
+        break;
+      case BODY_ACTIONS[12]:
+        if (key) {
+          if (!resReplace) {
+            resReplace = {};
+            resReplaceKey = 'resReplace_' + getRandomKey();
+            rules.push('resReplace://{' + resReplaceKey + '}');
+          }
+          if (resReplace[key] == null) {
+            resReplace[key] = value;
           }
         }
         break;
-      case BODY_ACTIONS[5]:
+      case BODY_ACTIONS[13]:
+        if (value) {
+          if (/\s/.test(value)) {
+            var resMergeKey = 'resMerge_' + getRandomKey();
+            rules.push('resMerge://{' + resMergeKey + '}');
+            values.push(getInjectValue(resMergeKey, value));
+          } else {
+            rules.push('resMerge://(' + value + ')');
+          }
+        }
+        break;
+      case BODY_ACTIONS[14]:
         if (key) {
-          rules.push('delete://reqBody.' + key.replace(/\s/g, '\\s'));
+          rules.push('delete://resBody.' + key.replace(/\s/g, '\\s'));
         }
         break;
       }
@@ -164,8 +164,8 @@ var ResponseRule = React.createClass({
     if (!rules) {
       return;
     }
-    if (reqReplace) {
-      values.unshift(getInjectValue(reqReplaceKey, reqReplace));
+    if (resReplace) {
+      values.unshift(getInjectValue(resReplaceKey, resReplace));
     }
     return { rules: rules, values: values.join('\n\n') };
   },
