@@ -78,15 +78,16 @@ module.exports = {
     this.state[name] = e.target.checked;
     this.setState({}, this.handleChange);
   },
-  onKeyChange: function(e) {
+  onDataChange: function(e, key) {
     var data = this.getData(e);
-    data.list[data.index][data.key] = getElemValue(e);
+    data.list[data.index][key || data.key] = getElemValue(e);
     this.setState({}, this.handleChange);
   },
+  onKeyChange: function(e) {
+    this.onDataChange(e);
+  },
   onValueChange: function(e) {
-    var data = this.getData(e);
-    data.list[data.index].value = getElemValue(e);
-    this.setState({}, this.handleChange);
+    this.onDataChange(e, 'value');
   },
   onFileChange: function(url, target) {
     this.onValueChange({ value: url, target: target  });
