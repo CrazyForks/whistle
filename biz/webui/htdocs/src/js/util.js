@@ -229,6 +229,10 @@ exports.getInjectValue = function(key, data) {
   return data ? '``` ' + key + '\n' + data + '\n```' : '';
 };
 
+exports.getFilepath = function(str) {
+  return str && str.replace(/^file:\/\//, '');
+};
+
 exports.getString = function (str) {
   return isString(str) ? str : '';
 };

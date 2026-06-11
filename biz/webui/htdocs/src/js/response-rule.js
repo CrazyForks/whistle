@@ -18,6 +18,9 @@ var STATUS_CODE_ACTIONS = [
 ];
 var HEADER_ACTIONS = ['Set Custom Header', 'Set Response CORS', 'Set Response Cookie', 'Delete Response Header'];
 var BODY_ACTIONS = util.BODY_ACTIONS;
+var getInjectValue = util.getInjectValue;
+var getRandomKey = util.getRandomKey;
+var getFilepath = util.getFilepath;
 BODY_ACTIONS = [
   BODY_ACTIONS[0],
   'Prepend HTML To Body',
@@ -98,6 +101,73 @@ var ResponseRule = React.createClass({
       return 'redirect';
     }
     return statusCodeAction === STATUS_CODE_ACTIONS[0].value ? 'statusCode' : 'replaceStatus';
+  },
+  getBodyRules: function() {
+    var state = this.state;
+    if (state.disabledBody) {
+      return;
+    }
+    var rules = [];
+    var reqReplace;
+    var reqReplaceKey;
+    var values = [];
+    state.bodyActions.forEach(function(action) {
+      var key = (action.key || '').trim();
+      var value = (action.value || '').trim();
+      switch(action.type) {
+      case BODY_ACTIONS[0]:
+        if (value) {
+          rules.push('reqPrepend://' + getFilepath(value));
+        }
+        break;
+      case BODY_ACTIONS[1]:
+        if (value) {
+          rules.push('reqBody://' + getFilepath(value));
+        }
+        break;
+      case BODY_ACTIONS[2]:
+        if (value) {
+          rules.push('reqAppend://' + getFilepath(value));
+        }
+        break;
+      case BODY_ACTIONS[3]:
+        if (key) {
+          if (!reqReplace) {
+            reqReplace = {};
+            reqReplaceKey = 'reqReplace_' + getRandomKey();
+            rules.push('reqReplace://{' + reqReplaceKey + '}');
+          }
+          if (reqReplace[key] == null) {
+            reqReplace[key] = value;
+          }
+        }
+        break;
+      case BODY_ACTIONS[4]:
+        if (value) {
+          if (/\s/.test(value)) {
+            var reqMergeKey = 'reqMerge_' + getRandomKey();
+            rules.push('reqMerge://{' + reqMergeKey + '}');
+            values.push(getInjectValue(reqMergeKey, value));
+          } else {
+            rules.push('reqMerge://(' + value + ')');
+          }
+        }
+        break;
+      case BODY_ACTIONS[5]:
+        if (key) {
+          rules.push('delete://reqBody.' + key.replace(/\s/g, '\\s'));
+        }
+        break;
+      }
+    });
+    rules = rules.join(' ');
+    if (!rules) {
+      return;
+    }
+    if (reqReplace) {
+      values.unshift(getInjectValue(reqReplaceKey, reqReplace));
+    }
+    return { rules: rules, values: values.join('\n\n') };
   },
   render: function() {
     var self = this;
