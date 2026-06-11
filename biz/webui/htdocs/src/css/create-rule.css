@@ -214,7 +214,7 @@
 
 .w-preview-rules .w-pr-FILE, .w-preview-rules .w-pr-TPL, .w-preview-rules .w-pr-STATUSCODE,
 .w-preview-rules .w-pr-URLPARAMS, .w-preview-rules .w-pr-PATHREPLACE, .w-preview-rules .w-pr-REDIRECT,
-.w-preview-rules .w-pr-LOCATIONHREF {
+.w-preview-rules .w-pr-LOCATIONHREF, .w-preview-rules .w-pr-REQMERGE {
   color: #ff9e59;
 }
 
@@ -233,7 +233,8 @@
 
 .w-preview-rules .w-pr-REQDELAY, .w-preview-rules .w-pr-REQSPEED, .w-preview-rules .w-pr-METHOD,
 .w-preview-rules .w-pr-REQHEADERS,.w-preview-rules .w-pr-REQBODY,.w-preview-rules .w-pr-HEADERREPLACE,
-.w-preview-rules .w-pr-REQCORS {
+.w-preview-rules .w-pr-REQCORS, .w-preview-rules .w-pr-REQPREPEND, .w-preview-rules .w-pr-REQBODY,
+.w-preview-rules .w-pr-REQAPPEND, .w-preview-rules .w-pr-REQREPLACE {
   color: #9effff;
 }
 

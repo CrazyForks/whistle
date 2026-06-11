@@ -46,11 +46,15 @@ var RequestRule = React.createClass({
       }
     }
     var urlRules = this.getUrlRules();
+    var bodyRules = this.getBodyRules();
     if (urlRules) {
       rules.push(urlRules.rules);
       if (urlRules.value) {
         values.push(urlRules.value);
       }
+    }
+    if (bodyRules) {
+      rules.push(bodyRules);
     }
     rules = rules.join(' ');
     if (this._curRules !== rules) {
@@ -75,8 +79,7 @@ var RequestRule = React.createClass({
   },
   getUrlRules: function() {
     var state = this.state;
-    var disabledUrl = state.disabledUrl;
-    if (disabledUrl) {
+    if (state.disabledUrl) {
       return;
     }
     var rules = [];
@@ -87,7 +90,7 @@ var RequestRule = React.createClass({
       if (!key) {
         return;
       }
-      var value = action.value || '';
+      var value = (action.value || '').trim();
       switch(action.type) {
       case URL_ACTIONS[0]:
         if (!params) {
@@ -115,7 +118,32 @@ var RequestRule = React.createClass({
     };
   },
   getBodyRules: function() {
-
+    var state = this.state;
+    if (state.disabledBody) {
+      return;
+    }
+    var rules = [];
+    state.bodyActions.forEach(function(action) {
+      var value = (action.value || '').trim();
+      switch(action.type) {
+      case BODY_ACTIONS[0]:
+        if (value) {
+          rules.push('reqPrepend://' + value);
+        }
+        break;
+      case BODY_ACTIONS[1]:
+        if (value) {
+          rules.push('reqBody://' + value);
+        }
+        break;
+      case BODY_ACTIONS[2]:
+        if (value) {
+          rules.push('reqAppend://' + value);
+        }
+        break;
+      }
+    });
+    return rules.join(' ');
   },
   renderUrlAction: function(action, disabled) {
     if (action.type === URL_ACTIONS[1]) {
