@@ -167,11 +167,11 @@ var RequestRule = React.createClass({
       case BODY_ACTIONS[4]:
         if (value) {
           if (/\s/.test(value)) {
-            rules.push('reqMerge://(' + value + ')');
-          } else {
             var reqMergeKey = 'reqMerge_' + getRandomKey();
             rules.push('reqMerge://{' + reqMergeKey + '}');
             values.push(getInjectValue(reqMergeKey, value));
+          } else {
+            rules.push('reqMerge://(' + value + ')');
           }
         }
         break;
