@@ -12,6 +12,8 @@ var HTTP_VERSION_OPTIONS = ['HTTP/1.1', 'HTTP/2.0'];
 var URL_ACTIONS = ['Set Param', 'Delete Param', 'Modify Path (path/to?query)'];
 var HEADER_ACTIONS = ['Set Custom Header', 'Set Request CORS', 'Set Request Cookie', 'Delete Request Header'];
 var BODY_ACTIONS = util.BODY_ACTIONS;
+var BODY_ACTIONS_LEN = BODY_ACTIONS.length;
+var KEY_PATH_PLACEHOLDER = 'Enter key path, e.g. a\\.b.c.d';
 
 var RequestRule = React.createClass({
   mixins: [ruleMixin],
@@ -71,15 +73,6 @@ var RequestRule = React.createClass({
     this._curHeaderAction = this.getData(e);
     this.refs.corsSettings.show();
   },
-  renderUrlAction: function(action, disabled) {
-    if (action.type === URL_ACTIONS[1]) {
-      return this.renderKey(action.key, 'Enter param name to delete', disabled);
-    }
-    var isParam = action.type === URL_ACTIONS[0];
-    var keyPlaceholder = isParam ? 'Enter param name' : 'Enter keyword or regexp';
-    var valuePlaceholder = isParam ? 'Enter param value' : 'Enter replacement value';
-    return this.renderKV(action, keyPlaceholder, valuePlaceholder, disabled, isParam, isParam);
-  },
   getUrlRules: function() {
     var state = this.state;
     var disabledUrl = state.disabledUrl;
@@ -121,6 +114,15 @@ var RequestRule = React.createClass({
       value: params ? '``` ' + paramsKey + '\n' + JSON.stringify(params, null, 2) + '\n```' : ''
     };
   },
+  renderUrlAction: function(action, disabled) {
+    if (action.type === URL_ACTIONS[1]) {
+      return this.renderKey(action.key, 'Enter param name to delete', disabled);
+    }
+    var isParam = action.type === URL_ACTIONS[0];
+    var keyPlaceholder = isParam ? 'Enter param name' : 'Enter keyword or regexp';
+    var valuePlaceholder = isParam ? 'Enter param value' : 'Enter replacement value';
+    return this.renderKV(action, keyPlaceholder, valuePlaceholder, disabled, isParam, isParam);
+  },
   renderHeaderAction: function(action, disabled) {
     var session = this.props.session;
     var isDel = action.type === HEADER_ACTIONS[3];
@@ -144,6 +146,19 @@ var RequestRule = React.createClass({
           placeholder="Enter cookie value" disabled={disabled} onChange={this.onValueChange} />
       ];
     }
+  },
+  renderBodyAction: function(action, disabled) {
+    var type = action.type;
+    if (type === BODY_ACTIONS[BODY_ACTIONS_LEN - 1]) {
+      return this.renderKey(action.key, KEY_PATH_PLACEHOLDER, disabled, true);
+    }
+    var isMerge = type === BODY_ACTIONS[BODY_ACTIONS_LEN - 2];
+    if (isMerge || type === BODY_ACTIONS[BODY_ACTIONS_LEN - 3]) {
+      var keyPlaceholder = isMerge ? KEY_PATH_PLACEHOLDER : 'Enter keyword or regexp';
+      var valuePlaceholder = isMerge ? 'Enter value' : 'Enter replacement value';
+      return this.renderKV(action, keyPlaceholder, valuePlaceholder, disabled, true, true);
+    }
+    return this.renderFileInput(action.value, disabled);
   },
   render: function() {
     var self = this;
@@ -234,8 +249,7 @@ var RequestRule = React.createClass({
                 <div data-name="bodyActions" className="w-form-value" data-index={action.index} key={action.index}>
                   <Select className="w-190" disabled={disabledBody} value={action.type} data={action} options={BODY_ACTIONS}
                     onChange={self.onActionChange} key={action.index} />
-                  <input type="text" value={action.value} className="form-control" maxLength="5120"
-                    placeholder={action.placeholder} disabled={disabledBody} onChange={self.onValueChange} />
+                  {self.renderBodyAction(action, disabledBody)}
                   {self.renderButtons(action, disabledBody, bodyActionCount)}
                 </div>
               );
