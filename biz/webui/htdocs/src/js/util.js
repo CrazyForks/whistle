@@ -3457,8 +3457,8 @@ var SPACE_MAP = {
   '.': '\\.'
 };
 
-exports.getKeyPathList = function(key) {
-  return key.replace(/(\\+)\./g, function(all, slash) {
+exports.setObjValue = function(obj, key, value) {
+  key = key.replace(/(\\+)\./g, function(all, slash) {
     if (slash.length % 2 === 0) {
       return all;
     }

@@ -172,10 +172,7 @@ var RequestRule = React.createClass({
             reqMergeKey = 'reqMerge_' + getRandomKey();
             rules.push('reqMerge://{' + reqMergeKey + '}');
           }
-          key = util.getKeyPathList(key);
-          if (reqMerge[key] == null) {
-            reqMerge[key] = value;
-          }
+          util.setObjValue(reqMerge, key, value);
         }
         break;
       case BODY_ACTIONS[5]:
