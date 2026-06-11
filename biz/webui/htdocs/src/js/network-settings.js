@@ -476,7 +476,7 @@ var Settings = React.createClass({
               data-name="viewOwn"
               type="checkbox"
             />
-            Viewing only your computer's network requests (IP: {dataCenter.clientIp})
+            Show only network requests from your computer (IP: {dataCenter.clientIp})
           </label>
           <label className="w-ns-own">
             <input checked={viewAllInNewWindow} data-name="viewAllInNewWindow" type="checkbox" />
