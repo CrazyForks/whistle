@@ -52,6 +52,7 @@ var ResponseRule = React.createClass({
   },
   handleChange: function() {
     var rules = [];
+    var values = [];
     var state = this.state;
     if (!state.disabledStatusCode) {
       var action = state.statusCodeAction;
@@ -73,10 +74,20 @@ var ResponseRule = React.createClass({
         rules.push(action + state.statusCode);
       }
     }
+    var bodyRules = this.getBodyRules();
+    var addRules = function(item) {
+      if (item) {
+        rules.push(item.rules);
+        if (item.values) {
+          values.push(item.values);
+        }
+      }
+    };
+    addRules(bodyRules);
     rules = rules.join(' ');
     if (this._curRules !== rules) {
       this._curRules = rules;
-      this.props.onChange(rules);
+      this.props.onChange(rules, values.join('\n\n'));
     }
   },
   shouldComponentUpdate: util.shouldComponentUpdate,
