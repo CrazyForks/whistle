@@ -90,6 +90,9 @@ module.exports = {
     state.headerActions.forEach(function(action) {
       var key = (action.key || '').trim();
       var value = (action.value || '').trim();
+      if (!key && value) {
+        return;
+      }
       var type = action.type;
       switch(action.type) {
       case allActions[1]:
@@ -101,31 +104,29 @@ module.exports = {
       default:
         var innerKey;
         if (isReq) {
-          if (key || value) {
-            if (/^authorization$/i.test(type)) {
-              innerKey = getRandomKey('auth_');
-              rules.push('auth://{' + innerKey + '}');
-              values.push(innerKey, getInjectValue({
-                username: key,
-                password: value
-              }));
-            } else if (/^proxy-authorization$/i.test(type)) {
-              innerKey = getRandomKey('proxyAuth_');
-              rules.push('auth://{' + innerKey + '}');
-              values.push(innerKey, getInjectValue({
-                proxy: true,
-                username: key,
-                password: value
-              }));
-            } else if (/^cookie$/i.test(type)) {
-              if (!cookies) {
-                innerKey = getRandomKey('reqCookies_');
-                cookies = {};
-                rules.push('reqCookies://{' + innerKey + '}');
-              }
-              if (cookies[key] == null) {
-                cookies[key] = value;
-              }
+          if (/^authorization$/i.test(type)) {
+            innerKey = getRandomKey('auth_');
+            rules.push('auth://{' + innerKey + '}');
+            values.push(innerKey, getInjectValue({
+              username: key,
+              password: value
+            }));
+          } else if (/^proxy-authorization$/i.test(type)) {
+            innerKey = getRandomKey('proxyAuth_');
+            rules.push('auth://{' + innerKey + '}');
+            values.push(innerKey, getInjectValue({
+              proxy: true,
+              username: key,
+              password: value
+            }));
+          } else if (/^cookie$/i.test(type)) {
+            if (!cookies) {
+              innerKey = getRandomKey('reqCookies_');
+              cookies = {};
+              rules.push('reqCookies://{' + innerKey + '}');
+            }
+            if (cookies[key] == null) {
+              cookies[key] = value;
             }
           }
         } else if (/^set-cookie$/i.test(type)) {
