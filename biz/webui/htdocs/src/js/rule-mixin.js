@@ -250,15 +250,16 @@ module.exports = {
           {
             COOKIE_OPTIONS.map(function(option) {
               var label = option.label;
+              var value = cookie[label] || '';
               return (
                 <div className="w-form-value" key={label}>
                   <label className="w-form-label w-80">{label}: </label>
-                  {label === 'SameSite' ? (<select className="form-control" value={cookie[label]}>
+                  {label === 'SameSite' ? (<select className="form-control" value={value}>
                     <option>Select cookie SameSite</option>
                     <option value="None">None</option>
                     <option value="Lax">Lax</option>
                     <option value="Strice">Strict</option>
-                  </select>) : <input type="text" name={label} value={cookie[label]} className="form-control"
+                  </select>) : <input type="text" name={label} value={value} className="form-control"
                     placeholder={option.placeholder} maxLength={option.maxLength || 2560} autoComplete="off" />}
                 </div>
               );
@@ -269,7 +270,7 @@ module.exports = {
             {COOKIE_ATTRS.map(function(name, i) {
               return (
                 <label className={i === 1 ? 'mx-20' : null}>
-                  <input type="checkbox" name={name} checked={cookie[name]} />
+                  <input type="checkbox" name={name} checked={cookie[name] || false} />
                   {name}
                 </label>
               );
