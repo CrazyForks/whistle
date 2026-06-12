@@ -11,14 +11,13 @@ var TextView = React.createClass({
   },
   shouldComponentUpdate: function (nextProps) {
     if (this.props.value !== nextProps.value) {
-      this.props.value = nextProps.value;
-      this.updateValue();
+      this.updateValue(nextProps.value);
     }
     return this.props.className !== nextProps.className;
   },
-  updateValue: function () {
+  updateValue: function (value) {
     var self = this;
-    var value = self.props.value || '';
+    value = value || self.props.value || '';
     var textarea = findDOMNode(self.refs.textarea);
     if (self.props.hide) {
       textarea.value = '';

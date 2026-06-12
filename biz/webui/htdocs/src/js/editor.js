@@ -141,7 +141,7 @@ var Editor = React.createClass({
     }
   },
   getValue: function () {
-    return this._editor ? '' : this._editor.getValue();
+    return this._editor ? this._editor.getValue() : '';
   },
   setTheme: function (theme) {
     theme = this._theme = theme || DEFAULT_THEME;
