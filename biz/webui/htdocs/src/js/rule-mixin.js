@@ -171,7 +171,7 @@ module.exports = {
       }
     }
     self._cookieAction = data;
-    self.setState(value || {}, function() {
+    self.setState({ cookie: value || {} }, function() {
       self.refs.cookieDialog.show();
     });
   },
