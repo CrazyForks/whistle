@@ -134,8 +134,7 @@ module.exports = {
             }
             return;
           }
-        }
-        if (/^set-cookie$/i.test(type)) {
+        } else if (/^set-cookie$/i.test(type)) {
           key = key && util.parseRawJson(key);
           if (key) {
             if (!cookies) {
