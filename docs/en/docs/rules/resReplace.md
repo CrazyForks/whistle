@@ -56,7 +56,7 @@ www.example.com/path2 resReplace://https://www.xxx.com/xxx/params.json
 www.example.com/path3 resReplace://temp/blank.json
 ````
 
-## Associated Protocols
+## Associated Protocols {#releated}
 
 1. Inject content before the response content (`Prepend To Body`): [resPrepend](./resPrepend)  
 2. Inject HTML content before the response content (`Prepend HTML To Body`, response type must be `text/html`): [htmlPrepend](./htmlPrepend)  
