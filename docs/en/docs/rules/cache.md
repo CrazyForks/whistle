@@ -140,7 +140,7 @@ https://example.com/assets cache://{static-cache}
 - For scenarios requiring complete cache disabling, it is recommended to also use the [`disable://cache`](./disable) protocol.
 - Actual caching behavior is also influenced by server configuration and browser implementation.
 
-## Associated Protocols
+## Associated Protocols {#releated}
 
 1. Modify response headers: [resHeaders](./resHeaders)  
 2. Delete request header field (`Delete Response Header`): [delete://resHeaders.xxx](./delete)  
