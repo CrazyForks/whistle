@@ -17,6 +17,7 @@ var STATUS_CODE_ACTIONS = [
   '308 Permanent Redirect',
   'Client Side Redirect'
 ];
+var HEADER_ACTIONS = HeaderSelect.RES_HEADERS;
 var BODY_ACTIONS = util.BODY_ACTIONS;
 var getInjectValue = util.getInjectValue;
 var getRandomKey = util.getRandomKey;
@@ -45,7 +46,7 @@ var ResponseRule = React.createClass({
       disabledBody: true,
       statusCodeAction: STATUS_CODE_ACTIONS[0].value,
       statusCode: '200',
-      headerActions: [this.createAction(HeaderSelect.ACTIONS[1])],
+      headerActions: [this.createAction(HEADER_ACTIONS[1])],
       bodyActions: [this.createAction(BODY_ACTIONS[0])],
       redirectUrl: ''
     };

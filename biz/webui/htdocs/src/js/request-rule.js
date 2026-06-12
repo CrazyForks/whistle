@@ -10,7 +10,7 @@ var MethodSelect = require('./method-select');
 
 var HTTP_VERSION_OPTIONS = ['HTTP/1.1', 'HTTP/2.0'];
 var URL_ACTIONS = ['Set Param', 'Delete Param', 'Modify Path (path/to?query)'];
-var HEADER_ACTIONS = HeaderSelect.ACTIONS;
+var HEADER_ACTIONS = HeaderSelect.REQ_HEADERS;
 var BODY_ACTIONS = util.BODY_ACTIONS;
 var getRandomKey = util.getRandomKey;
 var getInjectValue = util.getInjectValue;

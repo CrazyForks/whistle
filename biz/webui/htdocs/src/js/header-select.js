@@ -1,10 +1,16 @@
 var React = require('react');
 var Select = require('./custom-select');
 
-var ACTIONS = [
+var REQ_ACTIONS = [
   '- Delete Actions',
-  'Delete Header',
-  'Delete Cookie'
+  'Delete Request Header',
+  'Delete Request Cookie'
+];
+
+var RES_ACTIONS = [
+  '- Delete Actions',
+  'Delete Response Header',
+  'Delete Response Cookie'
 ];
 
 var GENERAL_HEADERS = [
@@ -137,7 +143,7 @@ var HeaderSelect = React.createClass({
     var isReq = props.isReq;
     var isRes = props.isRes;
     var keepCase = isReq || isRes;
-    var options = isReq ? ACTIONS.concat(REQ_HEADERS) : (isRes ? ACTIONS.concat(RES_HEADERS) : ALL_HEADERS.slice());
+    var options = isReq ? REQ_ACTIONS.concat(REQ_HEADERS) : (isRes ? RES_ACTIONS.concat(RES_HEADERS) : ALL_HEADERS.slice());
     var addOption = function(name) {
       name = keepCase ? toFirstUpperCase(name) : name;
       if (options.indexOf(name) === -1) {
@@ -178,4 +184,5 @@ var HeaderSelect = React.createClass({
 
 module.exports = HeaderSelect;
 
-HeaderSelect.ACTIONS = ACTIONS;
+HeaderSelect.REQ_HEADERS = REQ_HEADERS;
+HeaderSelect.RES_HEADERS = RES_HEADERS;
