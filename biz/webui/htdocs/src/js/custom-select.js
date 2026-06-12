@@ -5,6 +5,7 @@ var util = require('./util');
 
 var MAX_CUSTOM_OPTIONS = 36;
 var EMPTY_OPTION = { value: '', label: '' };
+var LABEL_RE = /^- (\S+) -$/;
 
 var Select = React.createClass({
   getInitialState: function() {
@@ -118,6 +119,30 @@ var Select = React.createClass({
     }
     this.handleChange(option);
   },
+  renderOptions: function(options) {
+    var result = [];
+    for (var i = 0, len = options.length; i < len; i++) {
+      var option = options[i];
+      var value = option.value;
+      if (LABEL_RE.test(value)) {
+        var groupName = RegExp.$1;
+        var items = [];
+        for (++i; i < len; i++) {
+          var item = options[i];
+          var itemVal = item.value;
+          if (LABEL_RE.test(item.value)) {
+            i--;
+            break;
+          }
+          items.push(<option key={itemVal} value={itemVal}>{item.label}</option>);
+        }
+        result.push(<optgroup key={value} label={groupName}>{items}</optgroup>);
+      } else {
+        result.push(<option key={value} value={value}>{option.label}</option>);
+      }
+    }
+    return result;
+  },
   render: function() {
     var props = this.props;
     var name = props.name;
@@ -130,11 +155,8 @@ var Select = React.createClass({
     return (
       <select ref="select" disabled={props.disabled} className={'form-control ' + (props.className || '')} value={value}
         onChange={this.onChange} onClick={props.onClick}>
-          {selectPlaceholder ? <option value="">{selectPlaceholder}</option> : null}
-          {options.map(function(option) {
-            var value = option.value;
-            return <option key={value} value={value}>{option.label}</option>;
-          })}
+        {selectPlaceholder ? <option value="">{selectPlaceholder}</option> : null}
+        {this.renderOptions(options)}
         {name ? <option value=" ">+Custom</option> : null}
         {name ? <Prompt ref="prompt" placeholder={props.placeholder} isNum={props.isNum} isHeader={props.isHeader} maxLength={props.maxLength} /> : null}
       </select>
