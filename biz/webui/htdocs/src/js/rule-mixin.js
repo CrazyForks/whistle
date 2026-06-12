@@ -125,15 +125,18 @@ module.exports = {
       return <TypeSelect isReq={isReq} disabled={disabled} value={action.key} className="flex-1" onChange={this.onKeyChange} />;
     }
     if (isReq) {
-      if (/^cookie$/i.test(type)) {
-        return this.renderKV(action, 'Enter request cookie name', 'Enter request cookie value', disabled, true, true);
+      var isAuth = /^(proxy-)?authorization$/i.test(type);
+      if (isAuth || /^cookie$/i.test(type)) {
+        var keyPlaceholder = isAuth ? 'Enter username' : 'Enter request cookie name';
+        var valuePlaceholder = isAuth ? 'Enter password' : 'Enter request cookie value';
+        return this.renderKV(action, keyPlaceholder, valuePlaceholder, disabled, true, true);
       }
     } else {
 
     }
-    var isCookie = type === allActions[2];
-    var placeholder = 'Enter ' + name + (isCookie ? ' cookie name to delete' : ' header value');
-    return this.renderKey(action.key, placeholder, disabled, !isCookie);
+    var delCookie = type === allActions[2];
+    var placeholder = 'Enter ' + name + (delCookie ? ' cookie name to delete' : ' header value');
+    return this.renderKey(action.key, placeholder, disabled, !delCookie);
   },
   renderHeaders: function(action, disabled, isReq, className) {
     var name = isReq ? 'requestHeaders' : 'responseHeaders';
