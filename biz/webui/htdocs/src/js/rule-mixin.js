@@ -245,7 +245,7 @@ module.exports = {
     } else {
       cookie[name] = target.checked || undefined;
     }
-    this.setState({ cookie: cookie });
+    this.setState({ cookie: cookie }, this.handleChange);
   },
   renderButtons: function(action, disabled, len) {
     var isMax = len >= MAX_COUNT;
