@@ -110,6 +110,9 @@ module.exports = {
       </button>
     ];
   },
+  showCookieDialog: function() {
+
+  },
   renderHeaderAction: function(action, disabled, isReq) {
     var allActions = isReq ? HeaderSelect.REQ_HEADERS : HeaderSelect.RES_HEADERS;
     var name = isReq ? 'request' : 'response';
@@ -120,25 +123,7 @@ module.exports = {
     if (type === allActions[2]) {
       return this.renderKey(action.key, 'Enter ' + name + ' cookie name to delete', disabled);
     }
-    var isDel = action.type === allActions[3];
-    if (action.type === allActions[0] || isDel) {
-      return [
-        <input type="text" value={action.value} className={isDel ? 'w-hide' : 'form-control'} maxLength="5120"
-            placeholder={'Enter ' + name + ' header value'} disabled={disabled} data-keep-space="1" onChange={this.onValueChange} />
-      ];
-    }
-    if (action.type === allActions[1]) {
-      return <input type="text" value={action.value} className="form-control" readOnly onClick={this.showCorsSettings}
-          placeholder="Enter request CORS settings" disabled={disabled} onChange={this.onValueChange} />;
-    }
-    if (action.type === allActions[2]) {
-      return [
-        <input type="text" value={action.key} className="form-control w-190 mr-10" maxLength="256"
-            placeholder="Enter cookie name" disabled={disabled} onChange={this.onKeyChange} />,
-        <input type="text" value={action.value} className="form-control" maxLength="1024"
-            placeholder="Enter cookie value" disabled={disabled} onChange={this.onValueChange} />
-      ];
-    }
+    return this.renderKey(action.value, 'Enter ' + name + ' header value', disabled, true);
   },
   renderHeaders: function(action, disabled, isReq, className) {
     var name = isReq ? 'requestHeaders' : 'responseHeaders';
@@ -150,12 +135,12 @@ module.exports = {
             value={action.key} disabled={disabled} onChange={this.onKeyChange} placeholder={placeholder} />;
   },
   renderKey: function(key, placeholder, disabled, keepSpace) {
-    return <input type="text" value={getValue(key, keepSpace)} className="form-control" maxLength="512"
+    return <input type="text" value={getValue(key, keepSpace)} className="form-control" maxLength="2560"
       placeholder={placeholder} disabled={disabled} onChange={this.onKeyChange} data-keep-space={keepSpace || undefined} />;
   },
   renderKV: function(data, keyPlaceholder, valuePlaceholder, disabled, keepKeySpace, keepValueSpace) {
     return [
-      <input type="text" value={getValue(data.key, keepKeySpace)} className="form-control w-190 mr-10" maxLength="512"
+      <input type="text" value={getValue(data.key, keepKeySpace)} className="form-control w-190 mr-10" maxLength="2560"
         placeholder={keyPlaceholder} disabled={disabled} onChange={this.onKeyChange} data-keep-space={keepKeySpace || undefined} />,
       <input type="text" value={getValue(data.value, keepValueSpace)} className="form-control" maxLength="2560"
         placeholder={valuePlaceholder} disabled={disabled} onChange={this.onValueChange} data-keep-space={keepValueSpace || undefined} />
