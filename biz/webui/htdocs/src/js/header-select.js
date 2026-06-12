@@ -135,9 +135,9 @@ function toFirstUpperCase(str) {
 
 var HeaderSelect = React.createClass({
   getInitialState: function() {
-    return { options: [] };
+    return { options: this.getOptions() };
   },
-  updateOptions: function() {
+  getOptions: function() {
     var props = this.props;
     var session = props.session;
     var isReq = props.isReq;
@@ -165,7 +165,12 @@ var HeaderSelect = React.createClass({
         headers && Object.keys(headers).forEach(addOption);
       }
     }
-    if (hasChanged || !this.state.options.length) {
+    options.hasChanged = hasChanged;
+    return options;
+  },
+  updateOptions: function() {
+    var options = this.getOptions();
+    if (options.hasChanged || !this.state.options.length) {
       this.setState({ options: options });
     }
   },
