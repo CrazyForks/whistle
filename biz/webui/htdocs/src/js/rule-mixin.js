@@ -362,7 +362,7 @@ module.exports = {
                     <option>Select cookie same site</option>
                     <option value="None">None</option>
                     <option value="Lax">Lax</option>
-                    <option value="Strice">Strict</option>
+                    <option value="Strict">Strict</option>
                   </select>) : <input type="text" name={label} value={value} className="form-control"
                     placeholder={option.placeholder} maxLength={option.maxLength || 2560} autoComplete="off" />}
                 </div>
