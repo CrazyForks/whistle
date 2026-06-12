@@ -1,7 +1,6 @@
 var React = require('react');
 var HelpIcon = require('./help-icon');
 var util = require('./util');
-var HeaderSelect = require('./header-select');
 var ruleMixin = require('./rule-mixin');
 
 var valuePlaceholder = 'Enter keyword (case‑insensitive) or regexp';
@@ -103,6 +102,7 @@ var FiltersRule = React.createClass({
           filters.map(function(filter, i) {
             var type = filter.type;
             var option = getOption(type);
+            var keyPlaceholder = option.keyPlaceholder;
             return (
               <div data-name="filters" className="w-form-value" data-index={filter.index} key={filter.index}>
                 <select data-name="type" value={type} className="form-control w-190" disabled={disabled} onChange={self.onChange}>
@@ -117,8 +117,7 @@ var FiltersRule = React.createClass({
                     }
                   </optgroup>
                 </select>
-                {option.keyPlaceholder ? <HeaderSelect className="w-190 mr-10" name="allHeaders" session={self.props.session}
-                  value={filter.key} disabled={disabled} onChange={self.onKeyChange} placeholder={option.keyPlaceholder} /> : null}
+                {keyPlaceholder && self.renderAllHeaders(filter, disabled, 'w-190 mr-10', keyPlaceholder)}
                 <input type="text"  data-name="value" value={filter.value} className="form-control w-filter-header-value" maxLength="100"
                   placeholder={option.placeholder} disabled={disabled} onChange={self.onChange} />
                 {self.renderButtons(filter, disabled, len)}
