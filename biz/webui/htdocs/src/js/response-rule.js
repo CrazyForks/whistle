@@ -285,6 +285,7 @@ var ResponseRule = React.createClass({
               })
             }
         </div>
+        {self.renderCookieDialog()}
       </div>
     );
   }

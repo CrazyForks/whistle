@@ -7,6 +7,8 @@ var UrlInput = require('./url-input');
 var JSONEditor = require('./json-editor');
 var HeaderSelect = require('./header-select');
 var TypeSelect = require('./type-select');
+var Dialog = require('./dialog');
+var CloseBtn = require('./close-btn');
 
 var MAX_COUNT = 20;
 var keyIndex = 0;
@@ -112,7 +114,7 @@ module.exports = {
     ];
   },
   showCookieDialog: function() {
-    alert(2);
+    this.refs.cookieDialog.show();
   },
   renderHeaderAction: function(action, disabled, isReq) {
     var allActions = isReq ? HeaderSelect.REQ_HEADERS : HeaderSelect.RES_HEADERS;
@@ -178,5 +180,34 @@ module.exports = {
       return this.renderKV(action, 'Enter keyword or regexp', 'Enter replacement value', disabled, true, true);
     }
     return this.renderFileInput(action.value, disabled);
+  },
+  renderCookieDialog: function() {
+    return (
+      <Dialog ref="cookieDialog" wstyle="w-create-cookie-dialog">
+        <div className="modal-header">
+          Create Response Cookie
+          <CloseBtn />
+        </div>
+        <div className="modal-body">
+
+        </div>
+        <div className="modal-footer">
+          <button
+            type="button"
+            className="btn btn-default"
+            data-dismiss="modal"
+          >
+            Close
+          </button>
+          <button
+            type="button"
+            data-dismiss="modal"
+            className="btn btn-primary"
+          >
+            Confirm
+          </button>
+        </div>
+      </Dialog>
+    );
   }
 };
