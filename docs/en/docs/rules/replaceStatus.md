@@ -253,3 +253,9 @@ www.example.com/api replaceStatus://400 includeFilter://s:403
 - [HTTP Status Codes MDN Documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status): Learn the meaning of all HTTP status codes.
 - [Matching Pattern Documentation](./pattern): Learn more about URL matching rules.
 - [Filters Documentation](./filters): Learn more about filter functionalities.
+
+## Associated Protocols
+
+1. Return status code directly (request is not sent to the server): [statusCode](./statusCode)  
+2. Replace the status code returned by the server: [replaceStatus](./replaceStatus)  
+3. Client-side page redirect: [locationHref](./locationHref)
