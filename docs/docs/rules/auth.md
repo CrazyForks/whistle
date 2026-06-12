@@ -81,6 +81,15 @@ username: admin
 password: secret
 ```
 
+## 设置 `Proxy-Authorization`
+```json
+{
+  "proxy": true,
+  "username": "admin",
+  "password": "secret"
+}
+```
+
 ## 参数详解
 
 | 参数 | 是否必填 | 描述与示例 |
