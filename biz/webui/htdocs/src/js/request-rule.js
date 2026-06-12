@@ -10,7 +10,7 @@ var MethodSelect = require('./method-select');
 
 var HTTP_VERSION_OPTIONS = ['HTTP/1.1', 'HTTP/2.0'];
 var URL_ACTIONS = ['Set Param', 'Delete Param', 'Modify Path (path/to?query)'];
-var HEADER_ACTIONS = ['Set Custom Header', 'Set Request CORS', 'Set Request Cookie', 'Delete Request Header'];
+var HEADER_ACTIONS = HeaderSelect.ACTIONS;
 var BODY_ACTIONS = util.BODY_ACTIONS;
 var getRandomKey = util.getRandomKey;
 var getInjectValue = util.getInjectValue;
@@ -28,7 +28,7 @@ var RequestRule = React.createClass({
       method: util.METHODS[0],
       version: HTTP_VERSION_OPTIONS[0],
       urlActions: [this.createAction(URL_ACTIONS[0])],
-      headerActions: [this.createAction(HeaderSelect.ACTIONS[1])],
+      headerActions: [this.createAction(HEADER_ACTIONS[1])],
       bodyActions: [this.createAction(BODY_ACTIONS[0])]
     };
   },
@@ -192,6 +192,10 @@ var RequestRule = React.createClass({
     return this.renderKV(action, keyPlaceholder, valuePlaceholder, disabled, isParam, isParam);
   },
   renderHeaderAction: function(action, disabled) {
+    var type = action.type;
+    if (type === HEADER_ACTIONS[1]) {
+
+    }
     var isDel = action.type === HEADER_ACTIONS[3];
     if (action.type === HEADER_ACTIONS[0] || isDel) {
       return [
@@ -228,7 +232,6 @@ var RequestRule = React.createClass({
     var urlActionCount = urlActions.length;
     var headerActionCount = headerActions.length;
     var bodyActionCount = bodyActions.length;
-    var session = self.props.session;
 
     return (
       <div className={'w-rules-form' + (hide ? ' w-hide' : '')}>
@@ -281,8 +284,7 @@ var RequestRule = React.createClass({
               headerActions.map(function(action) {
                 return (
                   <div data-name="headerActions" className="w-form-value" data-index={action.index} key={action.index}>
-                    <HeaderSelect name="requestHeaders" className="w-190" disabled={disabledHeader} value={action.type}
-                      isReq session={session} data={action} onChange={self.onActionChange} />
+                    {self.renderHeaders(action, true, disabledHeader, 'w-190')}
                     {self.renderHeaderAction(action, disabledHeader)}
                     {self.renderButtons(action, disabledHeader, headerActionCount)}
                   </div>

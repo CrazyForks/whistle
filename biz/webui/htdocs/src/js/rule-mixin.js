@@ -5,6 +5,7 @@ var win = require('./win');
 var util = require('./util');
 var UrlInput = require('./url-input');
 var JSONEditor = require('./json-editor');
+var HeaderSelect = require('./header-select');
 
 var MAX_COUNT = 20;
 var keyIndex = 0;
@@ -108,6 +109,11 @@ module.exports = {
         <Icon name="minus" />
       </button>
     ];
+  },
+  renderHeaders: function(action, isReq, disabled, className) {
+    var name = isReq ? 'requestHeaders' : 'responseHeaders';
+    return <HeaderSelect name={name} className={className} disabled={disabled} value={action.type}
+      isReq={isReq} isRes={!isReq} session={this.props.session} data={action} onChange={this.onActionChange} />;
   },
   renderKey: function(key, placeholder, disabled, keepSpace) {
     return <input type="text" value={getValue(key, keepSpace)} className="form-control" maxLength="512"
