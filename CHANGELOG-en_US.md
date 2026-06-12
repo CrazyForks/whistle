@@ -1,7 +1,7 @@
 [中文](./CHANGELOG.md) · English
 
 ## v2.10.3
-1. feat: Support creating `Mapping` / `Network` / `Debug` rules via form (`Request` / `Response` rules coming soon)
+1. feat: Support creating `Mapping` / `Network` / `Request` / `Response` / `Debug`  rules via form 
 2. feat: Added `Clear DNS Cache` button in Online to manually clear Whistle's DNS cache
 3. feat: Added a settings button in Network/Settings/"ViewAll in new window" to support custom URL for opening content, see: https://github.com/avwo/set-global-proxy/pull/12
 4. fix: Fixed multiple issues and enhanced system stability
