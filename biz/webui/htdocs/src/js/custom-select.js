@@ -11,9 +11,10 @@ var Select = React.createClass({
   getInitialState: function() {
     return this.updateOptions();
   },
-  getKey: function() {
+  getKey: function(name) {
     var props = this.props;
-    return props.name ? props.name + 'SelectOptions' : '';
+    name = name || props.name;
+    return name ? name + 'SelectOptions' : '';
   },
   updateOptions: function(options) {
     var valueList = [];
