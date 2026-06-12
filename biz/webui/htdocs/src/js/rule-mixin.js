@@ -115,7 +115,7 @@ module.exports = {
     var name = isReq ? 'request' : 'response';
     var type = action.type;
     if (type === allActions[1]) {
-      return this.renderAllHeaders(action, disabled, 'flex-1', 'Select ' + name + ' header name to delete');
+      return this.renderAllHeaders(action, disabled, 'flex-1 mr-0', 'Select ' + name + ' header name to delete');
     }
     if (type === allActions[2]) {
       return this.renderKey(action.key, 'Enter ' + name + ' cookie name to delete', disabled);
