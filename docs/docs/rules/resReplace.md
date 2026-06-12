@@ -56,7 +56,7 @@ www.example.com/path2 resReplace://https://www.xxx.com/xxx/params.json
 www.example.com/path3 resReplace://temp/blank.json
 ````
 
-## 关联协议
+## 关联协议 {#releated}
 
 1. 在响应内容前注入内容（`Prepend To Body`）：[resPrepend](./resPrepend)
 2. 在响应内容前注入 HTML 内容（`Prepend HTML To Body`，响应类型必须为 `text/html`）：[htmlPrepend](./htmlPrepend)

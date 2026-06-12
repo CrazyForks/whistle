@@ -60,7 +60,7 @@ www.example.com/path1 resMerge:///User/xxx/test.json lineProps://enableBigData
 ```
 启用后，reqMerge 将尝试处理更大体积的响应，请注意这可能增加内存消耗和处理时间。
 
-## 关联协议
+## 关联协议 {#releated}
 
 1. 在响应内容前注入内容（`Prepend To Body`）：[resPrepend](./resPrepend)
 2. 在响应内容前注入 HTML 内容（`Prepend HTML To Body`，响应类型必须为 `text/html`）：[htmlPrepend](./htmlPrepend)

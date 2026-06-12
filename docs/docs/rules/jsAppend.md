@@ -66,7 +66,7 @@ www.example.com/path5 jsAppend://https://www.xxx.com/xxx/params.js lineProps://c
 | `async` | 异步加载，下载完成后立即执行 | `lineProps://async` |
 | `crossorigin`| 启用跨域资源共享（CORS）模式 | `lineProps://crossorigin` |
 
-## 关联协议
+## 关联协议 {#releated}
 
 1. 在响应内容前注入内容（`Prepend To Body`）：[resPrepend](./resPrepend)
 2. 在响应内容前注入 HTML 内容（`Prepend HTML To Body`，响应类型必须为 `text/html`）：[htmlPrepend](./htmlPrepend)
