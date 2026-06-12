@@ -25,8 +25,25 @@ var Select = React.createClass({
     });
     var innerLen = options.length;
     var props = this.props;
-    var key = this.getKey();
-    var customOptions = key && storage.get(key);
+    var name = props.name;
+    var key = this.getKey(name);
+    var customOptions;
+    if (key) {
+      var str;
+      if (name === 'allHeaders') {
+        customOptions = storage.get(this.getKey('requestHeaders'));
+        str = storage.get(this.getKey('responseHeaders'));
+        if (str && customOptions) {
+          customOptions = customOptions + ' ' + str;
+        } else {
+          customOptions = customOptions || str;
+        }
+      }
+      str = storage.get(key);
+      if (str) {
+        customOptions = customOptions ? customOptions + ' ' + str : str;
+      }
+    }
     if (util.notEStr(customOptions)) {
       this._customOptions = customOptions;
       if (props.toLowerCase) {

@@ -25,7 +25,7 @@ var GENERAL_HEADERS = [
   'Warning'
 ];
 
-var REQ_HEADERS = GENERAL_HEADERS.concat([
+var REQ_HEADERS = REQ_ACTIONS.concat(GENERAL_HEADERS).concat([
   '- Content Negotiation',
   'Accept',
   'Accept-Charset',
@@ -66,7 +66,7 @@ var REQ_HEADERS = GENERAL_HEADERS.concat([
   'X-Correlation-ID'
 ]);
 
-var RES_HEADERS = GENERAL_HEADERS.concat([
+var RES_HEADERS = RES_ACTIONS.concat(GENERAL_HEADERS).concat([
   '- Content Description',
   'Content-Type',
   'Content-Length',
@@ -143,7 +143,7 @@ var HeaderSelect = React.createClass({
     var isReq = props.isReq;
     var isRes = props.isRes;
     var keepCase = isReq || isRes;
-    var options = isReq ? REQ_ACTIONS.concat(REQ_HEADERS) : (isRes ? RES_ACTIONS.concat(RES_HEADERS) : ALL_HEADERS.slice());
+    var options = (isReq ? REQ_HEADERS : (isRes ? RES_HEADERS : ALL_HEADERS)).slice();
     var addOption = function(name) {
       name = keepCase ? toFirstUpperCase(name) : name;
       if (options.indexOf(name) === -1) {
