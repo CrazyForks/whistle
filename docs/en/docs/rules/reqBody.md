@@ -37,7 +37,7 @@ www.example.com/path2 reqBody://https://www.xxx.com/xxx/params.txt
 www.example.com/path3 reqBody://temp/blank.txt
 ````
 
-## Associated Protocols {#releated}
+## Associated Protocols {#related}
 
 1. Inject content before the request content (`Prepend To Body`): [reqPrepend](./reqPrepend)  
 2. Replace response content (`Replace Body`): [reqBody](./reqBody)  

@@ -157,7 +157,7 @@ https://example.com/api/ auth://{api-auth}
 - 对于更复杂的认证方式（如 Bearer Token、OAuth 等），请使用 [`reqHeaders`](./reqHeaders) 协议直接设置相应的 `Authorization` 头
 - 从远程 URL 加载时，请确保目标 URL 安全可靠
 
-## 关联协议 {#releated}
+## 关联协议 {#related}
 1. 删除请求头字段（`Delete Request Header`）：[delete://reqHeaders.xxx](./delete)
 2. 删除请求 Cookie（`Delete Request Cookie`）：[delete://reqCookies.xxx](./delete)
 3. 设置请求 Cookie：[reqCookies](./reqCookies)

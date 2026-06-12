@@ -74,7 +74,7 @@ www.example.com/path3 htmlPrepend://temp/blank.txt
 ````
 
 
-## 关联协议 {#releated}
+## 关联协议 {#related}
 
 1. 在响应内容前注入内容（`Prepend To Body`）：[resPrepend](./resPrepend)
 2. 在响应内容前注入 HTML 内容（`Prepend HTML To Body`，响应类型必须为 `text/html`）：[htmlPrepend](./htmlPrepend)

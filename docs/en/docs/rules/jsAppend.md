@@ -66,7 +66,7 @@ www.example.com/path5 jsAppend://https://www.xxx.com/xxx/params.js lineProps://c
 | `async` | Loads asynchronously and executes immediately after download. | `lineProps://async` |
 | `crossorigin`| Enables Cross-Origin Resource Sharing (CORS) mode. | `lineProps://crossorigin` |
 
-## Associated Protocols {#releated}
+## Associated Protocols {#related}
 
 1. Inject content before the response content (`Prepend To Body`): [resPrepend](./resPrepend)  
 2. Inject HTML content before the response content (`Prepend HTML To Body`, response type must be `text/html`): [htmlPrepend](./htmlPrepend)  

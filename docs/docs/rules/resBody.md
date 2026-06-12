@@ -208,7 +208,7 @@ pattern resBody://content includeFilter://*/api/v1/
 - [操作指令文档](./operation)：了解内容加载的多种方式
 - [过滤器文档](./filters)：了解更多过滤器功能
 
-## 关联协议 {#releated}
+## 关联协议 {#related}
 
 1. 在响应内容前注入内容（`Prepend To Body`）：[resPrepend](./resPrepend)
 2. 在响应内容前注入 HTML 内容（`Prepend HTML To Body`，响应类型必须为 `text/html`）：[htmlPrepend](./htmlPrepend)

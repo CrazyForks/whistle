@@ -252,7 +252,7 @@ var ResponseRule = React.createClass({
           <label>
             <input type="checkbox" className="mr-10" checked={!disabledHeader} data-name="disabledHeader" onChange={self.onDisableCheckChange} />
             Modify Response Headers
-            <HelpIcon className="ml-10" docsUrl="rules/resHeaders.html" />
+            <HelpIcon className="ml-10" docsUrl="rules/resHeaders.html#related" />
           </label>
             {
               headerActions.map(function(action) {
@@ -270,7 +270,7 @@ var ResponseRule = React.createClass({
           <label>
             <input type="checkbox" className="mr-10" checked={!disabledBody} data-name="disabledBody" onChange={self.onDisableCheckChange} />
             Modify Response Body
-            <HelpIcon className="ml-10" docsUrl="rules/resBody.html" />
+            <HelpIcon className="ml-10" docsUrl="rules/resBody.html#related" />
           </label>
             {
               bodyActions.map(function(action) {

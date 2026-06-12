@@ -62,7 +62,7 @@ www.example.com/path2 htmlBody://https://www.xxx.com/xxx/params.txt
 www.example.com/path3 htmlBody://temp/blank.txt
 ````
 
-## Associated Protocols {#releated}
+## Associated Protocols {#related}
 
 1. Inject content before the response content (`Prepend To Body`): [resPrepend](./resPrepend)  
 2. Inject HTML content before the response content (`Prepend HTML To Body`, response type must be `text/html`): [htmlPrepend](./htmlPrepend)  

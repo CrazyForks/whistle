@@ -157,7 +157,7 @@ https://example.com/api/ auth://{api-auth}
 - For more complex authentication methods (such as Bearer Token, OAuth, etc.), please use the [`reqHeaders`](./reqHeaders) protocol to directly set the corresponding `Authorization` header
 - When loading from a remote URL, ensure the target URL is secure and reliable
 
-## Associated Protocols {#releated}
+## Associated Protocols {#related}
 
 1. Delete request header field (`Delete Request Header`): [delete://reqHeaders.xxx](./delete)  
 2. Delete request cookie (`Delete Request Cookie`): [delete://reqCookies.xxx](./delete)  

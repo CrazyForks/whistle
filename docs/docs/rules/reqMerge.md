@@ -60,7 +60,7 @@ www.example.com/path1 reqMerge:///User/xxx/test.json lineProps://enableBigData
 ```
 启用后，reqMerge 将尝试处理更大体积的请求，请注意这可能增加内存消耗和处理时间。
 
-## 关联协议 {#releated}
+## 关联协议 {#related}
 1. 在请求内容前注入内容（`Prepend To Body`）：[reqPrepend](./reqPrepend)
 2. 替换请求内容（`Replace Body`：[reqBody](./reqBody)
 3. 在请求内容后追加内容（`Append To Body`：[reqAppend](./reqAppend)

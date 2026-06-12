@@ -132,7 +132,7 @@ www.example.com/print.css cssAppend://{test3.css}
 ```
 ````
 
-## Associated Protocols {#releated}
+## Associated Protocols {#related}
 
 1. Inject content before the response content (`Prepend To Body`): [resPrepend](./resPrepend)  
 2. Inject HTML content before the response content (`Prepend HTML To Body`, response type must be `text/html`): [htmlPrepend](./htmlPrepend)  

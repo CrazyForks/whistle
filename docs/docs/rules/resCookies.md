@@ -78,7 +78,7 @@ resH.set-cookie:path=/;: SameSite=None; Secure;
 www.example.com/path headerReplace://{test.json} resCookies://test=123;path=/;
 ````
 
-## 关联协议 {#releated}
+## 关联协议 {#related}
 1. 修改响应头：[resHeaders](./resHeaders)
 2. 删除请求头字段（`Delete Response Header`）：[delete://resHeaders.xxx](./delete)
 3. 删除请求 Cookie（`Delete Response Cookie`）：[delete://resCookies.xxx](./delete)

@@ -57,7 +57,7 @@ www.example.com/path2 reqReplace://https://www.xxx.com/xxx/params.json
 www.example.com/path3 reqReplace://temp/blank.json
 ````
 
-## Associated Protocols {#releated}
+## Associated Protocols {#related}
 
 1. Inject content before the request content (`Prepend To Body`): [reqPrepend](./reqPrepend)  
 2. Replace request content (`Replace Body`): [reqBody](./reqBody)  

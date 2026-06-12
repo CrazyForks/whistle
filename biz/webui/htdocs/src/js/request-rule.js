@@ -233,7 +233,7 @@ var RequestRule = React.createClass({
           <label>
             <input type="checkbox" className="mr-10" data-name="disabledUrl" checked={!disabledUrl} onChange={self.onDisableCheckChange} />
             Modify Request URL
-            <HelpIcon className="ml-10" docsUrl="rules/urlParams.html" />
+            <HelpIcon className="ml-10" docsUrl="rules/urlParams.html#related" />
           </label>
           {
             urlActions.map(function(action) {
@@ -252,7 +252,7 @@ var RequestRule = React.createClass({
           <label>
             <input type="checkbox" className="mr-10" data-name="disabledHeader" checked={!disabledHeader} onChange={self.onDisableCheckChange} />
             Modify Request Headers
-            <HelpIcon className="ml-10" docsUrl="rules/reqHeaders.html" />
+            <HelpIcon className="ml-10" docsUrl="rules/reqHeaders.html#related" />
           </label>
             {
               headerActions.map(function(action) {
@@ -270,7 +270,7 @@ var RequestRule = React.createClass({
           <label>
             <input type="checkbox" className="mr-10" data-name="disabledBody" checked={!disabledBody} onChange={self.onDisableCheckChange} />
             Modify Request Body
-            <HelpIcon className="ml-10" docsUrl="rules/reqBody.html" />
+            <HelpIcon className="ml-10" docsUrl="rules/reqBody.html#related" />
           </label>
           {
             bodyActions.map(function(action) {

@@ -89,7 +89,7 @@ www.example.com/path headerReplace://{test.json} resCookies://test=123;path=/;
 
 ````
 
-## Associated Protocols {#releated}
+## Associated Protocols {#related}
 
 1. Modify response headers: [resHeaders](./resHeaders)  
 2. Delete request header field (`Delete Response Header`): [delete://resHeaders.xxx](./delete)  

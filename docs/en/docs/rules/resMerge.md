@@ -61,7 +61,7 @@ www.example.com/path1 resMerge:///User/xxx/test.json lineProps://enableBigData
 ```
 Once enabled, `resMerge` will attempt to process larger response volumes. Please note that this may increase memory consumption and processing time.
 
-## Associated Protocols {#releated}
+## Associated Protocols {#related}
 
 1. Inject content before the response content (`Prepend To Body`): [resPrepend](./resPrepend)  
 2. Inject HTML content before the response content (`Prepend HTML To Body`, response type must be `text/html`): [htmlPrepend](./htmlPrepend)  

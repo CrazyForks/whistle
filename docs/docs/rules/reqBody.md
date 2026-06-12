@@ -40,7 +40,7 @@ www.example.com/path3 reqBody://temp/blank.txt
 ````
 
 
-## 关联协议 {#releated}
+## 关联协议 {#related}
 1. 在请求内容前注入内容（`Prepend To Body`）：[reqPrepend](./reqPrepend)
 2. 替换响应内容（`Replace Body`：[reqBody](./reqBody)
 3. 在请求内容后追加内容（`Append To Body`：[reqAppend](./reqAppend)
