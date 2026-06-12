@@ -40,7 +40,7 @@ www.example.com/path3 reqPrepend://temp/blank.txt
 ## Associated Protocols
 
 1. Inject content before the request content (`Prepend To Body`): [reqPrepend](./reqPrepend)  
-2. Replace response content (`Replace Body`): [reqBody](./reqBody)  
+2. Replace request content (`Replace Body`): [reqBody](./reqBody)  
 3. Append content after the request content (`Append To Body`): [reqAppend](./reqAppend)  
 4. Replace request content using keywords or regular expressions: [reqReplace](./reqReplace)  
 5. Override JSON/Form objects in the request content: [reqMerge](./reqMerge)  

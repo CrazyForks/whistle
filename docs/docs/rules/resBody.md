@@ -207,3 +207,9 @@ pattern resBody://content includeFilter://*/api/v1/
 - [匹配模式文档](./pattern)：详细了解 URL 匹配规则
 - [操作指令文档](./operation)：了解内容加载的多种方式
 - [过滤器文档](./filters)：了解更多过滤器功能
+
+## 关联协议
+
+1. 在响应内容前注入内容（`Prepend To Body`）：[resPrepend](./resPrepend)
+2. 替换响应内容（`Replace Body`：[reqBody](./reqBody)
+3. 在请求内容后追加内容（`Append To Body`：[reqAppend](./reqAppend)
