@@ -194,7 +194,7 @@ var RequestRule = React.createClass({
   renderHeaderAction: function(action, disabled) {
     var type = action.type;
     if (type === HEADER_ACTIONS[1]) {
-
+      return this.renderHeaders(action, disabled, true);
     }
     var isDel = action.type === HEADER_ACTIONS[3];
     if (action.type === HEADER_ACTIONS[0] || isDel) {
