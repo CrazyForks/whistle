@@ -43,4 +43,3 @@ www.example.com/path locationHref://replace:https://www.qq.com
 1. Return status code directly (request is not sent to the server): [statusCode](./statusCode)  
 2. Replace the status code returned by the server: [replaceStatus](./replaceStatus)  
 3. Client-side page redirect: [locationHref](./locationHref)
-
