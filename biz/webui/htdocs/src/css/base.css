@@ -619,6 +619,11 @@ select.form-control {
   margin-right: 10px!important;
 }
 
+.mx-20 {
+  margin-left: 20px!important;
+  margin-right: 20px!important;
+}
+
 .mx-2 {
   margin-left: 2px!important;
   margin-right: 2px!important;

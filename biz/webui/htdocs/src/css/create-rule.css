@@ -138,6 +138,7 @@
 
 .w-80 {
   width: 80px;
+  flex-shrink: 0;
 }
 
 .w-175 {
@@ -261,5 +262,9 @@
 
 .w-create-cookie-dialog .w-form-value {
   padding: 0;
+}
+
+.w-cookie-attrs label input {
+  margin-right: 5px;
 }
 

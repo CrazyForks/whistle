@@ -217,22 +217,20 @@ module.exports = {
             <label className="w-form-label w-80">SameSite: </label>
             <input type="text" ref="cookieSameSite" className="form-control" placeholder="Enter cookie SameSite, e.g. Strict, Lax, None" />
           </div>
-          <div className="w-form-item">
+          <div className="w-form-value w-cookie-attrs">
             <label className="w-form-label w-80">Attributes: </label>
-            <div className="w-form-value">
-              <label className="mr-10">
-                <input type="checkbox" ref="cookieSecure" />
-                Secure
-              </label>
-              <label>
-                <input type="checkbox" ref="cookieHttpOnly" />
-                HttpOnly
-              </label>
-              <label>
-                <input type="checkbox" ref="cookiePartitioned" />
-                Partitioned
-              </label>
-              </div>
+            <label className="mr-10">
+              <input type="checkbox" ref="cookieSecure" />
+              Secure
+            </label>
+            <label className="mx-20">
+              <input type="checkbox" ref="cookieHttpOnly" />
+              HttpOnly
+            </label>
+            <label>
+              <input type="checkbox" ref="cookiePartitioned" />
+              Partitioned
+            </label>
           </div>
         </div>
         <div className="modal-footer">
