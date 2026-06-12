@@ -162,16 +162,9 @@ module.exports = {
     var self = this;
     var data = self.getData(e);
     data = data.list[data.index];
-    var value = data.key;
-    if (value) {
-      try {
-        value = JSON.parse(value);
-      } catch(e) {
-        value = null;
-      }
-    }
     self._cookieAction = data;
-    self.setState({ cookie: value || {} }, function() {
+    var cookie = util.parseRawJson(data.key, true) || {};
+    self.setState({ cookie: cookie }, function() {
       self.refs.cookieDialog.show();
     });
   },
