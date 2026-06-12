@@ -6,21 +6,9 @@ var Select = require('./custom-select');
 var MethodSelect = require('./method-select');
 var StatusSelect = require('./status-select');
 var ruleMixin = require('./rule-mixin');
+var TypeSelect = require('./type-select');
 
 var RES_CORS_OPTIONS = ['*', 'credentials'];
-var RES_TYPE_OPTIONS = [
-  'text/html;charset=utf-8',
-  'text/css;charset=utf-8',
-  'text/plain;charset=utf-8',
-  'application/javascript;charset=utf-8',
-  'application/json;charset=utf-8',
-  'application/xml;charset=utf-8',
-  'image/png',
-  'image/jpeg',
-  'image/gif'
-].map(function(type) {
-  return { value: type, label: type };
-});
 
 var NetworkRule = React.createClass({
   mixins: [ruleMixin],
@@ -35,7 +23,7 @@ var NetworkRule = React.createClass({
       disabledCache: false,
       method: util.METHODS[0],
       url: '',
-      type: RES_TYPE_OPTIONS[0].value,
+      type: '',
       resCors: RES_CORS_OPTIONS[0]
     };
   },
@@ -169,9 +157,7 @@ var NetworkRule = React.createClass({
               <input type="checkbox" className="mr-10" checked={!disabledType} data-name="disabledType" onChange={this.onDisableCheckChange} />
               Set Response Type
             </label>
-            <Select ref="responseType" disabled={disabledType} value={state.type} className="ml-10 w-300" onChange={this.onTypeChange} toLowerCase
-              name="responseType" options={RES_TYPE_OPTIONS} placeholder="Enter new response type, e.g. image/png or text/yaml;charset=utf-8"
-            />
+            <TypeSelect ref="responseType" disabled={disabledType} value={state.type} className="ml-10 w-300" onChange={this.onTypeChange} hidePlaceholder />
             <HelpIcon docsUrl="rules/resType.html" />
           </div>
         </div>

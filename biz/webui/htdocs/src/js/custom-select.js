@@ -49,7 +49,7 @@ var Select = React.createClass({
   componentDidMount: function() {
     var props = this.props;
     var options = this.state.options;
-    if (!props.selectPlaceholder && options.length && !this.getOption(props.value)) {
+    if (!props.selectPlaceholder && !props.value && options.length) {
       this.handleChange(options[0]);
     }
   },

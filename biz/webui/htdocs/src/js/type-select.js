@@ -37,7 +37,8 @@ var TypeSelect = React.createClass({
 
     return (
       <Select ref="type" name={name} disabled={props.disabled} value={props.value} className={props.className} onChange={props.onChange} toLowerCase
-        options={options} selectPlaceholder="Select content type" placeholder="Enter custom content type, e.g. image/png or text/yaml;charset=utf-8" />
+        options={options} selectPlaceholder={props.hidePlaceholder ? null : 'Select content type'}
+        placeholder="Enter custom content type, e.g. image/png or text/yaml;charset=utf-8" />
     );
   }
 });
