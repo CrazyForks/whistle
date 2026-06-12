@@ -242,7 +242,8 @@
 .w-preview-rules .w-pr-REQDELAY, .w-preview-rules .w-pr-REQSPEED, .w-preview-rules .w-pr-METHOD,
 .w-preview-rules .w-pr-REQHEADERS,.w-preview-rules .w-pr-REQBODY,.w-preview-rules .w-pr-HEADERREPLACE,
 .w-preview-rules .w-pr-REQCORS, .w-preview-rules .w-pr-REQPREPEND, .w-preview-rules .w-pr-REQBODY,
-.w-preview-rules .w-pr-REQAPPEND, .w-preview-rules .w-pr-REQREPLACE {
+.w-preview-rules .w-pr-REQAPPEND, .w-preview-rules .w-pr-REQREPLACE, .w-preview-rules .w-pr-AUTH,
+.w-preview-rules .w-pr-REQCOOKIES {
   color: #9effff;
 }
 
@@ -252,7 +253,7 @@
 .w-preview-rules .w-pr-RESCORS, .w-preview-rules .w-pr-RESPREPEND, .w-preview-rules .w-pr-RESBODY, .w-preview-rules .w-pr-RESAPPEND,
 .w-preview-rules .w-pr-RESREPLACE, .w-preview-rules .w-pr-RESMERGE, .w-preview-rules .w-pr-HTMLPREPEND, .w-preview-rules .w-pr-HTMLBODY,
 .w-preview-rules .w-pr-HTMLAPPEND, .w-preview-rules .w-pr-CSSPREPEND, .w-preview-rules .w-pr-CSSBODY, .w-preview-rules .w-pr-CSSAPPEND,
-.w-preview-rules .w-pr-JSPREPEND, .w-preview-rules .w-pr-JSBODY, .w-preview-rules .w-pr-JSAPPEND {
+.w-preview-rules .w-pr-JSPREPEND, .w-preview-rules .w-pr-JSBODY, .w-preview-rules .w-pr-JSAPPEND, .w-preview-rules .w-pr-RESCOOKIES {
   color: #292;
 }
 
