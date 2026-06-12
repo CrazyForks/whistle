@@ -81,6 +81,15 @@ username: admin
 password: secret
 ```
 
+## Set `Proxy-Authorization`
+```json
+{
+  "proxy": true,
+  "username": "admin",
+  "password": "secret"
+}
+```
+
 ## Parameter Details
 
 | Parameter | Required | Description & Examples |
