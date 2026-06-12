@@ -107,7 +107,7 @@ module.exports = {
           if (/^authorization$/i.test(type)) {
             innerKey = getRandomKey('auth_');
             rules.push('auth://{' + innerKey + '}');
-            values.push(innerKey, getInjectValue({
+            values.push(getInjectValue(innerKey, {
               username: key,
               password: value
             }));
@@ -116,7 +116,7 @@ module.exports = {
           if (/^proxy-authorization$/i.test(type)) {
             innerKey = getRandomKey('proxyAuth_');
             rules.push('auth://{' + innerKey + '}');
-            values.push(innerKey, getInjectValue({
+            values.push(getInjectValue(innerKey, {
               proxy: true,
               username: key,
               password: value
