@@ -46,6 +46,13 @@ var Select = React.createClass({
       options: options
     };
   },
+  componentDidMount: function() {
+    var props = this.props;
+    var options = this.state.options;
+    if (!props.selectPlaceholder && options.length && !this.getOption(props.value)) {
+      this.handleChange(options[0]);
+    }
+  },
   shouldComponentUpdate: function(nextProps) {
     var nextOptions = nextProps.options;
     var customOptions = this._customOptions;
