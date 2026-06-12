@@ -51,9 +51,10 @@ www.example.com/path2 reqHeaders://https://www.xxx.com/xxx/params.json
 www.example.com/path3 reqHeaders://temp/blank.json
 ````
 
-## Associated Protocols
-1. Delete Request Header Field (`Delete Request Header`): [delete://reqHeaders.xxx](./delete)
-2. Delete Request Cookie (`Delete Request Cookie`): [delete://reqCookies.xxx](./delete)
-3. Set Request Cookie: [reqCookies](./reqCookies)
-4. Set Request Authorization Header: [auth](./auth)
+## Associated Protocols {#releated}
+
+1. Delete request header field (`Delete Request Header`): [delete://reqHeaders.xxx](./delete)  
+2. Delete request cookie (`Delete Request Cookie`): [delete://reqCookies.xxx](./delete)  
+3. Set request cookie: [reqCookies](./reqCookies)  
+4. Set request authorization header: [auth](./auth)  
 5. More flexible way to modify request headers: [headerReplace](./headerReplace)
