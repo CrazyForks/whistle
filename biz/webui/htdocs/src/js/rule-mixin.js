@@ -110,7 +110,7 @@ module.exports = {
       </button>
     ];
   },
-  renderHeaders: function(action, isReq, disabled, className) {
+  renderHeaders: function(action, disabled, isReq, className) {
     var name = isReq ? 'requestHeaders' : 'responseHeaders';
     return <HeaderSelect name={name} className={className} disabled={disabled} value={action.type}
       isReq={isReq} isRes={!isReq} session={this.props.session} data={action} onChange={this.onActionChange} />;

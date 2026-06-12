@@ -284,7 +284,7 @@ var RequestRule = React.createClass({
               headerActions.map(function(action) {
                 return (
                   <div data-name="headerActions" className="w-form-value" data-index={action.index} key={action.index}>
-                    {self.renderHeaders(action, true, disabledHeader, 'w-190')}
+                    {self.renderHeaders(action, disabledHeader, true, 'w-190')}
                     {self.renderHeaderAction(action, disabledHeader)}
                     {self.renderButtons(action, disabledHeader, headerActionCount)}
                   </div>

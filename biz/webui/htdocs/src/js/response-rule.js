@@ -257,8 +257,7 @@ var ResponseRule = React.createClass({
               headerActions.map(function(action) {
                 return (
                   <div data-name="headerActions" className="w-form-value" data-index={action.index} key={action.index}>
-                    <HeaderSelect name="responseHeaders" isRes className="w-190" disabled={disabledHeader} value={action.type}
-                      data={action} onChange={self.onActionChange} />
+                    {self.renderHeaders(action, disabledHeader, false, 'w-190')}
                     <input type="text" value={action.value} className="form-control" maxLength="5120"
                       placeholder={action.placeholder} disabled={disabledHeader} onChange={self.onValueChange} />
                     {self.renderButtons(action, disabledHeader, headerCount)}
