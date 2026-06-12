@@ -134,7 +134,7 @@ module.exports = {
     var target = e.target;
     var name = target.name;
     if (COOKIE_ATTRS.indexOf(name) === -1) {
-      cookie[name] = target.value.trim();
+      cookie[name] = target.value;
     } else {
       cookie[name] = target.checked || undefined;
     }
