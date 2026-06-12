@@ -115,6 +115,10 @@ module.exports = {
     return <HeaderSelect name={name} className={className} disabled={disabled} value={action.type}
       isReq={isReq} isRes={!isReq} session={this.props.session} data={action} onChange={this.onActionChange} />;
   },
+  renderAllHeaders: function(action, disabled, className, placeholder) {
+    return <HeaderSelect className={className} name="allHeaders" session={this.props.session}
+            value={action.key} disabled={disabled} onChange={this.onKeyChange} placeholder={placeholder} />;
+  },
   renderKey: function(key, placeholder, disabled, keepSpace) {
     return <input type="text" value={getValue(key, keepSpace)} className="form-control" maxLength="512"
       placeholder={placeholder} disabled={disabled} onChange={this.onKeyChange} data-keep-space={keepSpace || undefined} />;
