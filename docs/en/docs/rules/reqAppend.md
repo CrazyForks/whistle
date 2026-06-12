@@ -38,6 +38,9 @@ www.example.com/path3 reqAppend://temp/blank.txt
 ````
 
 ## Associated Protocols
-1. Append content to the request body: [reqPrepend](./reqPrepend)
-2. Inject content before the request body: [reqBody](./reqBody)
-3. Append content to the response body: [resPrepend](./resPrepend)
+1. Inject content before the request content: [reqPrepend](./reqPrepend)  
+2. Replace response content: [reqBody](./reqBody)  
+3. Append content after the request content: [reqAppend](./reqAppend)  
+4. Replace request content using keywords or regular expressions: [reqReplace](./reqReplace)  
+5. Override JSON/Form objects in the request content: [reqMerge](./reqMerge)  
+6. Delete a property from a JSON/Form object in the request content: [delete://reqBody.xxx](./delete)
