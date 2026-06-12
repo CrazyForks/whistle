@@ -273,7 +273,7 @@ module.exports = {
       return this.renderAllHeaders(action, disabled, 'flex-1 mr-0', 'Select ' + name + ' header name to delete');
     }
     if (/^content-type$/i.test(type)) {
-      return <TypeSelect isReq={isReq} disabled={disabled} value={action.key} className="flex-1" onChange={this.onKeyChange} />;
+      return <TypeSelect isReq={isReq} disabled={disabled} value={action.key} className="flex-1 mr-0" onChange={this.onKeyChange} />;
     }
     if (isReq) {
       var isAuth = /^(proxy-)?authorization$/i.test(type);
