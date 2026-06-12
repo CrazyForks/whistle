@@ -355,7 +355,7 @@ module.exports = {
               return (
                 <div className="w-form-value" key={label}>
                   <label className="w-form-label w-80">{label}: </label>
-                  {label === 'SameSite' ? (<select className="form-control" value={value}>
+                  {label === 'SameSite' ? (<select className="form-control" name={label} value={value}>
                     <option>Select cookie same site</option>
                     <option value="None">None</option>
                     <option value="Lax">Lax</option>
