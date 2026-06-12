@@ -187,7 +187,7 @@ var ResponseRule = React.createClass({
         if (key) {
           if (!resReplace) {
             resReplace = {};
-            resReplaceKey = 'resReplace_' + getRandomKey();
+            resReplaceKey = getRandomKey('resReplace_');
             rules.push('resReplace://{' + resReplaceKey + '}');
           }
           if (resReplace[key] == null) {
@@ -198,7 +198,7 @@ var ResponseRule = React.createClass({
       case BODY_ACTIONS[13]:
         if (value) {
           if (/\s/.test(value)) {
-            var resMergeKey = 'resMerge_' + getRandomKey();
+            var resMergeKey =  getRandomKey('resMerge_');
             rules.push('resMerge://{' + resMergeKey + '}');
             values.push(getInjectValue(resMergeKey, value));
           } else {

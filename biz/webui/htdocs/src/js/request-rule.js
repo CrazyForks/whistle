@@ -147,7 +147,7 @@ var RequestRule = React.createClass({
         if (key) {
           if (!reqReplace) {
             reqReplace = {};
-            reqReplaceKey = 'reqReplace_' + getRandomKey();
+            reqReplaceKey =  getRandomKey('reqReplace_');
             rules.push('reqReplace://{' + reqReplaceKey + '}');
           }
           if (reqReplace[key] == null) {
@@ -158,7 +158,7 @@ var RequestRule = React.createClass({
       case BODY_ACTIONS[4]:
         if (value) {
           if (/\s/.test(value)) {
-            var reqMergeKey = 'reqMerge_' + getRandomKey();
+            var reqMergeKey =  getRandomKey('reqMerge_');
             rules.push('reqMerge://{' + reqMergeKey + '}');
             values.push(getInjectValue(reqMergeKey, value));
           } else {

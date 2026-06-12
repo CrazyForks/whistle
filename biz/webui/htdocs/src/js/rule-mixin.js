@@ -10,6 +10,8 @@ var TypeSelect = require('./type-select');
 var Dialog = require('./dialog');
 var CloseBtn = require('./close-btn');
 
+var getInjectValue = util.getInjectValue;
+var getRandomKey = util.getRandomKey;
 var MAX_COUNT = 20;
 var keyIndex = 0;
 var removeSpaces = util.removeSpaces;
@@ -71,6 +73,97 @@ module.exports = {
       }
     }
     return result;
+  },
+  getHeaderRules: function(isReq) {
+    var state = this.state;
+    if (state.disabledHeader) {
+      return;
+    }
+    var rules = [];
+    var values = [];
+    var cookies;
+    var headers;
+    var cookiesKey;
+    var headersKey;
+    var flag = isReq ? 'q' : 's';
+    var allActions = isReq ? HeaderSelect.REQ_HEADERS : HeaderSelect.RES_HEADERS;
+    state.headerActions.forEach(function(action) {
+      var key = (action.key || '').trim();
+      var value = (action.value || '').trim();
+      var type = action.type;
+      switch(action.type) {
+      case allActions[1]:
+        key && rules.push('delete://re' + flag + 'Headers.' + key);
+        break;
+      case allActions[2]:
+        key && rules.push('delete://re' + flag + 'Cookies.' + key);
+        break;
+      default:
+        var innerKey;
+        if (isReq) {
+          if (key || value) {
+            if (/^authorization$/i.test(type)) {
+              innerKey = getRandomKey('auth_');
+              rules.push('auth://{' + innerKey + '}');
+              values.push(innerKey, getInjectValue({
+                username: key,
+                password: value
+              }));
+            } else if (/^proxy-authorization$/i.test(type)) {
+              innerKey = getRandomKey('proxyAuth_');
+              rules.push('auth://{' + innerKey + '}');
+              values.push(innerKey, getInjectValue({
+                proxy: true,
+                username: key,
+                password: value
+              }));
+            } else if (/^cookie$/i.test(type)) {
+              if (!cookies) {
+                innerKey = getRandomKey('reqCookies_');
+                cookies = {};
+                rules.push('reqCookies://{' + innerKey + '}');
+              }
+              if (cookies[key] == null) {
+                cookies[key] = value;
+              }
+            }
+          }
+        } else if (/^set-cookie$/i.test(type)) {
+          key = key && util.parseRawJson(key);
+          if (key) {
+            if (!cookies) {
+              cookiesKey = getRandomKey('reqCookies_');
+              cookies = {};
+              rules.push('resCookies://{' + cookiesKey + '}');
+            }
+            if (cookies[key.Name] === null) {
+              cookies[key.Name] = key;
+              delete key.Name;
+            }
+          }
+        } else if (key) {
+          if (!headers) {
+            headersKey = getRandomKey('re' + flag + 'Headers_');
+            headers = {};
+            rules.push('re' + flag + 'Headers://{' + headersKey + '}');
+          }
+          if (headers[type] == null) {
+            headers[type] = key;
+          }
+        }
+      }
+    });
+    rules = rules.join(' ');
+    if (!rules) {
+      return;
+    }
+    if (cookies) {
+      values.unshift(getInjectValue(cookiesKey, cookies));
+    }
+    if (headers) {
+      values.unshift(getInjectValue(headersKey, headers));
+    }
+    return { rules: rules, values: values.join('\n\n') };
   },
   onAdd: function(e) {
     var data = this.getData(e);
