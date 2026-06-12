@@ -142,8 +142,9 @@ module.exports = {
               cookies = {};
               rules.push('resCookies://{' + cookiesKey + '}');
             }
-            if (cookies[key.Name] == null) {
-              cookies[key.Name] = key;
+            var keyName = key.Name || '';
+            if (cookies[keyName] == null) {
+              cookies[keyName] = key;
               key.value = key.Value || '';
               delete key.Value;
               delete key.Name;
