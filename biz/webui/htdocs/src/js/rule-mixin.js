@@ -158,8 +158,26 @@ module.exports = {
       </button>
     ];
   },
-  showCookieDialog: function() {
-    this.refs.cookieDialog.show();
+  showCookieDialog: function(e) {
+    var self = this;
+    var data = self.getData(e);
+    data = data.list[data.index];
+    var value = data.key;
+    if (value) {
+      try {
+        value = JSON.parse(value);
+      } catch(e) {
+        value = null;
+      }
+    }
+    self._cookieAction = data;
+    self.setState(value || {}, function() {
+      self.refs.cookieDialog.show();
+    });
+  },
+  saveCookie: function() {
+    this._cookieAction.key = JSON.stringify(this.state.cookie);
+    this.setState({});
   },
   renderHeaderAction: function(action, disabled, isReq) {
     var allActions = isReq ? HeaderSelect.REQ_HEADERS : HeaderSelect.RES_HEADERS;
@@ -277,6 +295,7 @@ module.exports = {
             type="button"
             data-dismiss="modal"
             className="btn btn-primary"
+            disabled={!cookie || (!cookie.Name && !cookie.Value)}
           >
             Confirm
           </button>
