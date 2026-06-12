@@ -38,7 +38,10 @@ www.example.com/path3 reqAppend://temp/blank.txt
 ````
 
 ## 关联协议
-1. 在请求内容后面追加内容：[reqPrepend](./reqPrepend)
-2. 在请求内容前面注入内容：[reqBody](./reqBody)
-3. 在响应内容后面追加内容：[resPrepend](./resPrepend)
+## 关联协议
+1. 在请求内容前注入内容：[reqPrepend](./reqPrepend)
+2. 替换响应内容：[reqBody](./reqBody)
+3. 在请求内容后追加内容：[reqAppend](./reqAppend)
+4. 使用关键字或正则表达式替换请求内容：[reqReplace](./reqReplace)
+5. 覆盖请求内容中的 JSON/Form 对象：[reqMerge](./reqMerge)
 
