@@ -1,8 +1,10 @@
 [中文](./CHANGELOG.md) · English
 
 ## v2.10.3
-1. **feat**: Support visually creating rules via a form (currently only `Mapping`, `Network`, `Debug` rules are supported; support for `Request` and `Response` related rules will be added later)
-2. **fix**: Fixed some bugs
+1. feat: Support creating `Mapping` / `Network` / `Request` / `Response` / `Debug`  rules via form 
+2. feat: Added `Clear DNS Cache` button in Online to manually clear Whistle's DNS cache
+3. feat: Added a settings button in Network/Settings/"ViewAll in new window" to support custom URL for opening content, see: https://github.com/avwo/set-global-proxy/pull/12
+4. fix: Fixed multiple issues and enhanced system stability
 
 ## v2.10.2
 1. feat: Network Settings now supports two comment formats:
