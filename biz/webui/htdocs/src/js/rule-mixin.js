@@ -5,7 +5,6 @@ var win = require('./win');
 var util = require('./util');
 var UrlInput = require('./url-input');
 var JSONEditor = require('./json-editor');
-var Select = require('./custom-select');
 var HeaderSelect = require('./header-select');
 var TypeSelect = require('./type-select');
 var Dialog = require('./dialog');
@@ -14,7 +13,6 @@ var CloseBtn = require('./close-btn');
 var MAX_COUNT = 20;
 var keyIndex = 0;
 var removeSpaces = util.removeSpaces;
-var SAME_SITES = ['None', 'Lax', 'Strict'];
 
 function getElemValue(e) {
   if (util.isString(e.value)) {
@@ -213,7 +211,12 @@ module.exports = {
           </div>
           <div className="w-form-value">
             <label className="w-form-label w-80">SameSite: </label>
-            <Select options={SAME_SITES} selectPlaceholder="Select cookie SameSite" />
+            <select className="form-control">
+              <option>Select cookie SameSite</option>
+              <option value="None">None</option>
+              <option value="Lax">Lax</option>
+              <option value="Strice">Strict</option>
+            </select>
           </div>
           <div className="w-form-value w-cookie-attrs">
             <label className="w-form-label w-80">Attributes: </label>
