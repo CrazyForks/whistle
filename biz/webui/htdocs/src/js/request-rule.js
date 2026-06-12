@@ -201,7 +201,7 @@ var RequestRule = React.createClass({
     if (action.type === HEADER_ACTIONS[0] || isDel) {
       return [
         <HeaderSelect name="customHeaders" disabled={disabled} value={action.key} placeholder={'Select request header name' + (isDel ? ' to delete' : '')}
-          className={isDel ? 'flex-1 mr-0' : 'w-190'} onChange={this.onKeyChange} session={session} keepCase />,
+          className={isDel ? 'flex-1 mr-0' : 'w-190'} onChange={this.onKeyChange} session={session} />,
         <input type="text" value={action.value} className={isDel ? 'w-hide' : 'form-control'} maxLength="5120"
           placeholder="Enter request header value" disabled={disabled} data-keep-space="1" onChange={this.onValueChange} />
       ];

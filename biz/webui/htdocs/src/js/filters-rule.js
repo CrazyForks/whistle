@@ -117,7 +117,7 @@ var FiltersRule = React.createClass({
                     }
                   </optgroup>
                 </select>
-                {option.keyPlaceholder ? <HeaderSelect className="w-190 mr-10" maxLength="100" name="filterHeaders" session={self.props.session}
+                {option.keyPlaceholder ? <HeaderSelect className="w-190 mr-10" name="filterHeaders" session={self.props.session}
                   value={filter.key} disabled={disabled} onChange={self.onKeyChange} placeholder={option.keyPlaceholder} /> : null}
                 <input type="text"  data-name="value" value={filter.value} className="form-control w-filter-header-value" maxLength="100"
                   placeholder={option.placeholder} disabled={disabled} onChange={self.onChange} />
