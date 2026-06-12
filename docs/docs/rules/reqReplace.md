@@ -57,7 +57,7 @@ www.example.com/path2 reqReplace://https://www.xxx.com/xxx/params.json
 www.example.com/path3 reqReplace://temp/blank.json
 ````
 
-## 关联协议
+## 关联协议 {#releated}
 1. 在请求内容前注入内容（`Prepend To Body`）：[reqPrepend](./reqPrepend)
 2. 替换请求内容（`Replace Body`：[reqBody](./reqBody)
 3. 在请求内容后追加内容（`Append To Body`：[reqAppend](./reqAppend)
