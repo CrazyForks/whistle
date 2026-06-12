@@ -33,11 +33,11 @@ var COOKIE_OPTIONS = [
   },
   {
     label: 'Max-Age',
+    maxLength: 15,
     placeholder: PLACEHOLDER_PREFIX + 'max-age in seconds, e.g. 3600'
   },
   {
-    label: 'SameSite',
-    placeholder: PLACEHOLDER_PREFIX + 'max-age in samesite, e.g. 3600'
+    label: 'SameSite'
   }
 ];
 var COOKIE_ATTRS = ['Secure', 'HttpOnly', 'Partitioned'];
@@ -134,7 +134,13 @@ module.exports = {
     var target = e.target;
     var name = target.name;
     if (COOKIE_ATTRS.indexOf(name) === -1) {
-      cookie[name] = target.value;
+      var value = target.value;
+      if (name === 'Path' || name === 'Domain') {
+        value = util.removeSpaces(value);
+      } else if (name === 'Max-Age') {
+        value = value.replace(/(^0+|\D+)/g, '');
+      }
+      cookie[name] = value;
     } else {
       cookie[name] = target.checked || undefined;
     }
@@ -241,7 +247,8 @@ module.exports = {
                     <option value="None">None</option>
                     <option value="Lax">Lax</option>
                     <option value="Strice">Strict</option>
-                  </select>) : <input type="text" name={label} value={cookie[label]} className="form-control" placeholder={option.placeholder} />}
+                  </select>) : <input type="text" name={label} value={cookie[label]} className="form-control"
+                    placeholder={option.placeholder} maxLength={option.maxLength || 2560} />}
                 </div>
               );
             })
