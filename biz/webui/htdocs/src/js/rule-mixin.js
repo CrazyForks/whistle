@@ -112,7 +112,7 @@ module.exports = {
     ];
   },
   showCookieDialog: function() {
-
+    alert(2);
   },
   renderHeaderAction: function(action, disabled, isReq) {
     var allActions = isReq ? HeaderSelect.REQ_HEADERS : HeaderSelect.RES_HEADERS;
@@ -131,8 +131,8 @@ module.exports = {
         var valuePlaceholder = isAuth ? 'Enter password' : 'Enter request cookie value';
         return this.renderKV(action, keyPlaceholder, valuePlaceholder, disabled, true, true);
       }
-    } else {
-
+    } else if (/^set-cookie$/i.test(type)) {
+      return this.renderKey(action.key, 'Enter response cookie', disabled, true, this.showCookieDialog);
     }
     var delCookie = type === allActions[2];
     var placeholder = 'Enter ' + name + (delCookie ? ' cookie name to delete' : ' header value');
@@ -147,9 +147,9 @@ module.exports = {
     return <HeaderSelect className={className} name="allHeaders" session={this.props.session}
             value={action.key} disabled={disabled} onChange={this.onKeyChange} placeholder={placeholder} />;
   },
-  renderKey: function(key, placeholder, disabled, keepSpace) {
-    return <input type="text" value={getValue(key, keepSpace)} className="form-control" maxLength="2560"
-      placeholder={placeholder} disabled={disabled} onChange={this.onKeyChange} data-keep-space={keepSpace || undefined} />;
+  renderKey: function(key, placeholder, disabled, keepSpace, onClick) {
+    return <input type="text" value={getValue(key, keepSpace)} className="form-control" maxLength="2560" readOnly={!!onClick}
+      onClick={onClick} placeholder={placeholder} disabled={disabled} onChange={this.onKeyChange} data-keep-space={keepSpace || undefined} />;
   },
   renderKV: function(data, keyPlaceholder, valuePlaceholder, disabled, keepKeySpace, keepValueSpace) {
     return [
