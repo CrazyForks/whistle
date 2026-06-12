@@ -17,6 +17,7 @@ var RecycleBinDialog = require('./recycle-bin');
 var EnabledRulesDialog = require('./enabled-rules');
 var Icon = require('./icon');
 
+var showSysErr = util.showSysErr;
 var hideEnableHTTPSTips = window.location.href.indexOf('hideEnableHTTPSTips=1') !== -1;
 var disabledEditor = window.location.href.indexOf('disabledEditor=1') !== -1;
 var rulesCtxMenuList = [
@@ -409,7 +410,7 @@ var List = React.createClass({
         var name = this.props.name === 'rules' ? 'rules' : 'values';
         dataCenter[name].moveTo(params, function (data, xhr) {
           if (!data) {
-            util.showSystemError(xhr);
+            showSysErr(xhr);
             return;
           }
           if (data.ec === 2) {
@@ -451,7 +452,7 @@ var List = React.createClass({
     dataCenter[name.toLowerCase()].recycleList(function (data, xhr) {
       self._pendingRecycle = false;
       if (!data) {
-        util.showSystemError(xhr);
+        showSysErr(xhr);
         return;
       }
       if (!data.list.length) {
@@ -732,7 +733,7 @@ var List = React.createClass({
     var self = this;
     dataCenter.rules.getEnabledRules(function (data, xhr) {
       if (!data) {
-        util.showSystemError(xhr);
+        showSysErr(xhr);
         return;
       }
       var enabledRules = [];

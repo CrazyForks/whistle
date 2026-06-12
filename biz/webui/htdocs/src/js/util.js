@@ -111,7 +111,7 @@ exports.METHODS = [
 ];
 
 function removeSpaces(str) {
-  return str.replace(/\s+/g, '');
+  return str && str.replace(/\s+/g, '');
 }
 
 exports.removeSpaces = removeSpaces;
@@ -219,6 +219,24 @@ function isString(str) {
 }
 
 exports.isString = isString;
+
+var randomIndex = 0;
+
+exports.getRandomKey = function(prefix) {
+  if (randomIndex > 9999999999) {
+    randomIndex = 0;
+  }
+  return (prefix || '') + (++randomIndex).toString(16) + Date.now().toString(16) + Math.ceil(Math.random() * 1000000).toString(16) + '.json';
+};
+
+exports.getInjectValue = function(key, data) {
+  data = getText(data);
+  return data ? '``` ' + key + '\n' + data + '\n```' : '';
+};
+
+exports.getFilepath = function(str) {
+  return str && str.replace(/^file:\/\//, '');
+};
 
 exports.getString = function (str) {
   return isString(str) ? str : '';
@@ -613,7 +631,7 @@ exports.stopPropagation = function(e) {
   e.stopPropagation();
 };
 
-function showSystemError(xhr, useToast) {
+function showSysErr(xhr, useToast) {
   xhr = xhr || {};
   var status = xhr.status;
   var showTips = useToast ? message.error : win.alert;
@@ -630,7 +648,7 @@ function showSystemError(xhr, useToast) {
   showTips('[' + status + '] Unknown error, try again later');
 }
 
-exports.showSystemError = showSystemError;
+exports.showSysErr = showSysErr;
 
 exports.getClasses = function getClasses(obj) {
   var classes = [];
@@ -1265,6 +1283,17 @@ exports.openEditor = openEditor;
 function getTheme() {
   return document.documentElement.getAttribute('data-theme') || 'light';
 }
+
+function isOpenUrl(url) {
+  return /^https?:\/\/\S+\{WHISTLE_DATA\}/.test(url);
+}
+
+exports.isOpenUrl = isOpenUrl;
+
+exports.getOpenUrl = function() {
+  var url = storage.get('openWithUrl');
+  return isOpenUrl(url) ? url : '';
+};
 
 exports.openInNewWin = function(value) {
   var win = window.open('editor.html');
@@ -2308,14 +2337,16 @@ exports.addPluginMenus = function (item, list, maxTop, disabled, treeId, url) {
   }
 };
 
-exports.getText = function(text) {
+function getText(text) {
   if (text && typeof text === 'object') {
     try {
-      return JSON.stringify(text, null, '  ');
+      return JSON.stringify(text, null, 2);
     } catch (e) {}
   }
   return text == null ? '' : String(text);
-};
+}
+
+exports.getText = getText;
 
 function getKeys(obj) {
   var list = obj[''];
@@ -3253,7 +3284,7 @@ exports.getPluginCgiUrl = getPluginCgiUrl;
 
 exports.showHandlePluginInfo = function(data, xhr) {
   if (!data) {
-    showSystemError(xhr);
+    showSysErr(xhr);
     return false;
   }
   if (data.ec) {

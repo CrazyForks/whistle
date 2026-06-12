@@ -1,5 +1,6 @@
 var React = require('react');
 var HelpIcon = require('./help-icon');
+var ruleMixin = require('./rule-mixin');
 var removeSpaces = require('./util').removeSpaces;
 
 function forcus(elem) {
@@ -12,6 +13,7 @@ function filterNum(str) {
 }
 
 var DebugRule = React.createClass({
+  mixins: [ruleMixin],
   getInitialState: function() {
     return {
       disabledWeinre: true,
@@ -78,24 +80,6 @@ var DebugRule = React.createClass({
       self.handleChange();
     });
   },
-  onDisableWeinreChange: function(e) {
-    this.onCheckChange(e, 'disabledWeinre', 'weinreId');
-  },
-  onDisableLogChange: function(e) {
-    this.onCheckChange(e, 'disabledLog', 'logId');
-  },
-  onDisableReqDelayChange: function(e) {
-    this.onCheckChange(e, 'disabledReqDelay', 'reqDelay');
-  },
-  onDisableResDelayChange: function(e) {
-    this.onCheckChange(e, 'disabledResDelay', 'resDelay');
-  },
-  onDisableReqSpeedChange: function(e) {
-    this.onCheckChange(e, 'disabledReqSpeed', 'reqSpeed');
-  },
-  onDisableResSpeedChange: function(e) {
-    this.onCheckChange(e, 'disabledResSpeed', 'resSpeed');
-  },
   onAbortReqChange: function(e) {
     this.setState({abortReq: e.target.checked}, this.handleChange);
   },
@@ -135,7 +119,7 @@ var DebugRule = React.createClass({
         <div className="w-form-item">
           <div className="w-form-value">
             <label className="w-75">
-              <input type="checkbox" className="mr-10" checked={!disabledWeinre} onChange={this.onDisableWeinreChange} />
+              <input type="checkbox" className="mr-10" checked={!disabledWeinre} data-name="disabledWeinre" onChange={this.onDisableCheckChange} />
               Weinre
             </label>
             <input ref="weinreId" disabled={disabledWeinre} value={state.weinreId} type="text"
@@ -146,7 +130,7 @@ var DebugRule = React.createClass({
         <div className="w-form-item">
           <div className="w-form-value">
             <label className="w-75">
-              <input type="checkbox" className="mr-10" checked={!disabledLog} onChange={this.onDisableLogChange} />
+              <input type="checkbox" className="mr-10" checked={!disabledLog} data-name="disabledLog" onChange={this.onDisableCheckChange} />
               Log
             </label>
             <input ref="logId" disabled={disabledLog} value={state.logId} type="text"
@@ -157,7 +141,7 @@ var DebugRule = React.createClass({
         <div className="w-form-item">
           <div className="w-form-value">
             <label className="w-175">
-              <input type="checkbox" className="mr-10" checked={!disabledReqDelay} onChange={this.onDisableReqDelayChange} />
+              <input type="checkbox" className="mr-10" checked={!disabledReqDelay} data-name="disabledReqDelay" onChange={this.onDisableCheckChange} />
               Delay Request
             </label>
             <input ref="reqDelay" disabled={disabledReqDelay} value={state.reqDelay} type="text"
@@ -169,7 +153,7 @@ var DebugRule = React.createClass({
         <div className="w-form-item">
           <div className="w-form-value">
             <label className="w-175">
-              <input type="checkbox" className="mr-10" checked={!disabledResDelay} onChange={this.onDisableResDelayChange} />
+              <input type="checkbox" className="mr-10" checked={!disabledResDelay} data-name="disabledResDelay" onChange={this.onDisableCheckChange} />
               Delay Response
             </label>
             <input ref="resDelay" disabled={disabledResDelay} value={state.resDelay} type="text"
@@ -181,7 +165,7 @@ var DebugRule = React.createClass({
         <div className="w-form-item">
           <div className="w-form-value">
             <label className="w-175">
-              <input type="checkbox" className="mr-10" checked={!disabledReqSpeed} onChange={this.onDisableReqSpeedChange} />
+              <input type="checkbox" className="mr-10" checked={!disabledReqSpeed} data-name="disabledReqSpeed" onChange={this.onDisableCheckChange} />
               Limit Request Speed
             </label>
             <input ref="reqSpeed" disabled={disabledReqSpeed} value={state.reqSpeed} type="text"
@@ -193,7 +177,7 @@ var DebugRule = React.createClass({
         <div className="w-form-item">
           <div className="w-form-value">
             <label className="w-175">
-              <input type="checkbox" className="mr-10" checked={!disabledResSpeed} onChange={this.onDisableResSpeedChange} />
+              <input type="checkbox" className="mr-10" checked={!disabledResSpeed} data-name="disabledResSpeed" onChange={this.onDisableCheckChange} />
               Limit Response Speed
             </label>
             <input ref="resSpeed" disabled={disabledResSpeed} value={state.resSpeed} type="text"
@@ -205,7 +189,7 @@ var DebugRule = React.createClass({
         <div className="w-form-item">
           <div className="w-form-value">
             <label>
-              <input type="checkbox" className="mr-10" checked={state.abortReq} onChange={this.onAbortReqChange} />
+              <input type="checkbox" className="mr-10" checked={state.abortReq} data-name="abortReq" onChange={this.onEnableCheckChange} />
               Abort Request
               <HelpIcon docsUrl="rules/enable.html" className="ml-10" />
             </label>
@@ -214,7 +198,7 @@ var DebugRule = React.createClass({
         <div className="w-form-item">
           <div className="w-form-value">
             <label>
-              <input type="checkbox" className="mr-10" checked={state.abortRes} onChange={this.onAbortResChange} />
+              <input type="checkbox" className="mr-10" checked={state.abortRes} data-name="abortRes" onChange={this.onEnableCheckChange} />
               Abort Response
               <HelpIcon docsUrl="rules/enable.html" className="ml-10" />
             </label>

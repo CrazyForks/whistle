@@ -4,13 +4,38 @@ var util = require('./util');
 var HelpIcon = require('./help-icon');
 var ruleMixin = require('./rule-mixin');
 var StatusSelect = require('./status-select');
+var UrlInput = require('./url-input');
+var HeaderSelect = require('./header-select');
 
 var STATUS_CODE_ACTIONS = [
   { value: 'statusCode://', label: 'Direct Status Code' },
-  { value: 'replaceStatus://', label: 'Replace Status Code'}
+  { value: 'replaceStatus://', label: 'Replace Status Code'},
+  '301 Permanent Redirect',
+  '302 Temporary Redirect',
+  '303 See Other',
+  '307 Temporary Redirect',
+  '308 Permanent Redirect',
+  'Client Side Redirect'
 ];
-var HEADER_ACTIONS = ['Set Custom Header', 'Set Response CORS', 'Set Response Cookie', 'Delete Response Header'];
+var HEADER_ACTIONS = HeaderSelect.RES_HEADERS;
 var BODY_ACTIONS = util.BODY_ACTIONS;
+var getInjectValue = util.getInjectValue;
+var getRandomKey = util.getRandomKey;
+var getFilepath = util.getFilepath;
+BODY_ACTIONS = [
+  BODY_ACTIONS[0],
+  'Prepend HTML To Body',
+  'Prepend CSS To Body',
+  'Prepend JS To Body',
+  BODY_ACTIONS[1],
+  'Replace Body With HTML',
+  'Replace Body With CSS',
+  'Replace Body With JS',
+  BODY_ACTIONS[2],
+  'Append HTML To Body',
+  'Append CSS To Body',
+  'Append JS To Body'
+].concat(BODY_ACTIONS.slice(-3));
 
 var ResponseRule = React.createClass({
   mixins: [ruleMixin],
@@ -21,41 +46,181 @@ var ResponseRule = React.createClass({
       disabledBody: true,
       statusCodeAction: STATUS_CODE_ACTIONS[0].value,
       statusCode: '200',
-      headerActions: [this.createAction(HEADER_ACTIONS[0])],
-      bodyActions: [this.createAction(BODY_ACTIONS[0])]
+      headerActions: [this.createAction(HEADER_ACTIONS[1])],
+      bodyActions: [this.createAction(BODY_ACTIONS[0])],
+      redirectUrl: ''
     };
   },
   handleChange: function() {
     var rules = [];
+    var values = [];
     var state = this.state;
     if (!state.disabledStatusCode) {
-      rules.push(state.statusCodeAction + state.statusCode);
+      var action = state.statusCodeAction;
+      var isLoc = action[0] === 'C';
+      if (isLoc || action[0] === '3') {
+        var redirectUrl = state.redirectUrl;
+        if (redirectUrl) {
+          if (isLoc) {
+            rules.push('locationHref://' + redirectUrl);
+          } else {
+            action = action.substring(0, 3);
+            rules.push('redirect://' + redirectUrl);
+            if (action !== '302') {
+              rules.push('replaceStatus://' + action);
+            }
+          }
+        }
+      } else {
+        rules.push(action + state.statusCode);
+      }
     }
+    var addRules = function(item) {
+      if (item) {
+        rules.push(item.rules);
+        if (item.values) {
+          values.push(item.values);
+        }
+      }
+    };
+    addRules(this.getHeaderRules());
+    addRules(this.getBodyRules());
     rules = rules.join(' ');
     if (this._curRules !== rules) {
       this._curRules = rules;
-      this.props.onChange(rules);
+      this.props.onChange(rules, values.join('\n\n'));
     }
   },
   shouldComponentUpdate: util.shouldComponentUpdate,
-  onDisableStatusCodeChange: function(e) {
-    this.setState({ disabledStatusCode: !e.target.checked }, this.handleChange);
-  },
-  onDisableHeaderChange: function(e) {
-    this.setState({ disabledHeader: !e.target.checked }, this.handleChange);
-  },
-  onDisableBodyChange: function(e) {
-    this.setState({ disabledBody: !e.target.checked }, this.handleChange);
-  },
   onStatusCodeActionChange: function(option) {
     this.setState({ statusCodeAction: option.value }, this.handleChange);
   },
   onStatusCodeChange: function(option) {
     this.setState({ statusCode: option.value }, this.handleChange);
   },
-  onActionChange: function(option, item) {
-    item.type = option.value;
-    this.setState({}, this.handleChange);
+  onUrlChange: function(url) {
+    this.setState({ redirectUrl: url }, this.handleChange);
+  },
+  getStatusProtocol: function(statusCodeAction) {
+    if (statusCodeAction[0] === 'C') {
+      return 'locationHref';
+    }
+    if (statusCodeAction[0] === '3') {
+      return 'redirect';
+    }
+    return statusCodeAction === STATUS_CODE_ACTIONS[0].value ? 'statusCode' : 'replaceStatus';
+  },
+  getBodyRules: function() {
+    var state = this.state;
+    if (state.disabledBody) {
+      return;
+    }
+    var rules = [];
+    var resReplace;
+    var resReplaceKey;
+    var values = [];
+    state.bodyActions.forEach(function(action) {
+      var key = (action.key || '').trim();
+      var value = (action.value || '').trim();
+      switch(action.type) {
+      case BODY_ACTIONS[0]:
+        if (value) {
+          rules.push('resPrepend://' + getFilepath(value));
+        }
+        break;
+      case BODY_ACTIONS[1]:
+        if (value) {
+          rules.push('htmlPrepend://' + getFilepath(value));
+        }
+        break;
+      case BODY_ACTIONS[2]:
+        if (value) {
+          rules.push('cssPrepend://' + getFilepath(value));
+        }
+        break;
+      case BODY_ACTIONS[3]:
+        if (value) {
+          rules.push('jsPrepend://' + getFilepath(value));
+        }
+        break;
+      case BODY_ACTIONS[4]:
+        if (value) {
+          rules.push('resBody://' + getFilepath(value));
+        }
+        break;
+      case BODY_ACTIONS[5]:
+        if (value) {
+          rules.push('htmlBody://' + getFilepath(value));
+        }
+        break;
+      case BODY_ACTIONS[6]:
+        if (value) {
+          rules.push('cssBody://' + getFilepath(value));
+        }
+        break;
+      case BODY_ACTIONS[7]:
+        if (value) {
+          rules.push('jsBody://' + getFilepath(value));
+        }
+        break;
+      case BODY_ACTIONS[8]:
+        if (value) {
+          rules.push('resAppend://' + getFilepath(value));
+        }
+        break;
+      case BODY_ACTIONS[9]:
+        if (value) {
+          rules.push('htmlAppend://' + getFilepath(value));
+        }
+        break;
+      case BODY_ACTIONS[10]:
+        if (value) {
+          rules.push('cssAppend://' + getFilepath(value));
+        }
+        break;
+      case BODY_ACTIONS[11]:
+        if (value) {
+          rules.push('jsAppend://' + getFilepath(value));
+        }
+        break;
+      case BODY_ACTIONS[12]:
+        if (key) {
+          if (!resReplace) {
+            resReplace = {};
+            resReplaceKey = getRandomKey('resReplace_');
+            rules.push('resReplace://{' + resReplaceKey + '}');
+          }
+          if (resReplace[key] == null) {
+            resReplace[key] = value;
+          }
+        }
+        break;
+      case BODY_ACTIONS[13]:
+        if (value) {
+          if (/\s/.test(value)) {
+            var resMergeKey =  getRandomKey('resMerge_');
+            rules.push('resMerge://{' + resMergeKey + '}');
+            values.push(getInjectValue(resMergeKey, value));
+          } else {
+            rules.push('resMerge://(' + value + ')');
+          }
+        }
+        break;
+      case BODY_ACTIONS[14]:
+        if (key) {
+          rules.push('delete://resBody.' + key.replace(/\s/g, '\\s'));
+        }
+        break;
+      }
+    });
+    rules = rules.join(' ');
+    if (!rules) {
+      return;
+    }
+    if (resReplace) {
+      values.unshift(getInjectValue(resReplaceKey, resReplace));
+    }
+    return { rules: rules, values: values.join('\n\n') };
   },
   render: function() {
     var self = this;
@@ -69,32 +234,32 @@ var ResponseRule = React.createClass({
     var bodyActions = state.bodyActions;
     var headerCount = headerActions.length;
     var bodyCount = bodyActions.length;
+    var isRedirect = statusCodeAction[0] === '3' || statusCodeAction[0] === 'C';
 
     return (
       <div className={'w-rules-form' + (hide ? ' w-hide' : '')}>
         <div className="w-form-item">
           <div className="w-form-value">
-            <input type="checkbox" className="mr-10" checked={!disabledStatusCode} onChange={self.onDisableStatusCodeChange} />
+            <input type="checkbox" className="mr-10" checked={!disabledStatusCode} data-name="disabledStatusCode" onChange={self.onDisableCheckChange} />
             <Select value={statusCodeAction} disabled={disabledStatusCode} className="w-175" options={STATUS_CODE_ACTIONS}
               onChange={self.onStatusCodeActionChange} />
-            <StatusSelect value={state.statusCode} disabled={disabledStatusCode} onChange={self.onStatusCodeChange} />
-            <HelpIcon docsUrl={'rules/' + (statusCodeAction === STATUS_CODE_ACTIONS[0].value ? 'statusCode' : 'replaceStatus') + '.html'} />
+            <StatusSelect value={state.statusCode} className={isRedirect ? 'w-hide' : null} disabled={disabledStatusCode} onChange={self.onStatusCodeChange} />
+            <UrlInput isRedirect className={'mr-10' + (isRedirect ? '' : ' w-hide')} disabled={disabledStatusCode} onChange={this.onUrlChange} />
+            <HelpIcon docsUrl={'rules/' + this.getStatusProtocol(statusCodeAction) + '.html'} />
           </div>
         </div>
         <div className="w-form-item">
           <label>
-            <input type="checkbox" className="mr-10" checked={!disabledHeader} onChange={self.onDisableHeaderChange} />
+            <input type="checkbox" className="mr-10" checked={!disabledHeader} data-name="disabledHeader" onChange={self.onDisableCheckChange} />
             Modify Response Headers
-            <HelpIcon className="ml-10" docsUrl="rules/resHeaders.html" />
+            <HelpIcon className="ml-10" docsUrl="rules/resHeaders.html#related" />
           </label>
             {
               headerActions.map(function(action) {
                 return (
                   <div data-name="headerActions" className="w-form-value" data-index={action.index} key={action.index}>
-                    <Select className=" w-175" disabled={disabledHeader} value={action.type} data={action} options={HEADER_ACTIONS}
-                      onChange={self.onActionChange} key={action.index} />
-                    <input type="text" value={action.value} className="form-control" maxLength="5120"
-                      placeholder={action.placeholder} disabled={disabledHeader} onChange={self.onValueChange} />
+                    {self.renderHeaders(action, disabledHeader, false, 'w-190')}
+                    {self.renderHeaderAction(action, disabledHeader)}
                     {self.renderButtons(action, disabledHeader, headerCount)}
                   </div>
                 );
@@ -103,24 +268,24 @@ var ResponseRule = React.createClass({
         </div>
         <div className="w-form-item">
           <label>
-            <input type="checkbox" className="mr-10" checked={!disabledBody} onChange={self.onDisableBodyChange} />
+            <input type="checkbox" className="mr-10" checked={!disabledBody} data-name="disabledBody" onChange={self.onDisableCheckChange} />
             Modify Response Body
-            <HelpIcon className="ml-10" docsUrl="rules/resBody.html" />
+            <HelpIcon className="ml-10" docsUrl="rules/resBody.html#related" />
           </label>
             {
               bodyActions.map(function(action) {
                 return (
                   <div data-name="bodyActions" className="w-form-value" data-index={action.index} key={action.index}>
-                    <Select className="w-175" disabled={disabledBody} value={action.type} data={action} options={BODY_ACTIONS}
+                    <Select className="w-190" disabled={disabledBody} value={action.type} data={action} options={BODY_ACTIONS}
                       onChange={self.onActionChange} key={action.index} />
-                    <input type="text" value={action.value} className="form-control" maxLength="5120"
-                      placeholder={action.placeholder} disabled={disabledBody} onChange={self.onValueChange} />
+                    {self.renderBodyAction(action, disabledBody, BODY_ACTIONS)}
                     {self.renderButtons(action, disabledBody, bodyCount)}
                   </div>
                 );
               })
             }
         </div>
+        {self.renderCookieDialog()}
       </div>
     );
   }

@@ -465,7 +465,7 @@ var Overview = React.createClass({
               onChange={this.showOnlyMatchRules}
               type="checkbox"
             />
-            Only show matching rules
+            Show matching rules only
           </label>
         </p>
         <Properties

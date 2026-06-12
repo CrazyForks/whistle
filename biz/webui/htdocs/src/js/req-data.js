@@ -110,8 +110,8 @@ var contextMenuList = [
     list: [
       { name: 'Mapping' },
       { name: 'Network' },
-      // { name: 'Request' },
-      // { name: 'Response' },
+      { name: 'Request' },
+      { name: 'Response' },
       { name: 'Debug' }
     ]
   },
@@ -1469,7 +1469,7 @@ var ReqData = React.createClass({
     }), function (data, xhr) {
       self._pendingSave = false;
       if (!data) {
-        return util.showSystemError(xhr);
+        return util.showSysErr(xhr);
       }
       if (data.em) {
         return message.error(data.em);

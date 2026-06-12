@@ -159,7 +159,7 @@ var FrameList = React.createClass({
       },
       function (data, xhr) {
         if (!data) {
-          util.showSystemError(xhr);
+          util.showSysErr(xhr);
         } else {
           delete reqData.lastErr;
           reqData.closed = true;
@@ -181,7 +181,7 @@ var FrameList = React.createClass({
     }
     dataCenter.socket.changeStatus(params, function (data, xhr) {
       if (!data) {
-        util.showSystemError(xhr);
+        util.showSysErr(xhr);
       } else {
         if (isSend) {
           reqData.sendStatus = option.value;

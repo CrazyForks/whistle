@@ -5,14 +5,16 @@ var util = require('./util');
 
 var MAX_CUSTOM_OPTIONS = 36;
 var EMPTY_OPTION = { value: '', label: '' };
+var LABEL_RE = /^- /;
 
 var Select = React.createClass({
   getInitialState: function() {
     return this.updateOptions();
   },
-  getKey: function() {
+  getKey: function(name) {
     var props = this.props;
-    return props.name ? props.name + 'SelectOptions' : '';
+    name = name || props.name;
+    return name ? name + 'SelectOptions' : '';
   },
   updateOptions: function(options) {
     var valueList = [];
@@ -23,8 +25,25 @@ var Select = React.createClass({
     });
     var innerLen = options.length;
     var props = this.props;
-    var key = this.getKey();
-    var customOptions = key && storage.get(key);
+    var name = props.name;
+    var key = this.getKey(name);
+    var customOptions;
+    if (key) {
+      var str;
+      if (name === 'allHeaders') {
+        customOptions = storage.get(this.getKey('requestHeaders'));
+        str = storage.get(this.getKey('responseHeaders'));
+        if (str && customOptions) {
+          customOptions = customOptions + ' ' + str;
+        } else {
+          customOptions = customOptions || str;
+        }
+      }
+      str = storage.get(key);
+      if (str) {
+        customOptions = customOptions ? customOptions + ' ' + str : str;
+      }
+    }
     if (util.notEStr(customOptions)) {
       this._customOptions = customOptions;
       if (props.toLowerCase) {
@@ -44,6 +63,13 @@ var Select = React.createClass({
       innerLen: innerLen,
       options: options
     };
+  },
+  componentDidMount: function() {
+    var props = this.props;
+    var options = this.state.options;
+    if (!props.selectPlaceholder && !props.value && options.length) {
+      this.handleChange(options[0]);
+    }
   },
   shouldComponentUpdate: function(nextProps) {
     var nextOptions = nextProps.options;
@@ -118,6 +144,30 @@ var Select = React.createClass({
     }
     this.handleChange(option);
   },
+  renderOptions: function(options) {
+    var result = [];
+    for (var i = 0, len = options.length; i < len; i++) {
+      var option = options[i];
+      var value = option.value;
+      if (LABEL_RE.test(value)) {
+        var groupName = value.substring(2);
+        var items = [];
+        for (++i; i < len; i++) {
+          var item = options[i];
+          var itemVal = item.value;
+          if (LABEL_RE.test(item.value)) {
+            i--;
+            break;
+          }
+          items.push(<option key={itemVal} value={itemVal}>{item.label}</option>);
+        }
+        result.push(<optgroup key={value} label={groupName}>{items}</optgroup>);
+      } else {
+        result.push(<option key={value} value={value}>{option.label}</option>);
+      }
+    }
+    return result;
+  },
   render: function() {
     var props = this.props;
     var name = props.name;
@@ -130,11 +180,8 @@ var Select = React.createClass({
     return (
       <select ref="select" disabled={props.disabled} className={'form-control ' + (props.className || '')} value={value}
         onChange={this.onChange} onClick={props.onClick}>
-          {selectPlaceholder ? <option value="">{selectPlaceholder}</option> : null}
-          {options.map(function(option) {
-            var value = option.value;
-            return <option key={value} value={value}>{option.label}</option>;
-          })}
+        {selectPlaceholder ? <option value="">{selectPlaceholder}</option> : null}
+        {this.renderOptions(options)}
         {name ? <option value=" ">+Custom</option> : null}
         {name ? <Prompt ref="prompt" placeholder={props.placeholder} isNum={props.isNum} isHeader={props.isHeader} maxLength={props.maxLength} /> : null}
       </select>

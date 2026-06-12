@@ -9,9 +9,12 @@ var CloseBtn = require('./close-btn');
 var MethodSelect = require('./method-select');
 
 var HTTP_VERSION_OPTIONS = ['HTTP/1.1', 'HTTP/2.0'];
-var URL_ACTIONS = ['Set Param', 'Delete Param', 'Modify Path'];
-var HEADER_ACTIONS = ['Set Custom Header', 'Set Request CORS', 'Set Request Cookie', 'Delete Request Header'];
+var URL_ACTIONS = ['Set Param', 'Delete Param', 'Modify Path (path/to?query)'];
+var HEADER_ACTIONS = HeaderSelect.REQ_HEADERS;
 var BODY_ACTIONS = util.BODY_ACTIONS;
+var getRandomKey = util.getRandomKey;
+var getInjectValue = util.getInjectValue;
+var getFilepath = util.getFilepath;
 
 var RequestRule = React.createClass({
   mixins: [ruleMixin],
@@ -25,13 +28,14 @@ var RequestRule = React.createClass({
       method: util.METHODS[0],
       version: HTTP_VERSION_OPTIONS[0],
       urlActions: [this.createAction(URL_ACTIONS[0])],
-      headerActions: [this.createAction(HEADER_ACTIONS[0])],
+      headerActions: [this.createAction(HEADER_ACTIONS[1])],
       bodyActions: [this.createAction(BODY_ACTIONS[0])]
     };
   },
   handleChange: function() {
     var state = this.state;
     var rules = [];
+    var values = [];
     if (!state.disabledMethod) {
       rules.push('method://' + state.method);
     }
@@ -42,85 +46,149 @@ var RequestRule = React.createClass({
         rules.push('enable://http2');
       }
     }
+    var addRules = function(item) {
+      if (item) {
+        rules.push(item.rules);
+        if (item.values) {
+          values.push(item.values);
+        }
+      }
+    };
+    addRules(this.getUrlRules());
+    addRules(this.getHeaderRules(true));
+    addRules(this.getBodyRules());
     rules = rules.join(' ');
     if (this._curRules !== rules) {
       this._curRules = rules;
-      this.props.onChange(rules);
+      this.props.onChange(rules, values.join('\n\n'));
     }
   },
   shouldComponentUpdate: util.shouldComponentUpdate,
-  onDisableMethodChange: function(e) {
-    this.setState({ disabledMethod: !e.target.checked }, this.handleChange);
-  },
-  onDisableVersionChange: function(e) {
-    this.setState({ disabledVersion: !e.target.checked }, this.handleChange);
-  },
-  onDisableUrlChange: function(e) {
-    this.setState({ disabledUrl: !e.target.checked }, this.handleChange);
-  },
-  onDisableHeaderChange: function(e) {
-    this.setState({ disabledHeader: !e.target.checked }, this.handleChange);
-  },
-  onDisableBodyChange: function(e) {
-    this.setState({ disabledBody: !e.target.checked }, this.handleChange);
-  },
   onMethodChange: function(option) {
     this.setState({ method: option.value }, this.handleChange);
   },
   onVersionChange: function(option) {
     this.setState({ version: option.value }, this.handleChange);
   },
-  onActionChange: function(option, item) {
-    item.type = option.value;
-    this.setState({}, this.handleChange);
-  },
   showCorsSettings: function(e) {
     this._curHeaderAction = this.getData(e);
     this.refs.corsSettings.show();
   },
-  renderUrlAction: function(action, disabled) {
-    if (action.type === URL_ACTIONS[0]) {
-      return [
-        <input type="text" value={action.key} className="form-control w-190 mr-10" maxLength="100"
-          placeholder="Enter param name" disabled={disabled} onChange={this.onSelectChange} />,
-        <input type="text" value={action.value} className="form-control" maxLength="1024"
-          placeholder="Enter param value" disabled={disabled} onChange={this.onValueChange} />
-      ];
+  getUrlRules: function() {
+    var state = this.state;
+    if (state.disabledUrl) {
+      return;
     }
-    if (action.type === URL_ACTIONS[1]) {
-      return <input type="text" value={action.key} className="form-control" maxLength="100"
-        placeholder="Enter param name to delete" disabled={disabled} onChange={this.onSelectChange} />;
-    }
-    return [
-      <input type="text" value={action.key} className="form-control mr-10" maxLength="100"
-        placeholder="Enter param name" disabled={disabled} onChange={this.onSelectChange} />,
-      <input type="text" value={action.value} className="form-control" maxLength="1024"
-        placeholder="Enter param value" disabled={disabled} onChange={this.onValueChange} />
-    ];
+    var rules = [];
+    var params;
+    var paramsKey;
+    state.urlActions.forEach(function(action) {
+      var key = action.key && action.key.trim();
+      if (!key) {
+        return;
+      }
+      var value = (action.value || '').trim();
+      switch(action.type) {
+      case URL_ACTIONS[0]:
+        if (!params) {
+          params = {};
+          paramsKey = getRandomKey('urlParams_');
+          rules.push('urlParams://{' + paramsKey + '}');
+        }
+        if (params[key] == null) {
+          params[key] = value;
+        }
+        break;
+      case URL_ACTIONS[1]:
+        rules.push('delete://urlParams.' + util.removeSpaces(key));
+        break;
+      default:
+        var data = {};
+        data[util.removeSpaces(key)] = util.removeSpaces(value);
+        rules.push('pathReplace://(' + JSON.stringify(data) + ')');
+      }
+    });
+    rules = rules.join(' ');
+    return rules && {
+      rules: rules,
+      values: getInjectValue(paramsKey, params)
+    };
   },
-  renderHeaderAction: function(action, disabled) {
-    var session = this.props.session;
-    var isDel = action.type === HEADER_ACTIONS[3];
-    if (action.type === HEADER_ACTIONS[0] || isDel) {
-      return [
-        <HeaderSelect name="customHeaders" disabled={disabled} value={action.key} placeholder={'Select request header name' + (isDel ? ' to delete' : '')}
-          className={isDel ? 'flex-1 mr-0' : 'w-190'} onChange={this.onSelectChange} session={session} keepCase />,
-        <input type="text" value={action.value} className={isDel ? 'w-hide' : 'form-control'} maxLength="5120"
-          placeholder="Enter request header value" disabled={disabled} data-keep-space="1" onChange={this.onValueChange} />
-      ];
+  getBodyRules: function() {
+    var state = this.state;
+    if (state.disabledBody) {
+      return;
     }
-    if (action.type === HEADER_ACTIONS[1]) {
-      return <input type="text" value={action.value} className="form-control" readOnly onClick={this.showCorsSettings}
-        placeholder="Enter request CORS settings" disabled={disabled} onChange={this.onValueChange} />;
+    var rules = [];
+    var reqReplace;
+    var reqReplaceKey;
+    var values = [];
+    state.bodyActions.forEach(function(action) {
+      var key = (action.key || '').trim();
+      var value = (action.value || '').trim();
+      switch(action.type) {
+      case BODY_ACTIONS[0]:
+        if (value) {
+          rules.push('reqPrepend://' + getFilepath(value));
+        }
+        break;
+      case BODY_ACTIONS[1]:
+        if (value) {
+          rules.push('reqBody://' + getFilepath(value));
+        }
+        break;
+      case BODY_ACTIONS[2]:
+        if (value) {
+          rules.push('reqAppend://' + getFilepath(value));
+        }
+        break;
+      case BODY_ACTIONS[3]:
+        if (key) {
+          if (!reqReplace) {
+            reqReplace = {};
+            reqReplaceKey =  getRandomKey('reqReplace_');
+            rules.push('reqReplace://{' + reqReplaceKey + '}');
+          }
+          if (reqReplace[key] == null) {
+            reqReplace[key] = value;
+          }
+        }
+        break;
+      case BODY_ACTIONS[4]:
+        if (value) {
+          if (/\s/.test(value)) {
+            var reqMergeKey =  getRandomKey('reqMerge_');
+            rules.push('reqMerge://{' + reqMergeKey + '}');
+            values.push(getInjectValue(reqMergeKey, value));
+          } else {
+            rules.push('reqMerge://(' + value + ')');
+          }
+        }
+        break;
+      case BODY_ACTIONS[5]:
+        if (key) {
+          rules.push('delete://reqBody.' + key.replace(/\s/g, '\\s'));
+        }
+        break;
+      }
+    });
+    rules = rules.join(' ');
+    if (!rules) {
+      return;
     }
-    if (action.type === HEADER_ACTIONS[2]) {
-      return [
-        <input type="text" value={action.key} className="form-control w-190 mr-10" maxLength="100"
-          placeholder="Enter cookie name" disabled={disabled} onChange={this.onSelectChange} />,
-        <input type="text" value={action.value} className="form-control" maxLength="1024"
-          placeholder="Enter cookie value" disabled={disabled} onChange={this.onValueChange} />
-      ];
+    if (reqReplace) {
+      values.unshift(getInjectValue(reqReplaceKey, reqReplace));
     }
+    return { rules: rules, values: values.join('\n\n') };
+  },
+  renderUrlAction: function(action, disabled) {
+    if (action.type === URL_ACTIONS[1]) {
+      return this.renderKey(action.key, 'Enter param name to delete', disabled);
+    }
+    var isParam = action.type === URL_ACTIONS[0];
+    var keyPlaceholder = isParam ? 'Enter param name' : 'Enter keyword or regexp';
+    var valuePlaceholder = isParam ? 'Enter param value' : 'Enter replacement value';
+    return this.renderKV(action, keyPlaceholder, valuePlaceholder, disabled, isParam, isParam);
   },
   render: function() {
     var self = this;
@@ -143,9 +211,9 @@ var RequestRule = React.createClass({
       <div className={'w-rules-form' + (hide ? ' w-hide' : '')}>
         <div className="w-form-item">
           <div className="w-form-value">
-            <label className="w-150">
-              <input type="checkbox" className="mr-10" checked={!disabledMethod} onChange={self.onDisableMethodChange} />
-              Modify Method
+            <label className="w-175">
+              <input type="checkbox" data-name="disabledMethod" className="mr-10" checked={!disabledMethod} onChange={self.onDisableCheckChange} />
+              Modify Request Method
             </label>
             <MethodSelect disabled={disabledMethod} value={state.method}  onChange={self.onMethodChange} />
             <HelpIcon docsUrl="rules/method.html" />
@@ -153,8 +221,8 @@ var RequestRule = React.createClass({
         </div>
         <div className="w-form-item">
           <div className="w-form-value">
-            <label className="w-150">
-              <input type="checkbox" className="mr-10" checked={!disabledVersion} onChange={self.onDisableVersionChange} />
+            <label className="w-175">
+              <input type="checkbox" className="mr-10" data-name="disabledVersion" checked={!disabledVersion} onChange={self.onDisableCheckChange} />
               Modify HTTP Version
             </label>
             <Select disabled={disabledVersion} className="mx-10 w-300" options={HTTP_VERSION_OPTIONS} value={version} onChange={self.onVersionChange} />
@@ -163,15 +231,15 @@ var RequestRule = React.createClass({
         </div>
         <div className="w-form-item">
           <label>
-            <input type="checkbox" className="mr-10" checked={!disabledUrl} onChange={self.onDisableUrlChange} />
+            <input type="checkbox" className="mr-10" data-name="disabledUrl" checked={!disabledUrl} onChange={self.onDisableCheckChange} />
             Modify Request URL
-            <HelpIcon className="ml-10" docsUrl="rules/urlParams.html" />
+            <HelpIcon className="ml-10" docsUrl="rules/urlParams.html#related" />
           </label>
           {
             urlActions.map(function(action) {
               return (
                 <div data-name="urlActions" className="w-form-value" data-index={action.index} key={action.index}>
-                  <Select className=" w-175" disabled={disabledUrl} value={action.type} data={action} options={URL_ACTIONS}
+                  <Select className="w-190" disabled={disabledUrl} value={action.type} data={action} options={URL_ACTIONS}
                     onChange={self.onActionChange} key={action.index} />
                   {self.renderUrlAction(action, disabledUrl)}
                   {self.renderButtons(action, disabledUrl, urlActionCount)}
@@ -182,17 +250,16 @@ var RequestRule = React.createClass({
         </div>
         <div className="w-form-item">
           <label>
-            <input type="checkbox" className="mr-10" checked={!disabledHeader} onChange={self.onDisableHeaderChange} />
+            <input type="checkbox" className="mr-10" data-name="disabledHeader" checked={!disabledHeader} onChange={self.onDisableCheckChange} />
             Modify Request Headers
-            <HelpIcon className="ml-10" docsUrl="rules/reqHeaders.html" />
+            <HelpIcon className="ml-10" docsUrl="rules/reqHeaders.html#related" />
           </label>
             {
               headerActions.map(function(action) {
                 return (
                   <div data-name="headerActions" className="w-form-value" data-index={action.index} key={action.index}>
-                    <Select className="w-175" disabled={disabledHeader} value={action.type} data={action} options={HEADER_ACTIONS}
-                      onChange={self.onActionChange} key={action.index} />
-                    {self.renderHeaderAction(action, disabledHeader)}
+                    {self.renderHeaders(action, disabledHeader, true, 'w-190')}
+                    {self.renderHeaderAction(action, disabledHeader, true)}
                     {self.renderButtons(action, disabledHeader, headerActionCount)}
                   </div>
                 );
@@ -201,18 +268,17 @@ var RequestRule = React.createClass({
         </div>
         <div className="w-form-item">
           <label>
-            <input type="checkbox" className="mr-10" checked={!disabledBody} onChange={self.onDisableBodyChange} />
+            <input type="checkbox" className="mr-10" data-name="disabledBody" checked={!disabledBody} onChange={self.onDisableCheckChange} />
             Modify Request Body
-            <HelpIcon className="ml-10" docsUrl="rules/reqBody.html" />
+            <HelpIcon className="ml-10" docsUrl="rules/reqBody.html#related" />
           </label>
           {
             bodyActions.map(function(action) {
               return (
                 <div data-name="bodyActions" className="w-form-value" data-index={action.index} key={action.index}>
-                  <Select className="w-175" disabled={disabledBody} value={action.type} data={action} options={BODY_ACTIONS}
+                  <Select className="w-190" disabled={disabledBody} value={action.type} data={action} options={BODY_ACTIONS}
                     onChange={self.onActionChange} key={action.index} />
-                  <input type="text" value={action.value} className="form-control" maxLength="5120"
-                    placeholder={action.placeholder} disabled={disabledBody} onChange={self.onValueChange} />
+                  {self.renderBodyAction(action, disabledBody, BODY_ACTIONS)}
                   {self.renderButtons(action, disabledBody, bodyActionCount)}
                 </div>
               );

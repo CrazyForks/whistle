@@ -17,6 +17,8 @@ var UrlInput = React.createClass({
     var protocols = ['', 'http://', 'https://', 'ws://', 'wss://', 'tunnel://'];
     if (props.enableLocalFile) {
       protocols = ['file://', 'http://', 'https://'];
+    } else if (props.isRedirect) {
+      protocols = ['', 'http://', 'https://'];
     }
     if (props.enableTplFile) {
       protocols.splice(1, 0, 'tpl://');
@@ -58,7 +60,7 @@ var UrlInput = React.createClass({
       }
     }
     return {
-      protocol: protocol,
+      protocol: protocol || protocols[0],
       url: url
     };
   },
@@ -70,7 +72,7 @@ var UrlInput = React.createClass({
       url = url ? state.protocol + state.url : '';
       if (url !== this._curUrl) {
         this._curUrl = url;
-        onChange(url);
+        onChange(url, this.refs.checkbox);
       }
     }
   },
@@ -143,6 +145,14 @@ var UrlInput = React.createClass({
       }
     };
     $(document).on('click mousedown', self.handleHideParams);
+    this.componentDidUpdate();
+  },
+  componentDidUpdate: function() {
+    var value = this.props.value;
+    if (value !== this._curValue) {
+      this._curValue = value;
+      this.setUrl(value);
+    }
   },
   showHints: function() {
     this.setState({ showHints: true });
@@ -214,8 +224,14 @@ var UrlInput = React.createClass({
     }
   },
   setUrl: function(url) {
+    if (url === this._curUrl) {
+      return;
+    }
     var result = this.parseUrl(url);
     var state = this.state;
+    if (result.protocol === state.protocol && result.url === state.url) {
+      return;
+    }
     state.protocol = result.protocol;
     state.url = result.url;
     this.hideHints();
@@ -346,6 +362,7 @@ var UrlInput = React.createClass({
           })}
         </select>
         <input
+          ref="checkbox"
           disabled={disabled}
           value={state.url}
           onChange={this.onUrlChange}
@@ -357,7 +374,7 @@ var UrlInput = React.createClass({
           type="text"
           maxLength="8192"
           placeholder={props.placeholder || 'Enter ' + (isFile ?  'file or directory path or (value)' : 'request URL')}
-          className="fill form-control"
+          className={'fill form-control' + (isFile ? ' w-file-input' : '')}
         />
         <button
           disabled={disabled}

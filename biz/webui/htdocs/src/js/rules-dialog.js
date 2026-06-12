@@ -10,6 +10,7 @@ var CloseBtn = require('./close-btn');
 var Prompt = require('./prompt');
 var message = require('./message');
 
+var showSysErr = util.showSysErr;
 var TEMP_FILE_RE = /\btemp\/current_file_hash_placeholder\b/;
 var TEMP_FILE_RE_G = /\btemp\/current_file_hash_placeholder\b/g;
 var LINE__RE = /^(?:[^\n\r\S]*(```+)[^\n\r\S]*(\S+)[^\n\r\S]*[\r\n]([\s\S]+?)[\r\n][^\n\r\S]*\1\s*|[^\r\n]*)$/gm;
@@ -85,7 +86,7 @@ var RulesDialog = React.createClass({
           self.setState({ rulesName: name });
           self.setValue(name, true);
         } else {
-          util.showSystemError(xhr);
+          showSysErr(xhr);
         }
       });
     });
@@ -113,7 +114,7 @@ var RulesDialog = React.createClass({
           init && cb(TEMP_FILE_RE.test(rulesValue) ? result.filepath : null);
         } else if (!hasError) {
           hasError = true;
-          util.showSystemError(xhr);
+          showSysErr(xhr);
         }
       });
     };
@@ -145,7 +146,7 @@ var RulesDialog = React.createClass({
             });
             cb();
           } else {
-            util.showSystemError(xhr);
+            showSysErr(xhr);
           }
         });
       }
@@ -213,7 +214,7 @@ var RulesDialog = React.createClass({
           self.refs.rulesDialog.hide();
           events.trigger('hideRulesDialog');
         } else {
-          util.showSystemError(xhr);
+          showSysErr(xhr);
         }
       });
     });

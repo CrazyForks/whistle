@@ -41,7 +41,6 @@ require('codemirror/mode/javascript/javascript');
 require('codemirror/mode/css/css');
 require('codemirror/mode/xml/xml');
 require('codemirror/mode/htmlmixed/htmlmixed');
-require('codemirror/mode/markdown/markdown');
 require('codemirror/addon/dialog/dialog');
 require('codemirror/addon/search/searchcursor');
 require('codemirror/addon/search/search');
@@ -76,14 +75,12 @@ var Editor = React.createClass({
     return themes;
   },
   setMode: function (mode) {
-    if (/^(javascript|css|xml|rules|markdown)$/i.test(mode)) {
+    if (/^(javascript|css|xml|rules)$/i.test(mode)) {
       mode = RegExp.$1.toLowerCase();
     } else if (/^(js|pac|jsx|json)$/i.test(mode)) {
       mode = 'javascript';
     } else if (/^(html|wtpl)$/i.test(mode)) {
       mode = 'htmlmixed';
-    } else if (/^md$/i.test(mode)) {
-      mode = 'markdown';
     }
     if (this._mode !== mode) {
       this._mode = mode;

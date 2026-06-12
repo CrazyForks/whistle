@@ -52,7 +52,7 @@
 .w-left-menu .w-disabled {
   color: var(--c-disabled);
 }
-.w-menu .w-menu-enable .glyphicon-cog {
+.w-menu .w-menu-enable .glyphicon-cog, .w-enabled {
   color: var(--c-risk) !important;
 }
 .w-menu .w-new-version-icon {

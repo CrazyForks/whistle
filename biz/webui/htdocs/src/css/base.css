@@ -595,6 +595,7 @@ select.form-control {
   color: var(--c-heavy);
   font-size: 14px;
   margin-right: 5px;
+  cursor: pointer;
 }
 .w-help-icon:hover {
   color: var(--c-link);
@@ -616,6 +617,11 @@ select.form-control {
 .mx-10 {
   margin-left: 10px!important;
   margin-right: 10px!important;
+}
+
+.mx-20 {
+  margin-left: 20px!important;
+  margin-right: 20px!important;
 }
 
 .mx-2 {
@@ -650,3 +656,8 @@ select.form-control {
 a:hover, a:focus, a:active {
   text-decoration: none;
 }
+
+body input[readonly].w-input-ext {
+  color: var(--c-thin)!important;
+}
+

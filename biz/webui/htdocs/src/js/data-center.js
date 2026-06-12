@@ -7,6 +7,7 @@ var events = require('./events');
 var workers = require('./workers');
 var message = require('./message');
 
+var showSysErr = util.showSysErr;
 var updateWorkers = workers.updateWorkers;
 var createCgi = createCgiObj.createCgi;
 var MAX_INCLUDE_LEN = 5120;
@@ -476,7 +477,7 @@ exports.uploadCerts = function (data, cb) {
   }
   return certs.upload(data, function (data, xhr) {
     if (!data) {
-      return util.showSystemError(xhr);
+      return showSysErr(xhr);
     }
     if (typeof cb === 'function') {
       cb(data);
@@ -544,6 +545,7 @@ exports.installPluginsFromService = function (plugins, registry) {
 exports.rules = createCgiObj(
   {
     disableAllRules: 'cgi-bin/rules/disable-all-rules',
+    clearDnsCache: 'cgi-bin/rules/clear-dns-cache',
     recycleList: {
       type: 'get',
       url: 'cgi-bin/rules/recycle/list'
@@ -2150,7 +2152,7 @@ exports.getRemoteData = function (url, callback) {
   var opts = { url: url };
   exports.importRemote(opts,  function (data, xhr) {
     if (!data) {
-      util.showSystemError(xhr);
+      showSysErr(xhr);
       return callback(true);
     }
     if (data.ec !== 0) {
@@ -2177,7 +2179,7 @@ exports.showLatestClientVersion = function() {
   }
   exports.updateClient(function (result, xhr) {
     if (!result) {
-      return util.showSystemError(xhr);
+      return showSysErr(xhr);
     }
     if (result.ec) {
       message.error(result.em || 'Update failed');

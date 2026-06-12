@@ -271,7 +271,7 @@
   z-index: calc(var(--z-modal) + 1);
 }
 
-.w-big-editor-dialog .modal-body .w-mock-action a {
+.w-big-editor-dialog .modal-body .w-mock-action a, .w-json-editor .w-mock-action  a {
   padding: 0 6px;
   border-radius: 2px;
   background: var(--b-title);
@@ -280,7 +280,7 @@
   text-decoration: none;
 }
 
-.w-big-editor-dialog .modal-body .w-mock-action a:hover {
+.w-big-editor-dialog .modal-body .w-mock-action a:hover, .w-json-editor .w-mock-action a:hover {
   color: var(--c-default);
 }
 
@@ -311,6 +311,16 @@
   display: none;
 }
 
+.w-json-editor {
+  flex: 1;
+  position: relative;
+}
+
+.w-json-editor textarea {
+  height: 120px!important;
+  line-height: 1.5!important;
+}
+
 .w-big-editor-dialog .modal-dialog {
   width: 1000px;
 }
@@ -320,13 +330,18 @@
   height: 550px;
 }
 
-.w-big-editor-dialog .modal-body .w-mock-action {
+.w-big-editor-dialog .modal-body .w-mock-action, .w-json-editor .w-mock-action  {
   top: 12px;
   right: 11px;
   font-size: 12px;
 }
 
-.w-big-editor-dialog .modal-body:hover .w-mock-action {
+.w-json-editor .w-mock-action {
+  top: 1px;
+  right: 5px;
+}
+
+.w-big-editor-dialog .modal-body:hover .w-mock-action, .w-json-editor:hover .w-mock-action {
   display: block;
   background: var(--b-title);
   border-radius: 3px;
@@ -418,4 +433,9 @@
   height: var(--h-field);
   padding: 0 10px;
   border-left-width: 0.5px;
+}
+
+.w-url-input .w-file-input {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
 }

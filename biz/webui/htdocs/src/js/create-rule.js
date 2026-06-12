@@ -7,8 +7,8 @@ var UrlInput = require('./url-input');
 var CopyBtn = require('./copy-btn');
 var NetworkRule = require('./network-rule');
 var MappingRule = require('./mapping-rule');
-// var RequestRule = require('./request-rule');
-// var ResponseRule = require('./response-rule');
+var RequestRule = require('./request-rule');
+var ResponseRule = require('./response-rule');
 var DebugRule = require('./debug-rule');
 var FiltersRule = require('./filters-rule');
 var Icon = require('./icon');
@@ -20,8 +20,8 @@ var getHideStyle = util.getHideStyle;
 var TYPE_OPTIONS = [
   { value: 'Mapping', label: 'Modify Mapping' },
   { value: 'Network', label: 'Modify Network' },
-  // { value: 'Request', label: 'Modify Request' },
-  // { value: 'Response', label: 'Modify Response' },
+  { value: 'Request', label: 'Modify Request' },
+  { value: 'Response', label: 'Modify Response' },
   { value: 'Debug', label: 'Debug Tools' }
 ];
 var PATTERN_OPTIONS = [
@@ -78,9 +78,10 @@ var CreateRuleDialog = React.createClass({
   saveRules: function() {
     var state = this.state;
     var rules = this.getRules();
+    var values = rules._values || '';
     events.trigger('showRulesDialog', {
       filename: state.filename,
-      rules: this.formatRules(rules)
+      rules: this.formatRules(rules) + values
     });
   },
   formatRules: function(rules) {
@@ -96,6 +97,7 @@ var CreateRuleDialog = React.createClass({
       return '';
     }
     var rule = '';
+    var values = '';
     switch (state.type) {
     case 'Mapping':
       rule = state.mappingRule;
@@ -105,9 +107,11 @@ var CreateRuleDialog = React.createClass({
       break;
     case 'Request':
       rule = state.requestRule;
+      values = state.requestValues;
       break;
     case 'Response':
       rule = state.responseRule;
+      values = state.responseValues;
       break;
     case 'Debug':
       rule = state.debugRule;
@@ -121,6 +125,7 @@ var CreateRuleDialog = React.createClass({
     if (filters) {
       rules = rules.concat(filters.split(' '));
     }
+    rules._values = values ? '\n\n' + values : '';
     return rules;
   },
   onPatternTypeChange: function(option) {
@@ -184,11 +189,11 @@ var CreateRuleDialog = React.createClass({
   onNetworkChange: function(rule) {
     this.setState({ networkRule: rule });
   },
-  onRequestChange: function(rule) {
-    this.setState({ requestRule: rule });
+  onRequestChange: function(rule, values) {
+    this.setState({ requestRule: rule, requestValues: values });
   },
-  onResponseChange: function(rule) {
-    this.setState({ responseRule: rule });
+  onResponseChange: function(rule, values) {
+    this.setState({ responseRule: rule, responseValues: values });
   },
   onDebugChange: function(rule) {
     this.setState({ debugRule: rule });
@@ -248,7 +253,9 @@ var CreateRuleDialog = React.createClass({
     // 这里不能用 Editor，用了会出现预览内容不更新，Copy 功能失效等诡异问题
     var isMulti;
     var text = this.formatRules(rules);
+    var values;
     if (rules) {
+      values = rules._values || null;
       rules = rules.map(function(rule, i) {
         var className = i ? 'w-pr-' + util.getProtocol(rule) : (util.isSpecPattern(rule) || util.isWildcard(rule) ? 'w-pr-REGEXP' : null);
         return <span className={className}>{rule}</span>;
@@ -267,6 +274,7 @@ var CreateRuleDialog = React.createClass({
         </label>
         <pre className={'w-preview-rules ' + (isMulti ? ' w-preview-rules-multi' : '')}>
           {rules}
+          {values}
         </pre>
       </div>
     );
@@ -283,8 +291,8 @@ var CreateRuleDialog = React.createClass({
           {this.renderPattern()}
           <MappingRule hide={type !== 'Mapping'} onChange={this.onMappingChange} session={state.session} />
           <NetworkRule hide={type !== 'Network'} onChange={this.onNetworkChange} session={state.session} />
-          {/* <RequestRule hide={type !== 'Request'} onChange={this.onRequestChange} session={state.session} />
-          <ResponseRule hide={type !== 'Response'} onChange={this.onResponseChange} session={state.session} /> */}
+          <RequestRule hide={type !== 'Request'} onChange={this.onRequestChange} session={state.session} />
+          <ResponseRule hide={type !== 'Response'} onChange={this.onResponseChange} session={state.session} />
           <DebugRule hide={type !== 'Debug'} onChange={this.onDebugChange} session={state.session} />
           <FiltersRule onChange={this.onFiltersChange} session={state.session} />
           {this.renderRules(rules)}
