@@ -144,6 +144,8 @@ module.exports = {
             }
             if (cookies[key.Name] == null) {
               cookies[key.Name] = key;
+              key.value = key.Value || '';
+              delete key.Value;
               delete key.Name;
             }
           }
