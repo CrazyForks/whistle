@@ -296,6 +296,7 @@ module.exports = {
             data-dismiss="modal"
             className="btn btn-primary"
             disabled={!cookie || (!cookie.Name && !cookie.Value)}
+            onClick={this.saveCookie}
           >
             Confirm
           </button>
