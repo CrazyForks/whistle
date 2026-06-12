@@ -5,6 +5,7 @@ var win = require('./win');
 var util = require('./util');
 var UrlInput = require('./url-input');
 var JSONEditor = require('./json-editor');
+var Select = require('./custom-select');
 var HeaderSelect = require('./header-select');
 var TypeSelect = require('./type-select');
 var Dialog = require('./dialog');
@@ -13,6 +14,7 @@ var CloseBtn = require('./close-btn');
 var MAX_COUNT = 20;
 var keyIndex = 0;
 var removeSpaces = util.removeSpaces;
+var SAME_SITES = ['None', 'Lax', 'Strict'];
 
 function getElemValue(e) {
   if (util.isString(e.value)) {
@@ -206,16 +208,12 @@ module.exports = {
             <input type="text" ref="cookiePath" className="form-control" placeholder="Enter cookie path" />
           </div>
           <div className="w-form-value">
-            <label className="w-form-label w-80">Expires: </label>
-            <input type="text" ref="cookieExpires" className="form-control" placeholder="Enter cookie expires, e.g. 2024-12-31T23:59:59Z" />
-          </div>
-          <div className="w-form-value">
             <label className="w-form-label w-80">Max-Age: </label>
             <input type="text" ref="cookieMaxAge" className="form-control" placeholder="Enter cookie max-age in seconds, e.g. 3600" />
           </div>
           <div className="w-form-value">
             <label className="w-form-label w-80">SameSite: </label>
-            <input type="text" ref="cookieSameSite" className="form-control" placeholder="Enter cookie SameSite, e.g. Strict, Lax, None" />
+            <Select options={SAME_SITES} selectPlaceholder="Select cookie SameSite" />
           </div>
           <div className="w-form-value w-cookie-attrs">
             <label className="w-form-label w-80">Attributes: </label>
