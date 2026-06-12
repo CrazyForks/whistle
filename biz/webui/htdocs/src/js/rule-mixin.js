@@ -120,10 +120,9 @@ module.exports = {
     if (type === allActions[1]) {
       return this.renderAllHeaders(action, disabled, 'flex-1 mr-0', 'Select ' + name + ' header name to delete');
     }
-    if (type === allActions[2]) {
-      return this.renderKey(action.key, 'Enter ' + name + ' cookie name to delete', disabled);
-    }
-    return this.renderKey(action.value, 'Enter ' + name + ' header value', disabled, true);
+    var isCookie = type === allActions[2];
+    var placeholder = 'Enter ' + name + (isCookie ? ' cookie name to delete' : ' header value');
+    return this.renderKey(action.key, placeholder, disabled, !isCookie);
   },
   renderHeaders: function(action, disabled, isReq, className) {
     var name = isReq ? 'requestHeaders' : 'responseHeaders';
