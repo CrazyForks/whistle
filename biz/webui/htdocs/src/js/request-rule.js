@@ -46,8 +46,6 @@ var RequestRule = React.createClass({
         rules.push('enable://http2');
       }
     }
-    var urlRules = this.getUrlRules();
-    var bodyRules = this.getBodyRules();
     var addRules = function(item) {
       if (item) {
         rules.push(item.rules);
@@ -56,8 +54,9 @@ var RequestRule = React.createClass({
         }
       }
     };
-    addRules(urlRules);
-    addRules(bodyRules);
+    addRules(this.getUrlRules());
+    addRules(this.getHeaderRules(true));
+    addRules(this.getBodyRules());
     rules = rules.join(' ');
     if (this._curRules !== rules) {
       this._curRules = rules;

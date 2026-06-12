@@ -75,7 +75,6 @@ var ResponseRule = React.createClass({
         rules.push(action + state.statusCode);
       }
     }
-    var bodyRules = this.getBodyRules();
     var addRules = function(item) {
       if (item) {
         rules.push(item.rules);
@@ -84,7 +83,8 @@ var ResponseRule = React.createClass({
         }
       }
     };
-    addRules(bodyRules);
+    addRules(this.getHeaderRules());
+    addRules(this.getBodyRules());
     rules = rules.join(' ');
     if (this._curRules !== rules) {
       this._curRules = rules;
