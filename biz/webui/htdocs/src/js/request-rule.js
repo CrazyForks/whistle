@@ -28,7 +28,7 @@ var RequestRule = React.createClass({
       method: util.METHODS[0],
       version: HTTP_VERSION_OPTIONS[0],
       urlActions: [this.createAction(URL_ACTIONS[0])],
-      headerActions: [this.createAction(HEADER_ACTIONS[0])],
+      headerActions: [this.createAction(HeaderSelect.ACTIONS[1])],
       bodyActions: [this.createAction(BODY_ACTIONS[0])]
     };
   },
@@ -196,12 +196,9 @@ var RequestRule = React.createClass({
     return this.renderKV(action, keyPlaceholder, valuePlaceholder, disabled, isParam, isParam);
   },
   renderHeaderAction: function(action, disabled) {
-    var session = this.props.session;
     var isDel = action.type === HEADER_ACTIONS[3];
     if (action.type === HEADER_ACTIONS[0] || isDel) {
       return [
-        <HeaderSelect name="customHeaders" disabled={disabled} value={action.key} placeholder={'Select request header name' + (isDel ? ' to delete' : '')}
-          className={isDel ? 'flex-1 mr-0' : 'w-190'} onChange={this.onKeyChange} session={session} />,
         <input type="text" value={action.value} className={isDel ? 'w-hide' : 'form-control'} maxLength="5120"
           placeholder="Enter request header value" disabled={disabled} data-keep-space="1" onChange={this.onValueChange} />
       ];
@@ -235,6 +232,7 @@ var RequestRule = React.createClass({
     var urlActionCount = urlActions.length;
     var headerActionCount = headerActions.length;
     var bodyActionCount = bodyActions.length;
+    var session = self.props.session;
 
     return (
       <div className={'w-rules-form' + (hide ? ' w-hide' : '')}>
@@ -287,8 +285,7 @@ var RequestRule = React.createClass({
               headerActions.map(function(action) {
                 return (
                   <div data-name="headerActions" className="w-form-value" data-index={action.index} key={action.index}>
-                    <Select className="w-190" disabled={disabledHeader} value={action.type} data={action} options={HEADER_ACTIONS}
-                      onChange={self.onActionChange} key={action.index} />
+                    <HeaderSelect className="w-190" disabled={disabledHeader} value={action.type} isReq session={session} onChange={self.onActionChange} />
                     {self.renderHeaderAction(action, disabledHeader)}
                     {self.renderButtons(action, disabledHeader, headerActionCount)}
                   </div>

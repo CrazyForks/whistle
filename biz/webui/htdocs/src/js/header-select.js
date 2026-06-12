@@ -177,3 +177,5 @@ var HeaderSelect = React.createClass({
 });
 
 module.exports = HeaderSelect;
+
+HeaderSelect.ACTIONS = ACTIONS;
