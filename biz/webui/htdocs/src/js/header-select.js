@@ -119,7 +119,7 @@ var RES_HEADERS = RES_ACTIONS.concat(GENERAL_HEADERS).concat([
 const ALL_HEADERS = [];
 
 REQ_HEADERS.concat(RES_HEADERS).forEach(function(name) {
-  if (name[0] !== '-') {
+  if (!/\s/.test(name)) {
     name = name.toLowerCase();
     if (ALL_HEADERS.indexOf(name) === -1) {
       ALL_HEADERS.push(name);
