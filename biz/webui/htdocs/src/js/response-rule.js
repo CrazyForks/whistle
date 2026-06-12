@@ -5,6 +5,7 @@ var HelpIcon = require('./help-icon');
 var ruleMixin = require('./rule-mixin');
 var StatusSelect = require('./status-select');
 var UrlInput = require('./url-input');
+var HeaderSelect = require('./header-select');
 
 var STATUS_CODE_ACTIONS = [
   { value: 'statusCode://', label: 'Direct Status Code' },
@@ -16,7 +17,6 @@ var STATUS_CODE_ACTIONS = [
   '308 Permanent Redirect',
   'Client Side Redirect'
 ];
-var HEADER_ACTIONS = ['Set Custom Header', 'Set Response CORS', 'Set Response Cookie', 'Delete Response Header'];
 var BODY_ACTIONS = util.BODY_ACTIONS;
 var getInjectValue = util.getInjectValue;
 var getRandomKey = util.getRandomKey;
@@ -45,7 +45,7 @@ var ResponseRule = React.createClass({
       disabledBody: true,
       statusCodeAction: STATUS_CODE_ACTIONS[0].value,
       statusCode: '200',
-      headerActions: [this.createAction(HEADER_ACTIONS[0])],
+      headerActions: [this.createAction(HeaderSelect.ACTIONS[1])],
       bodyActions: [this.createAction(BODY_ACTIONS[0])],
       redirectUrl: ''
     };
@@ -261,8 +261,8 @@ var ResponseRule = React.createClass({
               headerActions.map(function(action) {
                 return (
                   <div data-name="headerActions" className="w-form-value" data-index={action.index} key={action.index}>
-                    <Select className="w-190" disabled={disabledHeader} value={action.type} data={action} options={HEADER_ACTIONS}
-                      onChange={self.onActionChange} key={action.index} />
+                    <HeaderSelect name="responseHeaders" isRes className="w-190" disabled={disabledHeader} value={action.type}
+                      data={action} onChange={self.onActionChange} />
                     <input type="text" value={action.value} className="form-control" maxLength="5120"
                       placeholder={action.placeholder} disabled={disabledHeader} onChange={self.onValueChange} />
                     {self.renderButtons(action, disabledHeader, headerCount)}
