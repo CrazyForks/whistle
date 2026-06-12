@@ -111,7 +111,9 @@ module.exports = {
               username: key,
               password: value
             }));
-          } else if (/^proxy-authorization$/i.test(type)) {
+            return;
+          }
+          if (/^proxy-authorization$/i.test(type)) {
             innerKey = getRandomKey('proxyAuth_');
             rules.push('auth://{' + innerKey + '}');
             values.push(innerKey, getInjectValue({
@@ -119,7 +121,9 @@ module.exports = {
               username: key,
               password: value
             }));
-          } else if (/^cookie$/i.test(type)) {
+            return;
+          }
+          if (/^cookie$/i.test(type)) {
             if (!cookies) {
               innerKey = getRandomKey('reqCookies_');
               cookies = {};
@@ -128,8 +132,10 @@ module.exports = {
             if (cookies[key] == null) {
               cookies[key] = value;
             }
+            return;
           }
-        } else if (/^set-cookie$/i.test(type)) {
+        }
+        if (/^set-cookie$/i.test(type)) {
           key = key && util.parseRawJson(key);
           if (key) {
             if (!cookies) {
@@ -142,7 +148,9 @@ module.exports = {
               delete key.Name;
             }
           }
-        } else if (key) {
+          return;
+        }
+        if (key) {
           if (!headers) {
             headersKey = getRandomKey('re' + flag + 'Headers_');
             headers = {};
