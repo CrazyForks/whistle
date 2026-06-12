@@ -13,6 +13,34 @@ var CloseBtn = require('./close-btn');
 var MAX_COUNT = 20;
 var keyIndex = 0;
 var removeSpaces = util.removeSpaces;
+var PLACEHOLDER_PREFIX = 'Enter cookie ';
+var COOKIE_OPTIONS = [
+  {
+    label: 'Name',
+    placeholder: PLACEHOLDER_PREFIX + 'name'
+  },
+  {
+    label: 'Value',
+    placeholder: PLACEHOLDER_PREFIX + 'value'
+  },
+  {
+    label: 'Domain',
+    placeholder: PLACEHOLDER_PREFIX + 'domain'
+  },
+  {
+    label: 'Path',
+    placeholder: PLACEHOLDER_PREFIX + 'path'
+  },
+  {
+    label: 'Max-Age',
+    placeholder: PLACEHOLDER_PREFIX + 'max-age in seconds, e.g. 3600'
+  },
+  {
+    label: 'SameSite',
+    placeholder: PLACEHOLDER_PREFIX + 'max-age in samesite, e.g. 3600'
+  }
+];
+var COOKIE_ATTRS = ['Secure', 'HttpOnly', 'Partitioned'];
 
 function getElemValue(e) {
   if (util.isString(e.value)) {
@@ -189,49 +217,32 @@ module.exports = {
           <CloseBtn />
         </div>
         <div className="modal-body">
-          <div className="w-form-value">
-            <label className="w-form-label w-80">Name: </label>
-            <input type="text" ref="cookieName" className="form-control" placeholder="Enter cookie name" />
-          </div>
-          <div className="w-form-value">
-            <label className="w-form-label w-80">Value: </label>
-            <input type="text" ref="cookieValue" className="form-control" placeholder="Enter cookie value" />
-          </div>
-          <div className="w-form-value">
-            <label className="w-form-label w-80">Domain: </label>
-            <input type="text" ref="cookieDomain" className="form-control" placeholder="Enter cookie domain" />
-          </div>
-          <div className="w-form-value">
-            <label className="w-form-label w-80">Path: </label>
-            <input type="text" ref="cookiePath" className="form-control" placeholder="Enter cookie path" />
-          </div>
-          <div className="w-form-value">
-            <label className="w-form-label w-80">Max-Age: </label>
-            <input type="text" ref="cookieMaxAge" className="form-control" placeholder="Enter cookie max-age in seconds, e.g. 3600" />
-          </div>
-          <div className="w-form-value">
-            <label className="w-form-label w-80">SameSite: </label>
-            <select className="form-control">
-              <option>Select cookie SameSite</option>
-              <option value="None">None</option>
-              <option value="Lax">Lax</option>
-              <option value="Strice">Strict</option>
-            </select>
-          </div>
+          {
+            COOKIE_OPTIONS.map(function(option) {
+              var label = option.label;
+              return (
+                <div className="w-form-value" key={label}>
+                  <label className="w-form-label w-80">{label}: </label>
+                  {label === 'SameSite' ? (<select className="form-control">
+                    <option>Select cookie SameSite</option>
+                    <option value="None">None</option>
+                    <option value="Lax">Lax</option>
+                    <option value="Strice">Strict</option>
+                  </select>) : <input type="text" name={label} className="form-control" placeholder={option.placeholder} />}
+                </div>
+              );
+            })
+          }
           <div className="w-form-value w-cookie-attrs">
             <label className="w-form-label w-80">Attributes: </label>
-            <label className="mr-10">
-              <input type="checkbox" ref="cookieSecure" />
-              Secure
-            </label>
-            <label className="mx-20">
-              <input type="checkbox" ref="cookieHttpOnly" />
-              HttpOnly
-            </label>
-            <label>
-              <input type="checkbox" ref="cookiePartitioned" />
-              Partitioned
-            </label>
+            {COOKIE_ATTRS.map(function(name, i) {
+              return (
+                <label className={i === 1 ? 'mx-20' : null}>
+                  <input type="checkbox" name={name} />
+                  {name}
+                </label>
+              );
+            })}
           </div>
         </div>
         <div className="modal-footer">
