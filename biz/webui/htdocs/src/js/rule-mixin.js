@@ -124,6 +124,13 @@ module.exports = {
     if (/^content-type$/i.test(type)) {
       return <TypeSelect isReq={isReq} disabled={disabled} value={action.key} className="flex-1" onChange={this.onKeyChange} />;
     }
+    if (isReq) {
+      if (/^cookie$/i.test(type)) {
+        return this.renderKV(action, 'Enter request cookie name', 'Enter request cookie value', disabled, true, true);
+      }
+    } else {
+
+    }
     var isCookie = type === allActions[2];
     var placeholder = 'Enter ' + name + (isCookie ? ' cookie name to delete' : ' header value');
     return this.renderKey(action.key, placeholder, disabled, !isCookie);
