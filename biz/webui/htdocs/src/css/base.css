@@ -657,6 +657,6 @@ a:hover, a:focus, a:active {
   text-decoration: none;
 }
 
-.w-input-ext {
+body input[readonly].w-input-ext {
   color: var(--c-thin)!important;
 }
