@@ -139,3 +139,12 @@ https://example.com/assets cache://{static-cache}
 - Setting `no-cache` does not mean "do not cache" but rather "must validate before use".
 - For scenarios requiring complete cache disabling, it is recommended to also use the [`disable://cache`](./disable) protocol.
 - Actual caching behavior is also influenced by server configuration and browser implementation.
+
+## Associated Protocols
+
+1. Modify response headers: [resHeaders](./resHeaders)  
+2. Delete request header field (`Delete Response Header`): [delete://resHeaders.xxx](./delete)  
+3. Delete request cookie (`Delete Response Cookie`): [delete://resCookies.xxx](./delete)  
+4. Set request cookie: [resCookies](./resCookies)  
+5. Set cache: [cache](./cache)  
+6. More flexible way to modify request headers: [headerReplace](./headerReplace)

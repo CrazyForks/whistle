@@ -52,5 +52,10 @@ www.example.com/path3 resHeaders://temp/blank.json
 ````
 
 ## Associated Protocols
-1. More flexible way to modify response headers: [headerReplace](./headerReplace)
-2. Deleting response header fields: [delete://resHeaders.xxx](./delete)
+
+1. Modify response headers: [resHeaders](./resHeaders)  
+2. Delete request header field (`Delete Response Header`): [delete://resHeaders.xxx](./delete)  
+3. Delete request cookie (`Delete Response Cookie`): [delete://resCookies.xxx](./delete)  
+4. Set request cookie: [resCookies](./resCookies)  
+5. Set cache: [cache](./cache)  
+6. More flexible way to modify request headers: [headerReplace](./headerReplace)
