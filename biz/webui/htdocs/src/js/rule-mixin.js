@@ -245,7 +245,7 @@ module.exports = {
     } else {
       cookie[name] = target.checked || undefined;
     }
-    this.setState({ cookie: cookie }, this.handleChange);
+    this.setState({ cookie: cookie });
   },
   renderButtons: function(action, disabled, len) {
     var isMax = len >= MAX_COUNT;
@@ -271,7 +271,7 @@ module.exports = {
   },
   saveCookie: function() {
     this._cookieAction.key = JSON.stringify(this.state.cookie);
-    this.setState({});
+    this.setState({}, this.handleChange);
   },
   renderHeaderAction: function(action, disabled, isReq) {
     var allActions = isReq ? HeaderSelect.REQ_HEADERS : HeaderSelect.RES_HEADERS;
