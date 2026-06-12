@@ -6,6 +6,7 @@ var util = require('./util');
 var UrlInput = require('./url-input');
 var JSONEditor = require('./json-editor');
 var HeaderSelect = require('./header-select');
+var TypeSelect = require('./type-select');
 
 var MAX_COUNT = 20;
 var keyIndex = 0;
@@ -119,6 +120,9 @@ module.exports = {
     var type = action.type;
     if (type === allActions[1]) {
       return this.renderAllHeaders(action, disabled, 'flex-1 mr-0', 'Select ' + name + ' header name to delete');
+    }
+    if (/^content-type$/i.test(type)) {
+      return <TypeSelect isReq={isReq} disabled={disabled} value={action.key} className="flex-1" onChange={this.onKeyChange} />;
     }
     var isCookie = type === allActions[2];
     var placeholder = 'Enter ' + name + (isCookie ? ' cookie name to delete' : ' header value');

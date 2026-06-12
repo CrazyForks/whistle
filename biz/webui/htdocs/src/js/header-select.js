@@ -27,6 +27,7 @@ var GENERAL_HEADERS = [
 
 var REQ_HEADERS = REQ_ACTIONS.concat(GENERAL_HEADERS).concat([
   '- Content Negotiation',
+  'Content-Type',
   'Accept',
   'Accept-Charset',
   'Accept-Encoding',
