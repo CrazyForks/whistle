@@ -97,10 +97,6 @@ var ResponseRule = React.createClass({
   onStatusCodeChange: function(option) {
     this.setState({ statusCode: option.value }, this.handleChange);
   },
-  onActionChange: function(option, item) {
-    item.type = option.value;
-    this.setState({}, this.handleChange);
-  },
   onUrlChange: function(url) {
     this.setState({ redirectUrl: url }, this.handleChange);
   },

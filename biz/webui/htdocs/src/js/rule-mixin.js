@@ -93,6 +93,10 @@ module.exports = {
   onFileChange: function(url, target) {
     this.onValueChange({ value: url, target: target  });
   },
+  onActionChange: function(option, item) {
+    item.type = option.value;
+    this.setState({}, this.handleChange);
+  },
   renderButtons: function(action, disabled, len) {
     var isMax = len >= MAX_COUNT;
     var isMin = len <= 1;

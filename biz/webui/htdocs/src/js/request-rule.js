@@ -71,10 +71,6 @@ var RequestRule = React.createClass({
   onVersionChange: function(option) {
     this.setState({ version: option.value }, this.handleChange);
   },
-  onActionChange: function(option, item) {
-    item.type = option.value;
-    this.setState({}, this.handleChange);
-  },
   showCorsSettings: function(e) {
     this._curHeaderAction = this.getData(e);
     this.refs.corsSettings.show();
