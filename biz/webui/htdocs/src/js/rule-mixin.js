@@ -189,7 +189,51 @@ module.exports = {
           <CloseBtn />
         </div>
         <div className="modal-body">
-
+          <div className="w-form-value">
+            <label className="w-form-label w-80">Name: </label>
+            <input type="text" ref="cookieName" className="form-control" placeholder="Enter cookie name" />
+          </div>
+          <div className="w-form-value">
+            <label className="w-form-label w-80">Value: </label>
+            <input type="text" ref="cookieValue" className="form-control" placeholder="Enter cookie value" />
+          </div>
+          <div className="w-form-value">
+            <label className="w-form-label w-80">Domain: </label>
+            <input type="text" ref="cookieDomain" className="form-control" placeholder="Enter cookie domain" />
+          </div>
+          <div className="w-form-value">
+            <label className="w-form-label w-80">Path: </label>
+            <input type="text" ref="cookiePath" className="form-control" placeholder="Enter cookie path" />
+          </div>
+          <div className="w-form-value">
+            <label className="w-form-label w-80">Expires: </label>
+            <input type="text" ref="cookieExpires" className="form-control" placeholder="Enter cookie expires, e.g. 2024-12-31T23:59:59Z" />
+          </div>
+          <div className="w-form-value">
+            <label className="w-form-label w-80">Max-Age: </label>
+            <input type="text" ref="cookieMaxAge" className="form-control" placeholder="Enter cookie max-age in seconds, e.g. 3600" />
+          </div>
+          <div className="w-form-value">
+            <label className="w-form-label w-80">SameSite: </label>
+            <input type="text" ref="cookieSameSite" className="form-control" placeholder="Enter cookie SameSite, e.g. Strict, Lax, None" />
+          </div>
+          <div className="w-form-item">
+            <label className="w-form-label w-80">Attributes: </label>
+            <div className="w-form-value">
+              <label className="mr-10">
+                <input type="checkbox" ref="cookieSecure" />
+                Secure
+              </label>
+              <label>
+                <input type="checkbox" ref="cookieHttpOnly" />
+                HttpOnly
+              </label>
+              <label>
+                <input type="checkbox" ref="cookiePartitioned" />
+                Partitioned
+              </label>
+              </div>
+          </div>
         </div>
         <div className="modal-footer">
           <button

@@ -136,6 +136,10 @@
   width: 75px;
 }
 
+.w-80 {
+  width: 80px;
+}
+
 .w-175 {
   width: 175px!important;
 }
@@ -253,5 +257,9 @@
 
 .w-preview-rules .w-pr-HOST {
   color: #ff1605;
+}
+
+.w-create-cookie-dialog .w-form-value {
+  padding: 0;
 }
 
