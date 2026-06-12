@@ -129,6 +129,17 @@ module.exports = {
     item.type = option.value;
     this.setState({}, this.handleChange);
   },
+  onCookieChange: function(e) {
+    var cookie = this.state.cookie || {};
+    var target = e.target;
+    var name = target.name;
+    if (COOKIE_ATTRS.indexOf(name) === -1) {
+      cookie[name] = target.value.trim();
+    } else {
+      cookie[name] = target.checked || undefined;
+    }
+    this.setState({ cookie: cookie });
+  },
   renderButtons: function(action, disabled, len) {
     var isMax = len >= MAX_COUNT;
     var isMin = len <= 1;
@@ -210,25 +221,27 @@ module.exports = {
     return this.renderFileInput(action.value, disabled);
   },
   renderCookieDialog: function() {
+    var cookie = this.state.cookie || {};
+
     return (
       <Dialog ref="cookieDialog" wstyle="w-create-cookie-dialog">
         <div className="modal-header">
           Create Response Cookie
           <CloseBtn />
         </div>
-        <div className="modal-body">
+        <div className="modal-body" onChange={this.onCookieChange}>
           {
             COOKIE_OPTIONS.map(function(option) {
               var label = option.label;
               return (
                 <div className="w-form-value" key={label}>
                   <label className="w-form-label w-80">{label}: </label>
-                  {label === 'SameSite' ? (<select className="form-control">
+                  {label === 'SameSite' ? (<select className="form-control" value={cookie[label]}>
                     <option>Select cookie SameSite</option>
                     <option value="None">None</option>
                     <option value="Lax">Lax</option>
                     <option value="Strice">Strict</option>
-                  </select>) : <input type="text" name={label} className="form-control" placeholder={option.placeholder} />}
+                  </select>) : <input type="text" name={label} value={cookie[label]} className="form-control" placeholder={option.placeholder} />}
                 </div>
               );
             })
@@ -238,7 +251,7 @@ module.exports = {
             {COOKIE_ATTRS.map(function(name, i) {
               return (
                 <label className={i === 1 ? 'mx-20' : null}>
-                  <input type="checkbox" name={name} />
+                  <input type="checkbox" name={name} checked={cookie[name]} />
                   {name}
                 </label>
               );
