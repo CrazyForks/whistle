@@ -90,7 +90,7 @@ module.exports = {
     state.headerActions.forEach(function(action) {
       var key = (action.key || '').trim();
       var value = (action.value || '').trim();
-      if (!key && value) {
+      if (!key && !value) {
         return;
       }
       var type = action.type;
