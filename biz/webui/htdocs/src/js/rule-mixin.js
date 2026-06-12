@@ -110,6 +110,36 @@ module.exports = {
       </button>
     ];
   },
+  renderHeaderAction: function(action, disabled, isReq) {
+    var allActions = isReq ? HeaderSelect.REQ_HEADERS : HeaderSelect.RES_HEADERS;
+    var name = isReq ? 'request' : 'response';
+    var type = action.type;
+    if (type === allActions[1]) {
+      return this.renderAllHeaders(action, disabled, 'flex-1', 'Select ' + name + ' header name to delete');
+    }
+    if (type === allActions[2]) {
+      return this.renderKey(action.key, 'Enter ' + name + ' cookie name to delete', disabled);
+    }
+    var isDel = action.type === allActions[3];
+    if (action.type === allActions[0] || isDel) {
+      return [
+        <input type="text" value={action.value} className={isDel ? 'w-hide' : 'form-control'} maxLength="5120"
+            placeholder={'Enter ' + name + ' header value'} disabled={disabled} data-keep-space="1" onChange={this.onValueChange} />
+      ];
+    }
+    if (action.type === allActions[1]) {
+      return <input type="text" value={action.value} className="form-control" readOnly onClick={this.showCorsSettings}
+          placeholder="Enter request CORS settings" disabled={disabled} onChange={this.onValueChange} />;
+    }
+    if (action.type === allActions[2]) {
+      return [
+        <input type="text" value={action.key} className="form-control w-190 mr-10" maxLength="256"
+            placeholder="Enter cookie name" disabled={disabled} onChange={this.onKeyChange} />,
+        <input type="text" value={action.value} className="form-control" maxLength="1024"
+            placeholder="Enter cookie value" disabled={disabled} onChange={this.onValueChange} />
+      ];
+    }
+  },
   renderHeaders: function(action, disabled, isReq, className) {
     var name = isReq ? 'requestHeaders' : 'responseHeaders';
     return <HeaderSelect name={name} className={className} disabled={disabled} value={action.type}

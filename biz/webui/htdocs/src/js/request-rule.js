@@ -191,31 +191,6 @@ var RequestRule = React.createClass({
     var valuePlaceholder = isParam ? 'Enter param value' : 'Enter replacement value';
     return this.renderKV(action, keyPlaceholder, valuePlaceholder, disabled, isParam, isParam);
   },
-  renderHeaderAction: function(action, disabled) {
-    var type = action.type;
-    if (type === HEADER_ACTIONS[1]) {
-      return this.renderAllHeaders(action, disabled, 'flex-1');
-    }
-    var isDel = action.type === HEADER_ACTIONS[3];
-    if (action.type === HEADER_ACTIONS[0] || isDel) {
-      return [
-        <input type="text" value={action.value} className={isDel ? 'w-hide' : 'form-control'} maxLength="5120"
-          placeholder="Enter request header value" disabled={disabled} data-keep-space="1" onChange={this.onValueChange} />
-      ];
-    }
-    if (action.type === HEADER_ACTIONS[1]) {
-      return <input type="text" value={action.value} className="form-control" readOnly onClick={this.showCorsSettings}
-        placeholder="Enter request CORS settings" disabled={disabled} onChange={this.onValueChange} />;
-    }
-    if (action.type === HEADER_ACTIONS[2]) {
-      return [
-        <input type="text" value={action.key} className="form-control w-190 mr-10" maxLength="256"
-          placeholder="Enter cookie name" disabled={disabled} onChange={this.onKeyChange} />,
-        <input type="text" value={action.value} className="form-control" maxLength="1024"
-          placeholder="Enter cookie value" disabled={disabled} onChange={this.onValueChange} />
-      ];
-    }
-  },
   render: function() {
     var self = this;
     var hide = self.props.hide;
@@ -285,7 +260,7 @@ var RequestRule = React.createClass({
                 return (
                   <div data-name="headerActions" className="w-form-value" data-index={action.index} key={action.index}>
                     {self.renderHeaders(action, disabledHeader, true, 'w-190')}
-                    {self.renderHeaderAction(action, disabledHeader)}
+                    {self.renderHeaderAction(action, disabledHeader, true)}
                     {self.renderButtons(action, disabledHeader, headerActionCount)}
                   </div>
                 );
