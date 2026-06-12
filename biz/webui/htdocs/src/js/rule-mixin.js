@@ -125,9 +125,9 @@ module.exports = {
           }
           if (/^cookie$/i.test(type)) {
             if (!cookies) {
-              innerKey = getRandomKey('reqCookies_');
+              cookiesKey = getRandomKey('reqCookies_');
               cookies = {};
-              rules.push('reqCookies://{' + innerKey + '}');
+              rules.push('reqCookies://{' + cookiesKey + '}');
             }
             if (cookies[key] == null) {
               cookies[key] = value;
@@ -139,7 +139,7 @@ module.exports = {
           key = key && util.parseRawJson(key);
           if (key) {
             if (!cookies) {
-              cookiesKey = getRandomKey('reqCookies_');
+              cookiesKey = getRandomKey('resCookies_');
               cookies = {};
               rules.push('resCookies://{' + cookiesKey + '}');
             }
