@@ -220,8 +220,13 @@ function isString(str) {
 
 exports.isString = isString;
 
+var randomIndex = 0;
+
 exports.getRandomKey = function(prefix) {
-  return (prefix || '') + Date.now().toString(16) + Math.ceil(Math.random() * 1000000).toString(16) + '.json';
+  if (randomIndex > 9999999999) {
+    randomIndex = 0;
+  }
+  return (prefix || '') + (++randomIndex).toString(16) + Date.now().toString(16) + Math.ceil(Math.random() * 1000000).toString(16) + '.json';
 };
 
 exports.getInjectValue = function(key, data) {
