@@ -47,6 +47,6 @@ www.example.com/path2 reqCookies://https://www.xxx.com/xxx/params.json
 www.example.com/path3 reqCookies://temp/blank.json
 ````
 
-## Related Protocols
+## Associated Protocols
 1. Delete request cookies: [delete://reqCookies.xxx](./delete)
 2. Delete all request cookies: [delete://reqHeaders.cookie](./delete)

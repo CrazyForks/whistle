@@ -252,7 +252,7 @@ The main distinction between the `resPrepend` protocol and the [`resBody`](./res
 - **`resPrepend`**: Inserts specified content **before** the original response content, preserving the original.
 - **`resBody`**: **Replaces** the entire response content, without preserving the original.
 
-## Related Protocols
+## Associated Protocols
 
 1. **Replace response content**: [resBody](./resBody)
    - Completely replaces the response content, without preserving the original.

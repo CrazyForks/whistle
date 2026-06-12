@@ -136,7 +136,7 @@ Assuming the `api-auth` configuration already exists in Values:
 https://example.com/api/ auth://{api-auth}
 ```
 
-## How It Works & Related Protocols
+## How It Works & Associated Protocols
 
 1. **Core Principle**: The `auth` protocol automatically calculates the Base64 encoding of the username and password and sets the `Authorization` request header.
 

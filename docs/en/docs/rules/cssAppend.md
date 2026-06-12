@@ -132,7 +132,7 @@ www.example.com/print.css cssAppend://{test3.css}
 ```
 ````
 
-## Related Protocols
+## Associated Protocols
 
 1. **Inject Content Before the Response Body**: [reqAppend](./reqAppend)
    - Inserts content before the body of all types of responses.

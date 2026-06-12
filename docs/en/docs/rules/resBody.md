@@ -187,7 +187,7 @@ pattern resBody://content includeFilter://resH:content-type=json
 pattern resBody://content includeFilter://*/api/v1/
 ```
 
-## Related Protocols
+## Associated Protocols
 
 1. **Inject content before the response body**: [resPrepend](./resPrepend)
    - Inserts content before the original response body.

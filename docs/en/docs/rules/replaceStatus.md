@@ -237,7 +237,7 @@ www.example.com/api replaceStatus://400 includeFilter://s:403
 2. Whether the redirect target is correct.
 3. Whether multiple redirect rules conflict.
 
-## Related Protocols
+## Associated Protocols
 
 1. **Directly return status code**: [statusCode](./statusCode)
    - Does not request the server, directly returns the specified status code.

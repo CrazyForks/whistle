@@ -51,7 +51,7 @@ www.example.com/path2 reqHeaders://https://www.xxx.com/xxx/params.json
 www.example.com/path3 reqHeaders://temp/blank.json
 ````
 
-## Related Protocols
+## Associated Protocols
 1. Delete Request Header Field (`Delete Request Header`): [delete://reqHeaders.xxx](./delete)
 2. Delete Request Cookie (`Delete Request Cookie`): [delete://reqCookies.xxx](./delete)
 3. Set Request Cookie: [reqCookies](./reqCookies)

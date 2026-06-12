@@ -51,6 +51,6 @@ www.example.com/path2 resHeaders://https://www.xxx.com/xxx/params.json
 www.example.com/path3 resHeaders://temp/blank.json
 ````
 
-## Related Protocols
+## Associated Protocols
 1. More flexible way to modify response headers: [headerReplace](./headerReplace)
 2. Deleting response header fields: [delete://resHeaders.xxx](./delete)
