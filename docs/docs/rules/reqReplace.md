@@ -58,9 +58,9 @@ www.example.com/path3 reqReplace://temp/blank.json
 ````
 
 ## 关联协议
-1. 在请求内容前注入内容：[reqPrepend](./reqPrepend)
-2. 替换响应内容：[reqBody](./reqBody)
-3. 在请求内容后追加内容：[reqAppend](./reqAppend)
+1. 在请求内容前注入内容（`Prepend To Body`）：[reqPrepend](./reqPrepend)
+2. 替换响应内容（`Replace Body`：[reqBody](./reqBody)
+3. 在请求内容后追加内容（`Append To Body`：[reqAppend](./reqAppend)
 4. 使用关键字或正则表达式替换请求内容：[reqReplace](./reqReplace)
 5. 覆盖请求内容中的 JSON/Form 对象：[reqMerge](./reqMerge)
 6. 删除请求内容的 JSON/Form 对象属性：[delete://reqBody.xxx](./delete)
