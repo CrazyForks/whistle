@@ -5,7 +5,7 @@ var util = require('./util');
 
 var MAX_CUSTOM_OPTIONS = 36;
 var EMPTY_OPTION = { value: '', label: '' };
-var LABEL_RE = /^- (\S+) -$/;
+var LABEL_RE = /^- /;
 
 var Select = React.createClass({
   getInitialState: function() {
@@ -132,7 +132,7 @@ var Select = React.createClass({
       var option = options[i];
       var value = option.value;
       if (LABEL_RE.test(value)) {
-        var groupName = RegExp.$1;
+        var groupName = value.substring(2);
         var items = [];
         for (++i; i < len; i++) {
           var item = options[i];
