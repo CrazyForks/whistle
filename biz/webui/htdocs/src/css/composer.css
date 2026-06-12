@@ -211,11 +211,9 @@ textarea.w-com-rules {
 .w-detail-com input[readonly],
 .w-com-rules textarea:disabled,
 .w-com-rules textarea[readonly],
-.w-mock-key-name[readonly],
 .w-create-rule input[readonly] {
   background: var(--b-disabled) !important;
   color: var(--c-disabled) !important;
-  cursor: default;
 }
 
 .w-com-cookies-dialog table th {
