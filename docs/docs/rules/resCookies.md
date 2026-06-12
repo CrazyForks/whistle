@@ -79,9 +79,10 @@ www.example.com/path headerReplace://{test.json} resCookies://test=123;path=/;
 ````
 
 ## 关联协议
-1. 删除请求头字段（`Delete Response Header`）：[delete://resHeaders.xxx](./delete)
-2. 删除请求 Cookie（`Delete Response Cookie`）：[delete://resCookies.xxx](./delete)
-3. 设置请求 Cookie：[resCookies](./resCookies)
-4. 设置缓存：[cache](./cache)
-5. 更灵活的修改请求头的方式：[headerReplace](./headerReplace)
+1. 修改响应头：[resHeaders](./resHeaders)
+2. 删除请求头字段（`Delete Response Header`）：[delete://resHeaders.xxx](./delete)
+3. 删除请求 Cookie（`Delete Response Cookie`）：[delete://resCookies.xxx](./delete)
+4. 设置请求 Cookie：[resCookies](./resCookies)
+5. 设置缓存：[cache](./cache)
+6. 更灵活的修改请求头的方式：[headerReplace](./headerReplace)
 
