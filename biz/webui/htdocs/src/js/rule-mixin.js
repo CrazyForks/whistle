@@ -142,7 +142,7 @@ module.exports = {
               cookies = {};
               rules.push('resCookies://{' + cookiesKey + '}');
             }
-            if (cookies[key.Name] === null) {
+            if (cookies[key.Name] == null) {
               cookies[key.Name] = key;
               delete key.Name;
             }
