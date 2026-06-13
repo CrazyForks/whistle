@@ -119,7 +119,7 @@ var ReqDetail = React.createClass({
       }
       headersStr = util.getReqRawHeaders(modal);
       raw = headersStr + '\r\n\r\n' + body;
-      if (modal.frames) {
+      if (modal.frames && !modal.isSse) {
         tips = { isFrames: true };
       } else if (modal.isHttps) {
         tips = { isHttps: true };

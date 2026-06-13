@@ -1488,7 +1488,7 @@ function isFrames(item) {
   if (!item) {
     return false;
   }
-  if (item.useFrames) {
+  if (item.useFrames || item.isSse) {
     return true;
   }
   if (item.reqError || item.resError) {

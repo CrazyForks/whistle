@@ -69,7 +69,7 @@ var Textarea = React.createClass({
       value = value.substring(0, MAX_LENGTH) +
         '...\r\n\r\n(' +
         exceed +
-        ' characters remaining (click View All in top-right corner)\r\n';
+        ' characters remaining, click "ViewAll" in top-right corner)\r\n';
     }
     var isHexView = props.isHexView;
     this.state.value = value;
