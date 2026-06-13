@@ -1,7 +1,7 @@
 var React = require('react');
 var util = require('./util');
 
-var PLACEHOLDER = 'Enter JSON object to merge, e.g.\n' + JSON.stringify({a:{b:1}}, null, 2);
+var PLACEHOLDER = 'Enter JSON object to merge, e.g.\n a.b[3]: 123 (i.e., {"a": {"b": [..., 123, ...]}} ... denotes existing items) or\n' + JSON.stringify({a:{b:1}}, null, 2);
 
 var JSONEditor = React.createClass({
   getEvent: function(value) {
